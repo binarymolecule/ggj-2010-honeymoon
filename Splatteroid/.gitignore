@@ -1,0 +1,7 @@
+
+Splatteroid/bin
+Splatteroid/obj
+Splatteroid/Content/obj
+*.suo
+*.cachefile
+*.user
