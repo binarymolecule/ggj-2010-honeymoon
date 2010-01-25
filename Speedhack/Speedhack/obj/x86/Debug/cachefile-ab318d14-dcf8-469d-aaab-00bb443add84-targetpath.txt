@@ -1,0 +1,3 @@
+Content\graphics\planet.xnb
+Content\graphics\asteroid.xnb
+Content\graphics\sun.xnb

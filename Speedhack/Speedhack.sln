@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C# Express 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speedhack", "Speedhack\Speedhack.csproj", "{716913D6-3409-4525-9E78-D79AEA8293EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{716913D6-3409-4525-9E78-D79AEA8293EE}.Debug|x86.ActiveCfg = Debug|x86
+		{716913D6-3409-4525-9E78-D79AEA8293EE}.Debug|x86.Build.0 = Debug|x86
+		{716913D6-3409-4525-9E78-D79AEA8293EE}.Release|x86.ActiveCfg = Release|x86
+		{716913D6-3409-4525-9E78-D79AEA8293EE}.Release|x86.Build.0 = Release|x86
+		{AB318D14-DCF8-469D-AAAB-00BB443ADD84}.Debug|x86.ActiveCfg = Debug|x86
+		{AB318D14-DCF8-469D-AAAB-00BB443ADD84}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
