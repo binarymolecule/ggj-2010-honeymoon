@@ -10,6 +10,10 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using FarseerGames.FarseerPhysics;
+using FarseerGames.FarseerPhysics.Factories;
+using FarseerGames.FarseerPhysics.Dynamics;
+using FarseerGames.FarseerPhysics.Collisions;
 
 namespace Splatteroid
 {
@@ -25,11 +29,12 @@ namespace Splatteroid
         Random random = new Random();
         Effect blobEffect;
         ResolveTexture2D resolveBackbuffer;
+        PhysicsSimulator physicsSimulator = new PhysicsSimulator();
 
         class ParticleData
         {
-            public Vector2 Pos;
-            public Vector2 Speed;
+            public Body body;
+            public Geom geometry;
             public int Size;
         }
 
@@ -54,15 +59,16 @@ namespace Splatteroid
 
             base.Initialize();
 
+         
             for (int i = 0; i < MAX_PARTICLES; i++)
             {
                 ParticleData pd = new ParticleData();
-                pd.Pos = new Vector2(0, (float)(40 + random.NextDouble() * 50));
-                pd.Speed = new Vector2((float)(20 * random.NextDouble() + 10),
-                      (float)(4 * random.NextDouble() - 2)
-                    );
-                pd.Size = (int)(30 + 80 * random.NextDouble());
-                Particles[i] = pd;
+                 pd.Size = (int)(30 + 80 * random.NextDouble());
+                 pd.body = BodyFactory.Instance.CreateCircleBody(physicsSimulator, pd.Size/2, 1);
+                 pd.geometry = GeomFactory.Instance.CreateCircleGeom(pd.body, pd.Size / 3, 16);
+                 pd.body.Position = new Vector2((float)random.NextDouble() * 500, (float)random.NextDouble() * 500);
+                 Particles[i] = pd;
+                 physicsSimulator.Add(pd.geometry);
             }
         }
 
@@ -114,22 +120,9 @@ namespace Splatteroid
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            foreach (ParticleData p in Particles)
-            {
-                if (p == null) continue;
-
-                p.Pos += (float)gameTime.ElapsedRealTime.TotalSeconds * p.Speed;
-
-                if (p.Pos.X > 500)
-                {
-                    p.Pos.X = 0;
-                }
-
-                if (p.Pos.Y < 0 || p.Pos.Y > 150)
-                {
-                    p.Pos.Y = 40;
-                }
-            }
+            Particles[0].body.LinearVelocity = (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left*300.1f);
+            Particles[0].body.LinearVelocity.Y = -Particles[0].body.LinearVelocity.Y;
+            physicsSimulator.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             base.Update(gameTime);
         }
@@ -160,7 +153,7 @@ namespace Splatteroid
 
             spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.SaveState);
             blobEffect.CurrentTechnique = blobEffect.Techniques["HajoBlob"];
-            blobEffect.Parameters["fTime0_X"].SetValue((float)gameTime.TotalRealTime.TotalSeconds * 0.1f);
+            blobEffect.Parameters["fTime0_X"].SetValue((float)gameTime.TotalRealTime.TotalSeconds);
             blobEffect.Parameters["fInverseViewportDimensions"].SetValue(PixelDimensions());
             blobEffect.Parameters["noise_Tex"].SetValue(noiseTexture);
             blobEffect.Parameters["blobs_Tex"].SetValue(myRenderTarget.GetTexture());
@@ -187,11 +180,10 @@ namespace Splatteroid
             foreach (ParticleData p in Particles)
             {
                 if (p == null) continue;
-                float lerp = Math.Min(1, Math.Max(p.Pos.X / 500, 0));
                 spriteBatch.Draw(gradient,
-                    new Rectangle((int)p.Pos.X,
-                    (int)p.Pos.Y, p.Size, p.Size),
-                    Color.Lerp(Color.White, Color.Black, lerp));
+                    new Rectangle((int)p.body.Position.X - p.Size,
+                    (int)p.body.Position.Y - p.Size, p.Size, p.Size),
+                    Color.White);
             }
             spriteBatch.End();
         }
