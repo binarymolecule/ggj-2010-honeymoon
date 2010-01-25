@@ -48,7 +48,7 @@ namespace Speedhack
             sunBody = new List<Body>();
             gravityPlanets = new GravityController(physicsSimulator, planetBodies, 5000.0f, 500.0f);
             gravityPlanets.GravityType = GravityType.Linear;
-            gravitySun = new GravityController(physicsSimulator, sunBody, 80000.0f, 10000.0f);
+            gravitySun = new GravityController(physicsSimulator, sunBody, 8000.0f, 10000.0f);
             gravitySun.GravityType = GravityType.Linear;
 
             base.Initialize();
@@ -62,18 +62,18 @@ namespace Speedhack
             planets.Add(new Planet(physicsSimulator, Content.Load<Texture2D>("graphics/planet"),
                                    new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
                                                graphics.GraphicsDevice.Viewport.Height / 2 - 200),
-                                               45.0f, 1.0f, 50.0f, true));
+                                               45.0f, 10.0f));
             planets.Add(new Planet(physicsSimulator, Content.Load<Texture2D>("graphics/planet"),
                                    new Vector2(graphics.GraphicsDevice.Viewport.Width / 2 - 100,
                                                graphics.GraphicsDevice.Viewport.Height / 2),
-                                               45.0f, 1.0f, 30.0f, true));
+                                               45.0f, 10.0f));
             planets.Add(new Planet(physicsSimulator, Content.Load<Texture2D>("graphics/asteroid"),
                                    new Vector2(graphics.GraphicsDevice.Viewport.Width / 2 - 100,
-                                               50.0f), 25.0f, 0.1f, 0.1f, false));
+                                               50.0f), 20.0f, 1.0f));
             sun = new Planet(physicsSimulator, Content.Load<Texture2D>("graphics/sun"),
                              new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
                                          graphics.GraphicsDevice.Viewport.Height / 2),
-                                         50.0f, 1000.0f, 0.0f, true);
+                                         50.0f, 100.0f);
             sunBody.Add(sun.body);
             sun.body.IgnoreGravity = true;
 
@@ -81,8 +81,6 @@ namespace Speedhack
             for (int i = 0; i < numPlanets; i++)
             {
                 physicsSimulator.Add(planets[i].geometry);
-                if (planets[i].hasGravity)
-                    planetBodies.Add(planets[i].body);
             }
             physicsSimulator.Add(sun.geometry);
 
@@ -105,40 +103,11 @@ namespace Speedhack
                 this.Exit();
             }
 
-            player.Position = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            sun.body.Position = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
 
-            /*
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
-            {
-                player.ApplyForce(new Vector2(-500000.0f, 0.0f));
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
-            {
-                player.ApplyForce(new Vector2(500000.0f, 0.0f));
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
-            {
-                player.ApplyForce(new Vector2(0.0f, -500000.0f));
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
-            {
-                player.ApplyForce(new Vector2(0.0f, 500000.0f));
-            }
-            */
-
-            sun.Update(ms);
-            int numPlanets = planets.Count;
-            for (int i = 0; i < numPlanets; i++)
-            {
-                Vector2 diff = planets[i].body.Position - sun.body.Position;
-                diff.Normalize();
-                planets[i].body.ApplyForce(new Vector2(-diff.Y, diff.X) * 10.0f);
-                planets[i].Update(ms);
-            }
-            
-            physicsSimulator.Update(sec);
-            gravityPlanets.Update(sec, sec);
             gravitySun.Update(sec, sec);
+            gravityPlanets.Update(sec, sec);
+            physicsSimulator.Update(sec);
 
             base.Update(gameTime);
         }

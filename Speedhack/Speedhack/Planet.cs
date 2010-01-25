@@ -19,29 +19,22 @@ namespace Speedhack
 {
     public class Planet
     {
-        public PhysicsSimulator physicsSimulator;
         public Geom geometry;
         public Body body;
         public Texture2D texture;
-        public float torque;
-        public bool hasGravity;
 
-        public Planet(PhysicsSimulator sim, Texture2D tex, Vector2 pos, float size, float mass, float tor, bool grav)
+        public Planet(PhysicsSimulator sim, Texture2D tex, Vector2 pos, float size, float mass)
         {
-            physicsSimulator = sim;
-            body = BodyFactory.Instance.CreateCircleBody(physicsSimulator, size, mass);
+            body = BodyFactory.Instance.CreateCircleBody(sim, size, mass);
             geometry = GeomFactory.Instance.CreateCircleGeom(body, size, 64);
             body.Position = pos;
-            geometry.RestitutionCoefficient = 0.0f;
-            geometry.FrictionCoefficient = 0.5f;
+            geometry.RestitutionCoefficient = 0.2f;
+            geometry.FrictionCoefficient = 0.9f;
             texture = tex;
-            torque = tor;
-            hasGravity = grav;
         }
 
         public void Update(float ms)
         {
-            body.ApplyTorque(torque * ms);
         }
 
         public void Draw(SpriteBatch spriteBatch)
