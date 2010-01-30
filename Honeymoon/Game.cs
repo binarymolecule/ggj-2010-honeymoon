@@ -107,6 +107,7 @@ namespace Honeymoon
             twitchNoise = Content.Load<Texture2D>("Textures/Helpers/twitch_noise");
             twitchEffect = Content.Load<Effect>("Effects/twitch");
             twitchRenderTarget = new RenderTarget2D(GraphicsDevice, 128, 128, 1, GraphicsDevice.DisplayMode.Format, RenderTargetUsage.PreserveContents);
+            
 
             IntroController.Screen = Content.Load<Texture2D>("Textures/Backgrounds/title");
 
@@ -122,7 +123,8 @@ namespace Honeymoon
                     Panel = new SpriteAnimationSwitcher("score_" + type, new String[] { "score_000", "score_001", "score_002", "score_003", "score_004", "score_005" }),
                     Coconut = new SpriteAnimationSwitcher(type, new String[] { "coconut", "explosion" }),
                     Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlightandshadow" }),
-                    Tree = new SpriteAnimationSwitcher("palme_" + type, new String[] { "palme" })
+                    Tree = new SpriteAnimationSwitcher("palme_" + type, new String[] { "palme" }),
+                    BackgroundMusic = Content.Load<Song>("Music/space")
                 };
                 Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
             }
@@ -186,10 +188,19 @@ namespace Honeymoon
             // Update camera matrix
             Camera.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
+<<<<<<< HEAD
             if (GameState == GameStates.Game)
                 base.Update(gameTime);
             else
                 IntroController.Update(gameTime);
+=======
+            if (MediaPlayer.State != MediaState.Playing)
+            {
+                MediaPlayer.Play(CurrentTheme.BackgroundMusic);
+            }
+
+            base.Update(gameTime);
+>>>>>>> 5069b160f07b274bdb899f00a684aa25142541b3
         }
 
         public void spriteBatchStart()
