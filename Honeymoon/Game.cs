@@ -78,7 +78,7 @@ namespace Honeymoon
             PlayerPanel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
 
             SunlightDir = new Vector2(0.0f, -1.0f);
-            Camera = new DriftingCamera(prop1, prop2);
+            Camera = new DriftingCamera();
 
             base.Initialize();
         }
