@@ -4,3 +4,5 @@ Honeymoon/bin/
 Honeymoon/obj/
 Honeymoon/*.cachefile
 Honeymoon/*.suo
+*.user
+*.sln
