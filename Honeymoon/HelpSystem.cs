@@ -10,28 +10,23 @@ namespace Honeymoon
 {
     public class HelpSystem : DrawableGameComponent
     {
-        public Texture2D Sprite;
-        public Vector2 SpriteCenter;
         public Monkey monkey;
-
+        public SpriteAnimationSwitcher animations;
+        public String screen;
         public bool DisplayHelp = true;
         public float FadePercent = 1.0f;
-        public string SpriteName = "help_XXXXX";
 
         public HelpSystem(Monkey monkey, String screen)
             : base(HoneymoonGame.Instance)
         {
             this.monkey = monkey;
             this.DrawOrder = 3;
-            this.SpriteName = "help_" + screen;
+            this.screen = screen;
+            animations = new SpriteAnimationSwitcher("help", new String[] { screen });
+            animations.Animations[screen].AnimationFPS = 1.0f;
             Game.Components.Add(this);
         }
 
-        protected override void LoadContent()
-        {
-            Sprite = Game.Content.Load<Texture2D>(SpriteName);
-            SpriteCenter = new Vector2(Sprite.Width, Sprite.Height) / 2.0f;
-        }
 
         public override void Update(GameTime gameTime)
         {
@@ -46,13 +41,7 @@ namespace Honeymoon
         {
             if (FadePercent < 0.0001) return;
 
-            HoneymoonGame GameHM = Game as HoneymoonGame;
-            GameHM.spriteBatch.Begin();
-            GameHM.spriteBatch.Draw(Sprite, monkey.planet.Position, null, new Color(Color.White, FadePercent), monkey.planet.Rotation + monkey.PositionOnPlanet.X + (float)Math.PI / 2.0f, SpriteCenter, 1.0f, SpriteEffects.None, 0);
-            GameHM.spriteBatch.End();
+            animations.Draw(this, gameTime, screen, monkey.planet.Position, new Color(Color.White, FadePercent), monkey.planet.Rotation + monkey.PositionOnPlanet.X + (float)Math.PI / 2.0f, 1.0f);
         }
-
-
-
     }
 }

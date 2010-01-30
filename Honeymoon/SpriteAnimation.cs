@@ -14,7 +14,7 @@ namespace Honeymoon
 
         public Texture2D[] Sprites;
         public Vector2 SpriteCenter;
-        public float AnimationFPS = 1.0f;
+        public float AnimationFPS = 25.0f;
         public int NumberOfFrames { get { return Sprites.Length; } }
 
         public SpriteAnimation(String name)
