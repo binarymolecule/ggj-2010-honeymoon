@@ -21,11 +21,11 @@ namespace Honeymoon
         public static float BounceFactor = 0.2f;
         public static float Friction = 0.9f;
         public static float MaxHeightForJump = 5.0f;
-        public static float MinHeightForCrashJump = 20.0f;
+        public static float MinHeightForCrashJump = 30.0f;
         public static float RunStrength = 0.2f;
         public static float JumpStrength = 300.0f;
         public static float CrashJumpDownspeed = 300.0f;
-        public static float CrashJumpPlanetSpeed = 2.0f;
+        public static float CrashJumpPlanetSpeed = 5.0f;
         public static TimeSpan CrashJumpPenalty = TimeSpan.FromSeconds(0.5);
 
         public Vector2 PositionOnPlanet;
