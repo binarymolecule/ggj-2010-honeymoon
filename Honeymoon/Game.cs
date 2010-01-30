@@ -189,12 +189,12 @@ namespace Honeymoon
 
         public void spriteBatchStart()
         {
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, Camera.TransformMatrix);
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.SaveState, Camera.TransformMatrix);
         }
 
         public void spriteBatchAdditiveStart()
         {
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, Camera.TransformMatrix);
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.SaveState, Camera.TransformMatrix);
             GraphicsDevice.RenderState.SourceBlend = Blend.DestinationColor;
             GraphicsDevice.RenderState.DestinationBlend = Blend.SourceColor;
 
