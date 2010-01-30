@@ -14,15 +14,17 @@ namespace Honeymoon
         public static float GravityStrength = 1000.0f;
         public static float BounceFactor = 0.2f;
         public static float Friction = 0.9f;
+        public static float FrictionAir = 0.99f;
         public static float MaxHeightForJump = 5.0f;
         public static float MinHeightForCrashJump = 30.0f;
         public static float RunStrength = 0.2f;
-        public static float RunStrengthPlanet = 0.1f;
-        public static float RunStrengthPlanet2 = 0.3f;
+        public static float RunStrengthPlanet = 0.01f;
         public static float JumpStrength = 300.0f;
         public static float CrashJumpDownspeed = 300.0f;
         public static float CrashJumpPlanetSpeed = 5.0f;
         public static TimeSpan CrashJumpPenalty = TimeSpan.FromSeconds(0.5);
+        public static float SineStrength = 0.1f;
+        public static float SineResolution = 10.2f;
 
         public Vector2 VelocityOnPlanet;
         public bool DoingCrashJump;
@@ -53,6 +55,7 @@ namespace Honeymoon
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            bool standingOnTheGround = PositionOnPlanet.Y < MaxHeightForJump;
             if (gameTime.TotalGameTime > CrashJumpPenaltyUntil)
             {
                 GamePadState gamePadState = GamePad.GetState(PlayerNumber);
@@ -72,17 +75,16 @@ namespace Honeymoon
                 }
 
 
-                if (gamePadState.IsButtonDown(Buttons.Start)) GameHM.CurrentTheme = GameHM.Themes[(nextTheme++)%2];
+                if (gamePadState.IsButtonDown(Buttons.Start)) GameHM.CurrentTheme = GameHM.Themes[(nextTheme++) % 2];
 #endif
 
 
-                bool standingOnTheGround = PositionOnPlanet.Y < MaxHeightForJump;
                 if (gamePadState.IsButtonDown(Buttons.A) && standingOnTheGround) VelocityOnPlanet.Y = JumpStrength;
                 if (gamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0)) DoingCrashJump = true;
                 if (!gamePadState.IsButtonDown(Buttons.LeftTrigger) && standingOnTheGround)
                 {
                     planet.RotationSpeed -= gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
-                    VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet2;
+                    VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
                 }
                 else VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
 
@@ -96,14 +98,15 @@ namespace Honeymoon
                 HelpMovement.DisplayHelp = false;
 
             VelocityOnPlanet.Y -= GravityStrength * seconds;
-            VelocityOnPlanet *= (float)Math.Pow(1.0f - Friction, seconds);
+            VelocityOnPlanet *= (float)Math.Pow(1.0f - (standingOnTheGround ? Friction : FrictionAir), seconds);
             if (DoingCrashJump)
             {
                 VelocityOnPlanet.X = 0;
                 VelocityOnPlanet.Y = -CrashJumpDownspeed;
             }
 
-            PositionOnPlanet += VelocityOnPlanet * seconds;
+            float sineMod = (float)Math.Sin(PositionOnPlanet.X*SineResolution) * SineStrength + 1.0f;
+            PositionOnPlanet += VelocityOnPlanet * seconds * sineMod;
             if (PositionOnPlanet.Y < 0)
             {
                 PositionOnPlanet.Y = 0;

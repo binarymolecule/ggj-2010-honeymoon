@@ -38,13 +38,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="help_move.png">
-      <Name>help_move</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\Backgrounds\evil.jpg">
       <Name>evil</Name>
       <Importer>TextureImporter</Importer>

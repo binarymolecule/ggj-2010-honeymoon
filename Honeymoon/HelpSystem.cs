@@ -27,7 +27,6 @@ namespace Honeymoon
             Game.Components.Add(this);
         }
 
-
         public override void Update(GameTime gameTime)
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
