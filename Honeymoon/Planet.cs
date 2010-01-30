@@ -48,6 +48,8 @@ namespace Honeymoon
         public override void Draw(GameTime gameTime)
         {
             GameHM.CurrentTheme.Planet.Draw(this, gameTime, "planet", Position, Color.White, Rotation, 1.0f);
+            GameHM.CurrentTheme.Planet.Draw(this, gameTime, "highlight", Position, Color.White, 0, 1.0f);
+            GameHM.CurrentTheme.Planet.Draw(this, gameTime, "shadow", Position, Color.White, 0, 1.0f);
         }
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)

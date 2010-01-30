@@ -68,7 +68,7 @@ namespace Honeymoon
             PlayerPanel panel2 = new PlayerPanel(monkey2);
             panel1.Position = new Vector2(125, 80);
             panel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
-            
+
             base.Initialize();
         }
 
@@ -92,7 +92,7 @@ namespace Honeymoon
                     Monkey = new SpriteAnimationSwitcher("monkey_" + type, new String[] { "left", "right", "crash", "penalty" }),
                     Panel = new SpriteAnimationSwitcher("score_" + type, new String[] { "score_000", "score_001", "score_002", "score_003", "score_004", "score_005" }),
                     Coconut = new SpriteAnimationSwitcher(type, new String[] { "coconut", "explosion" }),
-                    Planet = new SpriteAnimationSwitcher(type, new String[] { "planet" }),
+                    Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlight", "shadow" }),
                     Tree = new SpriteAnimationSwitcher("palme_" + type, new String[] { "palme" })
                 };
             }
@@ -156,7 +156,7 @@ namespace Honeymoon
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, CameraMatrix);
-            spriteBatch.Draw(CurrentTheme.Background, Vector2.Zero, Color.White);            
+            spriteBatch.Draw(CurrentTheme.Background, Vector2.Zero, Color.White);
             base.Draw(gameTime);
             spriteBatch.End();
         }
