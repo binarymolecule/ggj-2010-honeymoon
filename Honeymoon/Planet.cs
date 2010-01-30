@@ -14,6 +14,7 @@ namespace Honeymoon
         public float Rotation;
         public float RotationSpeed;
         public Vector2 Velocity;
+
         public static float BounceFactor = 0.9f;
         public static float Friction = 0.9f;
         public static float RotationFriction = 0.5f;

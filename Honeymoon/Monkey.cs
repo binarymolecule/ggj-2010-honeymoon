@@ -34,11 +34,15 @@ namespace Honeymoon
         public bool DoingCrashJump;
         public TimeSpan CrashJumpPenaltyUntil = TimeSpan.Zero;
 
-        public Monkey(Planet planet, PlayerIndex PlayerNumber)
+<<<<<<< .mine=======        public HelpSystem HelpMovement;
+
+>>>>>>> .theirs        public Monkey(Planet planet, PlayerIndex PlayerNumber)
         {
             this.PlayerNumber = PlayerNumber;
             this.planet = planet;
             this.DrawOrder = 1;
+            HelpMovement = new HelpSystem(this, "move");
+            HelpMovement.DisplayHelp = true;
             this.CollisionEnabled = true;
             this.CollisionRadius = 30;
         }
@@ -62,20 +66,16 @@ namespace Honeymoon
 
                 if (gamePadState.IsButtonDown(Buttons.A) && PositionOnPlanet.Y < MaxHeightForJump) VelocityOnPlanet.Y = JumpStrength;
                 if (gamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0)) DoingCrashJump = true;
-                if (!gamePadState.IsButtonDown(Buttons.LeftTrigger))
+                if (!gamePadState.IsButtonDown(Buttons.LeftTrigger) && PositionOnPlanet.Y < MaxHeightForJump)
                 {
-                    if (PositionOnPlanet.Y < MaxHeightForJump)
-                    {
-                        planet.RotationSpeed += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
-                        VelocityOnPlanet.X -= gamePadState.ThumbSticks.Left.X * RunStrength;
-                    }
-                    else
-                        VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
+                    planet.RotationSpeed += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
+                    VelocityOnPlanet.X -= gamePadState.ThumbSticks.Left.X * RunStrength;
                 }
-                else
-                    VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
+                else VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
 
             }
+
+            if (VelocityOnPlanet.LengthSquared() > 20.0f) HelpMovement.DisplayHelp = false;
 
             VelocityOnPlanet.Y -= GravityStrength * seconds;
             VelocityOnPlanet *= (float)Math.Pow(1.0f - Friction, seconds);
