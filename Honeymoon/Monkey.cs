@@ -13,6 +13,7 @@ namespace Honeymoon
         public Vector2 SpriteCenter;
         public float PositionOnPlanet;
         public Planet planet;
+        public static float MonkeyHeight = 64.0f;
 
         public Monkey(Planet planet)
         {
@@ -28,13 +29,13 @@ namespace Honeymoon
         public override void Update(GameTime gameTime)
         {
             float  seconds = (float) gameTime.ElapsedGameTime.TotalSeconds;
-            Position = planet.GetPositionOnPlanet(PositionOnPlanet, 0.0f);
+            Position = planet.GetPositionOnPlanet(PositionOnPlanet, MonkeyHeight/2.0f);
         }
 
         public override void Draw(GameTime gameTime)
         {
             GameHM.spriteBatch.Begin();
-            GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, planet.Rotation + PositionOnPlanet, SpriteCenter, 1.0f, SpriteEffects.None, 0);
+            GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, planet.Rotation + PositionOnPlanet + (float)Math.PI/2.0f, SpriteCenter, 1.0f, SpriteEffects.None, 0);
             GameHM.spriteBatch.End();
         }
 
