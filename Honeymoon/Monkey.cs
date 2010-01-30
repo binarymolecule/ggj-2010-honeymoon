@@ -34,7 +34,6 @@ namespace Honeymoon
         public bool DoingCrashJump;
         public TimeSpan CrashJumpPenaltyUntil = TimeSpan.Zero;
 
-
         public Monkey(Planet planet, PlayerIndex PlayerNumber)
         {
             this.PlayerNumber = PlayerNumber;
@@ -46,7 +45,10 @@ namespace Honeymoon
 
         protected override void LoadContent()
         {
-            Sprite = GameHM.Content.Load<Texture2D>("monkey");
+            if (this.PlayerNumber == PlayerIndex.One)
+                Sprite = GameHM.Content.Load<Texture2D>("monkey1");
+            else
+                Sprite = GameHM.Content.Load<Texture2D>("monkey2");
             SpriteCenter = new Vector2(Sprite.Width, Sprite.Height) / 2.0f;
         }
 

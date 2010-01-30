@@ -45,13 +45,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="monkey.png">
-      <Name>monkey</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="coconut.png">
       <Name>coconut</Name>
       <Importer>TextureImporter</Importer>
@@ -59,6 +52,20 @@
     </Compile>
     <Compile Include="palm.png">
       <Name>palm</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="monkey2.png">
+      <Name>monkey2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="monkey1.png">
+      <Name>monkey1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

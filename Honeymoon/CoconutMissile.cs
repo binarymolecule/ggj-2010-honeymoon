@@ -10,6 +10,7 @@ namespace Honeymoon
 {
     public class CoconutMissile : CollidableGameComponent
     {
+        public PlayerIndex PlayerNumber;
         public Texture2D Sprite;
         public Vector2 SpriteCenter;
         public Vector2 Velocity;
@@ -17,8 +18,9 @@ namespace Honeymoon
         public static float CoconutMissileVelocity = 250.0f;
         public static float CoconutMissileTorque = 10.0f;
 
-        public CoconutMissile(Vector2 pos, Vector2 dir)
+        public CoconutMissile(Vector2 pos, Vector2 dir, PlayerIndex PlayerNumber)
         {
+            this.PlayerNumber = PlayerNumber;
             this.Position = pos;
             this.Velocity = CoconutMissileVelocity * dir;
             this.Angle = (float)Math.Atan2(dir.Y, dir.X);

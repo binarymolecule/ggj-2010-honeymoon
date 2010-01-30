@@ -23,7 +23,7 @@ namespace Honeymoon
         public Vector2 CoconutCenter;
         public Vector2 CoconutPosition;
         public static float CoconutOffsetFromTop = 16.0f;
-        
+
         public Tree(Planet planet)
         {
             this.planet = planet;

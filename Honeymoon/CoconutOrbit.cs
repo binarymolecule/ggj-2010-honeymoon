@@ -56,7 +56,7 @@ namespace Honeymoon
             {
                 Vector2 dir = -1.0f * offsetMeToOther;
                 dir.Normalize();
-                CoconutMissile coconut = new CoconutMissile(Position, dir);
+                CoconutMissile coconut = new CoconutMissile(Position, dir, ((Monkey)otherObject).PlayerNumber);
                 GameHM.Components.Add(coconut);
                 this.Dispose();
             }
