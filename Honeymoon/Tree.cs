@@ -13,9 +13,10 @@ namespace Honeymoon
         public Texture2D Sprite;
         public Vector2 SpriteCenter;
         public Planet planet;
-        public float growthFactor;
-        public bool isMature;
         public Vector2 PositionOnPlanet;
+        public float growth;  // within range 0..1
+        public bool isMature; // mature tree is fully grown and produces coconuts
+        public float sunlightFactor;
         public static float GrowthPerSecond = 0.2f;
                 
         public Texture2D CoconutSprite;
@@ -26,7 +27,7 @@ namespace Honeymoon
         public Tree(Planet planet)
         {
             this.planet = planet;
-            this.growthFactor = 0.0f;
+            this.growth = 0.0f;
             this.isMature = false;
             this.PositionOnPlanet = Vector2.Zero;
             this.DrawOrder = 0;
@@ -46,9 +47,12 @@ namespace Honeymoon
         public override void Update(GameTime gameTime)
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            growthFactor += seconds * GrowthPerSecond;
-            if (growthFactor >= 1.0f) {
-                growthFactor = 0.0f;
+            Vector2 direction = new Vector2((float)Math.Cos(planet.Rotation + PositionOnPlanet.X),
+                                            -(float)Math.Sin(planet.Rotation + PositionOnPlanet.X));
+            sunlightFactor = Math.Max(0.0f, Vector2.Dot(GameHM.SunlightDir, direction));
+            growth += seconds * sunlightFactor * GrowthPerSecond;
+            if (growth >= 1.0f) {
+                growth = 0.0f;
                 if (!isMature) {
                     isMature = true;
                     // Tree has grown to maturity
@@ -63,7 +67,7 @@ namespace Honeymoon
             if (!isMature)
             {
                 // Tree is still growing
-                float offsetY = growthFactor * Sprite.Height;
+                float offsetY = growth * Sprite.Height;
                 Position = planet.GetPositionOnPlanet(PositionOnPlanet.X, PositionOnPlanet.Y + offsetY);
             }
             else
@@ -76,12 +80,13 @@ namespace Honeymoon
         public override void Draw(GameTime gameTime)
         {
             float angle = planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f;
-
+            float c = Math.Min(1.0f, 0.5f + 0.5f * sunlightFactor);
+            Color color = new Color(c, c, c);
             GameHM.spriteBatch.Begin();
-            GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, angle, SpriteCenter, 1.0f, SpriteEffects.None, 1);
+            GameHM.spriteBatch.Draw(Sprite, Position, null, color, angle, SpriteCenter, 1.0f, SpriteEffects.None, 1);
             if (isMature)
             {
-                GameHM.spriteBatch.Draw(CoconutSprite, CoconutPosition, null, Color.White, angle, CoconutCenter, growthFactor, SpriteEffects.None, 1);
+                GameHM.spriteBatch.Draw(CoconutSprite, CoconutPosition, null, Color.White, angle, CoconutCenter, growth, SpriteEffects.None, 1);
             }
             GameHM.spriteBatch.End();
         }

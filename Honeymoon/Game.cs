@@ -20,8 +20,8 @@ namespace Honeymoon
     {
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
-        public List<CollidableGameComponent> collidableObjects = new List<CollidableGameComponent>(); 
-
+        public List<CollidableGameComponent> collidableObjects = new List<CollidableGameComponent>();
+        public Vector2 SunlightDir; // direction of sunlight
         public static HoneymoonGame Instance;
 
         public HoneymoonGame()
@@ -43,6 +43,8 @@ namespace Honeymoon
         /// </summary>
         protected override void Initialize()
         {
+            SunlightDir = new Vector2(0.0f, 1.0f);
+
             Planet prop = new Planet();
             Components.Add(prop);
             Planet prop2 = new Planet();
