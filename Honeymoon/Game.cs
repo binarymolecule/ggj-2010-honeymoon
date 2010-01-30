@@ -23,6 +23,8 @@ namespace Honeymoon
         public List<CollidableGameComponent> collidableObjects = new List<CollidableGameComponent>();
         public Vector2 SunlightDir; // direction of sunlight
         public static HoneymoonGame Instance;
+        public Theme[] Themes = new Theme[2];
+        public Theme CurrentTheme = null;
 
         public HoneymoonGame()
         {
@@ -63,6 +65,19 @@ namespace Honeymoon
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+
+            for (int i = 0; i < Themes.Length; i++)
+            {
+                String type = (i == 0 ? "good" : "evil");
+
+                Themes[i] = new Theme
+                {
+                    Background = Content.Load<Texture2D>("Textures/Backgrounds/" + type)
+                };
+            }
+
+            CurrentTheme = Themes[0];
         }
 
         /// <summary>
@@ -116,6 +131,9 @@ namespace Honeymoon
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkBlue);
+            spriteBatch.Begin();
+            spriteBatch.Draw(CurrentTheme.Background, Vector2.Zero, Color.White);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
