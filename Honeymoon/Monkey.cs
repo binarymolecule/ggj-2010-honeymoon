@@ -10,8 +10,6 @@ namespace Honeymoon
 {
     public class Monkey : CollidableGameComponent
     {
-        public PlayerIndex PlayerNumber;
-
         public Texture2D Sprite;
         public Vector2 SpriteCenter;
         public Planet planet;
@@ -37,14 +35,13 @@ namespace Honeymoon
         public HelpSystem HelpMovement;
 
         public Monkey(Planet planet, PlayerIndex PlayerNumber)
+            : base(PlayerNumber)
         {
-            this.PlayerNumber = PlayerNumber;
             this.planet = planet;
             this.DrawOrder = 1;
             HelpMovement = new HelpSystem(this, "move");
             HelpMovement.DisplayHelp = true;
             this.CollisionEnabled = true;
-            this.CollisionRadius = 30;
             Game.Components.Add(this);
         }
 
@@ -55,6 +52,7 @@ namespace Honeymoon
             else
                 Sprite = GameHM.Content.Load<Texture2D>("monkey2");
             SpriteCenter = new Vector2(Sprite.Width, Sprite.Height) / 2.0f;
+            this.CollisionRadius = 0.5f * Sprite.Width;
         }
 
         public override void Update(GameTime gameTime)

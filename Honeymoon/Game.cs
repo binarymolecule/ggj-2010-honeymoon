@@ -47,11 +47,11 @@ namespace Honeymoon
         {
             SunlightDir = new Vector2(-1.0f, 0.0f);
 
-            Planet prop = new Planet();
+            Planet prop = new Planet(PlayerIndex.One);
             prop.Position = new Vector2(200, 400);
             new Monkey(prop, PlayerIndex.One);
 
-            Planet prop2 = new Planet();
+            Planet prop2 = new Planet(PlayerIndex.Two);
             prop2.Position = new Vector2(1000, 400);
             new Monkey(prop2, PlayerIndex.Two);
             base.Initialize();
@@ -130,7 +130,7 @@ namespace Honeymoon
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.DarkBlue);
+            GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
             spriteBatch.Draw(CurrentTheme.Background, Vector2.Zero, Color.White);
             spriteBatch.End();

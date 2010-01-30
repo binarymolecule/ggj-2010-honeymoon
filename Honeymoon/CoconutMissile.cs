@@ -10,7 +10,6 @@ namespace Honeymoon
 {
     public class CoconutMissile : CollidableGameComponent
     {
-        public PlayerIndex PlayerNumber;
         public Texture2D Sprite;
         public Vector2 SpriteCenter;
         public Vector2 Velocity;
@@ -23,13 +22,12 @@ namespace Honeymoon
         public static float CoconutMissileBounceVelocity = 75.0f;
 
         public CoconutMissile(Vector2 pos, Vector2 dir, PlayerIndex PlayerNumber)
+            : base (PlayerNumber)
         {
-            this.PlayerNumber = PlayerNumber;
             this.Position = pos;
             this.Velocity = CoconutMissileVelocity * dir;
             this.Angle = (float)Math.Atan2(dir.Y, dir.X);
             this.CollisionEnabled = true;
-            this.CollisionRadius = 14;
             this.fadingOut = false;
         }
 
@@ -37,6 +35,7 @@ namespace Honeymoon
         {
             Sprite = GameHM.Content.Load<Texture2D>("coconut");
             SpriteCenter = new Vector2(Sprite.Width, Sprite.Height) / 2.0f;
+            this.CollisionRadius = 0.5f * Sprite.Width;
         }
 
         public override void Update(GameTime gameTime)
@@ -75,20 +74,43 @@ namespace Honeymoon
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
         {
+            // Test if missile collides with an object to explode
+            bool collides = false;
             if (otherObject is Planet)
+                collides = true;
+            else if (otherObject is Monkey)
+                collides = !((Monkey)otherObject).PlayerNumber.Equals(this.PlayerNumber);
+            else if (otherObject is CoconutMissile)
+                collides = !((CoconutMissile)otherObject).PlayerNumber.Equals(this.PlayerNumber);
+            else if (otherObject is CoconutOrbit)
+                collides = !((CoconutOrbit)otherObject).PlayerNumber.Equals(this.PlayerNumber);
+
+            if (collides)
             {
                 // Create explosion
                 float angle = (float)(Math.Atan2(Velocity.Y, Velocity.X) - Math.PI/2);
-                CoconutExplosion explosion = new CoconutExplosion(Position, angle);
+                CoconutExplosion explosion = new CoconutExplosion(Position, angle, 1.0f, PlayerNumber);
                 GameHM.Components.Add(explosion);
 
                 // Bounce from planet surface
-                Vector2 dir = -1.0f * offsetMeToOther;
-                dir.Normalize();
-                Velocity = CoconutMissileBounceVelocity * dir;
-                this.fadeOutDuration = CoconutMissileFadeoutDuration;
-                this.fadingOut = true;
-                CollisionEnabled = false; // remove from game's collidable object list                
+                if (otherObject is Planet)
+                {
+                    Vector2 dir = -1.0f * offsetMeToOther;
+                    dir.Normalize();
+                    Velocity = CoconutMissileBounceVelocity * dir;
+                    this.fadeOutDuration = CoconutMissileFadeoutDuration;
+                    this.fadingOut = true;
+                    CollisionEnabled = false; // remove from game's collidable object list
+                }
+                else
+                {
+                    this.Dispose();
+                }
+
+                if (otherObject is CoconutMissile || otherObject is CoconutOrbit)
+                {
+                    otherObject.Dispose();
+                }
             }
         }
     }

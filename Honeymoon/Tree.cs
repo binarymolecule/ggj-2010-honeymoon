@@ -17,7 +17,7 @@ namespace Honeymoon
         public float growth;  // within range 0..1
         public bool isMature; // mature tree is fully grown and produces coconuts
         public float sunlightFactor;
-        public static float GrowthPerSecond = 0.2f;
+        public static float GrowthPerSecond = 1.2f;
                 
         public Texture2D CoconutSprite;
         public Vector2 CoconutCenter;
@@ -25,6 +25,7 @@ namespace Honeymoon
         public static float CoconutOffsetFromTop = 16.0f;
 
         public Tree(Planet planet)
+            : base(planet.PlayerNumber)
         {
             this.planet = planet;
             this.growth = 0.0f;
