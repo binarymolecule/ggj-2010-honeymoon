@@ -36,7 +36,7 @@ namespace Honeymoon
             Rotation += RotationSpeed * seconds;
             Velocity *= (float)Math.Pow(1.0f - Friction, seconds);
             RotationSpeed *= (float)Math.Pow(1.0f - RotationFriction, seconds);
-      
+
             Vector2 windowSize = new Vector2(Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
             ScreenWall wall = new ScreenWall();
             if (Position.X < CollisionRadius && Velocity.X < 0) OnCollide(wall, -Vector2.UnitX);
@@ -48,8 +48,12 @@ namespace Honeymoon
         public override void Draw(GameTime gameTime)
         {
             GameHM.CurrentTheme.Planet.Draw(this, gameTime, "planet", Position, Color.White, Rotation, 1.0f);
-            GameHM.CurrentTheme.Planet.Draw(this, gameTime, "highlight", Position, Color.White, 0, 1.0f);
-            GameHM.CurrentTheme.Planet.Draw(this, gameTime, "shadow", Position, Color.White, 0, 1.0f);
+            
+            GameHM.spriteBatch.End();
+            GameHM.spriteBatchAdditiveStart();
+            GameHM.CurrentTheme.Planet.Draw(this, gameTime, "highlightandshadow", Position, Color.White, 0, 1);
+            GameHM.spriteBatch.End();
+            GameHM.spriteBatchStart(); 
         }
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)

@@ -91,7 +91,7 @@ namespace Honeymoon
                     Monkey = new SpriteAnimationSwitcher("monkey_" + type, new String[] { "left", "right", "crash", "penalty" }),
                     Panel = new SpriteAnimationSwitcher("score_" + type, new String[] { "score_000", "score_001", "score_002", "score_003", "score_004", "score_005" }),
                     Coconut = new SpriteAnimationSwitcher(type, new String[] { "coconut", "explosion" }),
-                    Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlight", "shadow" }),
+                    Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlightandshadow" }),
                     Tree = new SpriteAnimationSwitcher("palme_" + type, new String[] { "palme" })
                 };
             }
@@ -145,6 +145,18 @@ namespace Honeymoon
             base.Update(gameTime);
         }
 
+        public void spriteBatchStart()
+        {
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, Camera.TransformMatrix);
+        }
+        public void spriteBatchAdditiveStart()
+        {
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, Camera.TransformMatrix);
+            GraphicsDevice.RenderState.SourceBlend = Blend.DestinationColor;
+            GraphicsDevice.RenderState.DestinationBlend = Blend.SourceColor;
+
+        }
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -152,14 +164,14 @@ namespace Honeymoon
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, Camera.TransformMatrix);
-            spriteBatch.Draw(CurrentTheme.Background, -DriftingCamera.MaxOffset, Color.White);            
+            spriteBatchStart();
+            spriteBatch.Draw(CurrentTheme.Background, -DriftingCamera.MaxOffset, Color.White);
             base.Draw(gameTime);
             spriteBatch.End();
             spriteBatch.Begin();
             PlayerPanel1.DrawPanelFixed(gameTime);
             PlayerPanel2.DrawPanelFixed(gameTime);
-            spriteBatch.End();        
+            spriteBatch.End();
         }
     }
 }

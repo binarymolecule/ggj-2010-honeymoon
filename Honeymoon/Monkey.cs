@@ -139,7 +139,8 @@ namespace Honeymoon
             }
             else if (otherObject is Planet && (otherObject as Planet).PlayerNumber != PlayerNumber)
             {
-                IGotHit(offsetMeToOther);
+                IGotHit(Vector2.Zero);
+                new CoconutExplosion(Position, PlayerNumber, null);
             }
         }
 
