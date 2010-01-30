@@ -50,5 +50,13 @@ namespace Honeymoon
             if (dot < 0) return;
             Velocity -= offsetMeToOther* dot * (1.0f + BounceFactor);
         }
+
+        public Vector2 GetPositionOnPlanet(float RotationRelativeToPlanet, float HeightAbovePlanetGround)
+        {
+            float rot = Rotation + RotationRelativeToPlanet;
+            float abs = Radius + HeightAbovePlanetGround;
+            return Position + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot)) * abs;
+        }
+
     }
 }

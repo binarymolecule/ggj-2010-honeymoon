@@ -48,6 +48,9 @@ namespace Honeymoon
             prop.Velocity = new Vector2(100, 0);
             prop2.Velocity = new Vector2(-100, 0);
 
+            Monkey monkey1 = new Monkey(prop);
+            Components.Add(monkey1);
+
             base.Initialize();
         }
 

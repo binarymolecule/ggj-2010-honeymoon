@@ -5,3 +5,4 @@ C:\NGJ2010\GitLocal\Honeymoon\bin\x86\Debug\Honeymoon.pdb
 C:\NGJ2010\GitLocal\Honeymoon\obj\x86\Debug\Honeymoon.exe
 C:\NGJ2010\GitLocal\Honeymoon\obj\x86\Debug\Honeymoon.pdb
 C:\NGJ2010\GitLocal\Honeymoon\bin\x86\Debug\Content\planet.xnb
+C:\NGJ2010\GitLocal\Honeymoon\bin\x86\Debug\Content\monkey.xnb

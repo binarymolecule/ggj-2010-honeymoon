@@ -8,7 +8,16 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\NGJ2010\GitLocal\Honeymoon\bin\x86\Debug\Content\planet.xnb</Output>
-      <Time>2010-01-30T10:26:30+01:00</Time>
+      <Time>2010-01-30T10:49:14+01:00</Time>
+    </Item>
+    <Item>
+      <Source>monkey.png</Source>
+      <Name>monkey</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\NGJ2010\GitLocal\Honeymoon\bin\x86\Debug\Content\monkey.xnb</Output>
+      <Time>2010-01-30T10:49:14+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
