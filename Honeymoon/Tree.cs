@@ -16,7 +16,7 @@ namespace Honeymoon
         public bool isMature; // mature tree is fully grown and produces coconuts
         public float sunlightFactor;
         public static float GrowthPerSecond = 1.2f;
-                
+
         public Vector2 CoconutPosition;
         public int CoconutCount;
         public static float CoconutOffsetFromTop = 16.0f;
@@ -37,6 +37,7 @@ namespace Honeymoon
 
         public override void Update(GameTime gameTime)
         {
+            float spriteHeight = 96.0f;
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Vector2 direction = new Vector2(-(float)Math.Cos(planet.Rotation + PositionOnPlanet.X),
                                             -(float)Math.Sin(planet.Rotation + PositionOnPlanet.X));
@@ -44,19 +45,18 @@ namespace Honeymoon
             if (CoconutCount < MaxNumberOfCoconuts)
             {
                 growth += seconds * sunlightFactor * GrowthPerSecond;
-            float spriteHeight = 96.0f;
-            if (growth >= 1.0f)
-            {
-                    growth = 0.0f;
-                if (!isMature)
+                if (growth >= 1.0f)
                 {
+                    growth = 0.0f;
+                    if (!isMature)
+                    {
                         isMature = true;
                         // Tree has grown to maturity
                     }
                     else //if (CoconutCount < MaxNumberOfCoconuts)
                     {
                         // Coconut has been produced
-                    CoconutOrbit coconut = new CoconutOrbit(planet, PositionOnPlanet.X + planet.Rotation, PositionOnPlanet.Y + 1.5f * spriteHeight - CoconutOffsetFromTop);
+                        CoconutOrbit coconut = new CoconutOrbit(planet, this, PositionOnPlanet.X + planet.Rotation, PositionOnPlanet.Y + 1.5f * spriteHeight - CoconutOffsetFromTop);
                         GameHM.Components.Add(coconut);
                     }
                 }
