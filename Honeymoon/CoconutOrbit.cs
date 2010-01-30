@@ -55,6 +55,7 @@ namespace Honeymoon
         {
             if (otherObject is Monkey)
             {
+                // Coconut is converted into a missile when hit
                 Vector2 dir = -1.0f * offsetMeToOther;
                 dir.Normalize();
                 CoconutMissile coconut = new CoconutMissile(Position, dir, ((Monkey)otherObject).PlayerNumber);

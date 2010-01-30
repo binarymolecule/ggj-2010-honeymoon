@@ -58,11 +58,7 @@ namespace Honeymoon
         {
             if (otherObject is Monkey)
             {
-                Monkey monkey = (Monkey)otherObject;
-                if (monkey.PlayerNumber != this.PlayerNumber)
-                {
-
-                }
+                CollisionEnabled = false; // remove from game's collidable object list    
             }
         }
     }

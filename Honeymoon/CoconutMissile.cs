@@ -89,6 +89,8 @@ namespace Honeymoon
 
             if (collides)
             {
+                CollisionEnabled = false; // remove from game's collidable object list
+
                 // Create explosion
                 float angle = (float)(Math.Atan2(Velocity.Y, Velocity.X) - Math.PI/2);
                 float scale = (otherObject is Planet ? 2.0f : 1.0f);
@@ -110,14 +112,14 @@ namespace Honeymoon
                     dir.Normalize();
                     Velocity = CoconutMissileBounceVelocity * dir;
                     this.fadeOutDuration = CoconutMissileFadeoutDuration;
-                    this.fadingOut = true;
-                    CollisionEnabled = false; // remove from game's collidable object list
+                    this.fadingOut = true;                    
                 }
                 else
                 {
                     this.Dispose();
                 }
 
+                // Destroy other object when colliding with a coconut
                 if (otherObject is CoconutMissile || otherObject is CoconutOrbit)
                 {
                     otherObject.Dispose();

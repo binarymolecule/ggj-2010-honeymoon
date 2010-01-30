@@ -34,9 +34,13 @@ namespace Honeymoon
 
         public HelpSystem HelpMovement;
 
+        public int HitPoints;
+        public static int MaxHitPoints = 5;
+
         public Monkey(Planet planet, PlayerIndex PlayerNumber)
             : base(PlayerNumber)
         {
+            this.HitPoints = MaxHitPoints;
             this.planet = planet;
             this.DrawOrder = 1;
             HelpMovement = new HelpSystem(this, "move");
@@ -124,6 +128,15 @@ namespace Honeymoon
             if (otherObject is CoconutOrbit)
             {
                 // Do some animation stuff?
+            }
+            else if (otherObject is CoconutExplosion)
+            {
+                // Player is hurt
+                HitPoints--;
+                if (HitPoints <= 0)
+                {
+                    // End game
+                }
             }
         }
     }
