@@ -24,6 +24,8 @@ namespace Honeymoon
             this.Position = pos;
             this.Velocity = CoconutMissileVelocity * dir;
             this.Angle = (float)Math.Atan2(dir.Y, dir.X);
+            this.CollisionEnabled = true;
+            this.CollisionRadius = 14;
         }
 
         protected override void LoadContent()
@@ -53,6 +55,18 @@ namespace Honeymoon
             GameHM.spriteBatch.Begin();
             GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, Angle, SpriteCenter, 1.0f, SpriteEffects.None, 0);
             GameHM.spriteBatch.End();
+        }
+
+        public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
+        {
+            if (otherObject is Planet)
+            {
+                Vector2 dir = -1.0f * offsetMeToOther;
+                dir.Normalize();
+                CoconutMissile coconut = new CoconutMissile(Position, dir, ((Monkey)otherObject).PlayerNumber);
+                GameHM.Components.Add(coconut);
+                this.Dispose();
+            }
         }
     }
 }
