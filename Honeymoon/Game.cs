@@ -51,7 +51,7 @@ namespace Honeymoon
         /// </summary>
         protected override void Initialize()
         {
-            SunlightDir = new Vector2(-1.0f, 0.0f);
+            SunlightDir = new Vector2(0.0f, 1.0f);
 
             Planet prop = new Planet(PlayerIndex.One);
             prop.Position = new Vector2(200, 400);
@@ -64,7 +64,7 @@ namespace Honeymoon
             PlayerPanel panel1 = new PlayerPanel(monkey1);
             PlayerPanel panel2 = new PlayerPanel(monkey2);
             panel1.Position = new Vector2(125, 80);
-            panel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 125, 80);
+            panel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
             
             base.Initialize();
         }

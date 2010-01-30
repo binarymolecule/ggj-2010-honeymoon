@@ -33,7 +33,7 @@ namespace Honeymoon
         public HelpSystem HelpMovement;
 
         public int HitPoints;
-        public static int MaxHitPoints = 5;
+        public static int MaxHitPoints = 10;
 
         public Monkey(Planet planet, PlayerIndex PlayerNumber)
             : base(PlayerNumber)
@@ -131,7 +131,7 @@ namespace Honeymoon
             else if (otherObject is CoconutExplosion)
             {
                 // Player is hurt
-                if (HitPoints > 0) HitPoints--;
+                HitPoints--;
                 if (HitPoints == 0)
                 {
                     // End game
