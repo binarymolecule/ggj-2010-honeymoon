@@ -10,7 +10,6 @@ namespace Honeymoon
 {
     public class CoconutMissile : CollidableGameComponent
     {
-        public PlayerIndex PlayerNumber;
         public Texture2D Sprite;
         public Vector2 SpriteCenter;
         public Vector2 Velocity;
@@ -23,13 +22,12 @@ namespace Honeymoon
         public static float CoconutMissileBounceVelocity = 75.0f;
 
         public CoconutMissile(Vector2 pos, Vector2 dir, PlayerIndex PlayerNumber)
+            : base (PlayerNumber)
         {
-            this.PlayerNumber = PlayerNumber;
             this.Position = pos;
             this.Velocity = CoconutMissileVelocity * dir;
             this.Angle = (float)Math.Atan2(dir.Y, dir.X);
             this.CollisionEnabled = true;
-            this.CollisionRadius = 14;
             this.fadingOut = false;
         }
 
@@ -37,6 +35,7 @@ namespace Honeymoon
         {
             Sprite = GameHM.Content.Load<Texture2D>("coconut");
             SpriteCenter = new Vector2(Sprite.Width, Sprite.Height) / 2.0f;
+            this.CollisionRadius = 0.5f * Sprite.Width;
         }
 
         public override void Update(GameTime gameTime)
@@ -68,26 +67,61 @@ namespace Honeymoon
 
         public override void Draw(GameTime gameTime)
         {
+            Color color = (fadingOut ? new Color(Color.White, (float)Math.Max(0.0f, fadeOutDuration / CoconutMissileFadeoutDuration)) : Color.White);
+            float scale = (fadingOut ? (float)Math.Max(0.0f, fadeOutDuration / CoconutMissileFadeoutDuration) : 1.0f);
             GameHM.spriteBatch.Begin();
-            GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, Angle, SpriteCenter, 1.0f, SpriteEffects.None, 0);
+            GameHM.spriteBatch.Draw(Sprite, Position, null, color, Angle, SpriteCenter, scale, SpriteEffects.None, 0);
             GameHM.spriteBatch.End();
         }
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
         {
+            // Test if missile collides with an object to explode
+            bool collides = false;
             if (otherObject is Planet)
-            {
-                // Bounce from planet surface
-                Vector2 dir = -1.0f * offsetMeToOther;
-                dir.Normalize();
-                Velocity = CoconutMissileBounceVelocity * dir;
-                this.fadeOutDuration = CoconutMissileFadeoutDuration;
-                this.fadingOut = true;
-                CollisionEnabled = false; // remove from game's collidable object list
+                collides = true;
+            else if (otherObject is Monkey)
+                collides = !((Monkey)otherObject).PlayerNumber.Equals(this.PlayerNumber);
+            else if (otherObject is CoconutMissile)
+                collides = !((CoconutMissile)otherObject).PlayerNumber.Equals(this.PlayerNumber);
+            else if (otherObject is CoconutOrbit)
+                collides = !((CoconutOrbit)otherObject).PlayerNumber.Equals(this.PlayerNumber);
 
+            if (collides)
+            {
                 // Create explosion
-                CoconutExplosion explosion = new CoconutExplosion(Position);
+                float angle = (float)(Math.Atan2(Velocity.Y, Velocity.X) - Math.PI/2);
+                float scale = (otherObject is Planet ? 2.0f : 1.0f);
+                CoconutExplosion explosion = new CoconutExplosion(Position, angle, scale, PlayerNumber);
                 GameHM.Components.Add(explosion);
+
+                // Bounce from planet surface
+                if (otherObject is Planet)
+                {
+                    Vector2 dir = -1.0f * offsetMeToOther;
+
+                    // rotate by small random amount
+                    float dx = dir.X, dy = dir.Y;
+                    float randomAngle = (float)(GameHM.Randomizer.NextDouble() * 2.0 - 1.0);
+                    float sin = (float)Math.Sin(randomAngle), cos = (float)Math.Cos(randomAngle);
+                    dir.X = cos * dx + sin * dy;
+                    dir.Y = cos * dy - sin * dx;
+
+                    dir.Normalize();
+                    Velocity = CoconutMissileBounceVelocity * dir;
+                    this.fadeOutDuration = CoconutMissileFadeoutDuration;
+                    this.fadingOut = true;
+                    CollisionEnabled = false; // remove from game's collidable object list
+                }
+                else
+                {
+                    this.Dispose();
+                }
+
+                if (otherObject is CoconutMissile || otherObject is CoconutOrbit)
+                {
+                    otherObject.Dispose();
+                }
             }
         }
     }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Honeymoon
 {
@@ -21,10 +21,10 @@ namespace Honeymoon
         public static float PlanetRadius = 64.0f;
         public static float RotationSpeedScaleOnCollide = 0.01f;
 
-        public Planet()
+        public Planet(PlayerIndex PlayerNumber)
+            : base(PlayerNumber)
         {
-            CollisionEnabled = true;
-            CollisionRadius = 64.0f;
+            this.CollisionEnabled = true;
             this.DrawOrder = 2;
             Game.Components.Add(this);
             new Tree(this);
@@ -34,6 +34,7 @@ namespace Honeymoon
         {
             Sprite = GameHM.Content.Load<Texture2D>("planet");
             SpriteCenter = new Vector2(Sprite.Width, Sprite.Height) / 2.0f;
+            CollisionRadius = 0.5f * Sprite.Width;
         }
 
         public override void Update(GameTime gameTime)
@@ -43,7 +44,7 @@ namespace Honeymoon
             Rotation += RotationSpeed * seconds;
             Velocity *= (float)Math.Pow(1.0f - Friction, seconds);
             RotationSpeed *= (float)Math.Pow(1.0f - RotationFriction, seconds);
-
+      
             Vector2 windowSize = new Vector2(Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
             ScreenWall wall = new ScreenWall();
             if (Position.X < CollisionRadius && Velocity.X < 0) OnCollide(wall, -Vector2.UnitX);

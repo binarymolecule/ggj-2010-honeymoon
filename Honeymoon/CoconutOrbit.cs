@@ -20,12 +20,12 @@ namespace Honeymoon
         public Vector2 PositionOnPlanet;
 
         public CoconutOrbit(Planet planet, float angle, float height)
+            : base(planet.PlayerNumber)
         {
             this.planet = planet;
             this.height = height; //CoconutOrbitHeight;
             this.DrawOrder = 3;
             this.CollisionEnabled = true;
-            this.CollisionRadius = 14;
             this.PositionOnPlanet = new Vector2(angle, height);
             this.Position = planet.GetPositionInPlanetOrbit(angle, height);
         }
@@ -34,6 +34,7 @@ namespace Honeymoon
         {
             Sprite = GameHM.Content.Load<Texture2D>("coconut");
             SpriteCenter = new Vector2(Sprite.Width, Sprite.Height) / 2.0f;
+            this.CollisionRadius = 0.5f * Sprite.Width;
         }
 
         public override void Update(GameTime gameTime)

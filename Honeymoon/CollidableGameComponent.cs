@@ -10,12 +10,14 @@ namespace Honeymoon
     {
         public HoneymoonGame GameHM;
 
-        public CollidableGameComponent()
+        public CollidableGameComponent(PlayerIndex PlayerNumber)
             : base(HoneymoonGame.Instance)
         {
-            GameHM = HoneymoonGame.Instance;            
+            GameHM = HoneymoonGame.Instance;
+            this.PlayerNumber = PlayerNumber;
         }
 
+        public PlayerIndex PlayerNumber;
         private bool collisionEnabled;
         public Vector2 Position;
         public float CollisionRadius;

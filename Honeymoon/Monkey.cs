@@ -10,8 +10,6 @@ namespace Honeymoon
 {
     public class Monkey : CollidableGameComponent
     {
-        public PlayerIndex PlayerNumber;
-
         public Planet planet;
 
         public static float MonkeyWalkingHeight = 28.0f;
@@ -35,8 +33,8 @@ namespace Honeymoon
         public HelpSystem HelpMovement;
 
         public Monkey(Planet planet, PlayerIndex PlayerNumber)
+            : base(PlayerNumber)
         {
-            this.PlayerNumber = PlayerNumber;
             this.planet = planet;
             this.DrawOrder = 1;
             HelpMovement = new HelpSystem(this, "move");
@@ -58,6 +56,22 @@ namespace Honeymoon
 
                 bool standingOnTheGround = PositionOnPlanet.Y < MaxHeightForJump;
                 if (gamePadState.IsButtonDown(Buttons.A) && standingOnTheGround) VelocityOnPlanet.Y = JumpStrength;
+#if(DEBUG)
+                if (gamePadState.IsButtonDown(Buttons.LeftTrigger))
+                {
+                    if (gamePadState.IsButtonDown(Buttons.DPadLeft)) planet.Rotation -= 0.1f;
+                    else if (gamePadState.IsButtonDown(Buttons.DPadRight)) planet.Rotation += 0.1f;
+                }
+                else
+                {
+                    if (gamePadState.IsButtonDown(Buttons.DPadLeft)) planet.Position.X -= 10.0f;
+                    else if (gamePadState.IsButtonDown(Buttons.DPadRight)) planet.Position.X += 10.0f;
+                    if (gamePadState.IsButtonDown(Buttons.DPadUp)) planet.Position.Y -= 10.0f;
+                    else if (gamePadState.IsButtonDown(Buttons.DPadDown)) planet.Position.Y += 10.0f;
+                }
+#endif
+
+
                 if (gamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0)) DoingCrashJump = true;
                 if (!gamePadState.IsButtonDown(Buttons.LeftTrigger) && standingOnTheGround)
                 {
