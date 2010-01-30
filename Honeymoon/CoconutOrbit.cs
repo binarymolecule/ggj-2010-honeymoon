@@ -27,7 +27,7 @@ namespace Honeymoon
             this.CollisionEnabled = true;
             this.CollisionRadius = 14;
             this.PositionOnPlanet = new Vector2(angle, height);
-            this.Position = planet.GetPositionOnPlanet(angle, height);
+            this.Position = planet.GetPositionInPlanetOrbit(angle, height);
         }
 
         protected override void LoadContent()
@@ -40,7 +40,7 @@ namespace Honeymoon
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             PositionOnPlanet.X += CoconutOrbitVelocity * seconds;
-            Position = planet.GetPositionOnPlanet(PositionOnPlanet.X, height);
+            Position = planet.GetPositionInPlanetOrbit(PositionOnPlanet.X, height);
         }
 
         public override void Draw(GameTime gameTime)
