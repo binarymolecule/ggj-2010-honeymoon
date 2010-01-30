@@ -34,9 +34,9 @@ namespace Honeymoon
         public bool DoingCrashJump;
         public TimeSpan CrashJumpPenaltyUntil = TimeSpan.Zero;
 
-<<<<<<< .mine=======        public HelpSystem HelpMovement;
+        public HelpSystem HelpMovement;
 
->>>>>>> .theirs        public Monkey(Planet planet, PlayerIndex PlayerNumber)
+        public Monkey(Planet planet, PlayerIndex PlayerNumber)
         {
             this.PlayerNumber = PlayerNumber;
             this.planet = planet;
