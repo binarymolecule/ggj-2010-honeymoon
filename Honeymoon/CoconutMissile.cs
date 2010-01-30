@@ -14,7 +14,7 @@ namespace Honeymoon
         public float Angle;
         public float fadeOutDuration;
         public bool fadingOut;
-        public static float CoconutMissileVelocity = 250.0f;
+        public static float CoconutMissileVelocity = 550.0f;
         public static float CoconutMissileTorque = 10.0f;
         public static float CoconutMissileFadeoutDuration = 1.0f;
         public static float CoconutMissileBounceVelocity = 75.0f;
@@ -83,7 +83,7 @@ namespace Honeymoon
 
                 // Create explosion 
                 Vector2 exploPos = (otherObject is Monkey) ? otherObject.Position : Position;
-                new CoconutExplosion(exploPos, PlayerNumber, true);
+                new CoconutExplosion(exploPos, PlayerNumber, null);
 
                 // Bounce from planet surface
                 if (otherObject is Planet)

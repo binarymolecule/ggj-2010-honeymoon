@@ -141,7 +141,7 @@ namespace Honeymoon
                 HitPoints--;
 
                 if (offsetMeToOther.LengthSquared() > 5)
-                    new CoconutExplosion(Position, PlayerNumber, false);
+                    new CoconutExplosion(Position, PlayerNumber, this);
 
                 if (HitPoints == 0)
                 {
