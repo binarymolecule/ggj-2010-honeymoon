@@ -25,9 +25,20 @@ namespace Honeymoon
         public static HoneymoonGame Instance;
         public Random Randomizer;
         public Theme[] Themes = new Theme[2];
-        public Theme CurrentTheme = null;
         public PlayerPanel PlayerPanel1, PlayerPanel2;
         public DriftingCamera Camera;
+        float themeTransition = 0.0f;
+        int targetTheme = 0;
+
+        public Theme CurrentTheme
+        {
+            get {
+                return Themes[themeTransition > 0.5f ? 1 : 0];
+            }
+            set {
+                targetTheme = (Themes[0] == value) ? 0 : 1;
+            }
+        }
 
         public HoneymoonGame()
         {
@@ -129,6 +140,17 @@ namespace Honeymoon
                 this.Exit();
             }
 
+            float worldTransitionDiff = (float)gameTime.ElapsedGameTime.TotalSeconds * 3f;
+
+            if (targetTheme < themeTransition)
+            {
+                themeTransition = (float)Math.Max(themeTransition - worldTransitionDiff, targetTheme);
+            }
+            else if(targetTheme > themeTransition)
+            {
+                themeTransition = (float)Math.Min(themeTransition + worldTransitionDiff, targetTheme);
+            }
+
             // Check for collisions
             CollidableGameComponent[] collide = collidableObjects.ToArray();
             for (int i = 0; i < collide.Length; i++)
@@ -180,9 +202,14 @@ namespace Honeymoon
 
         private void PerformTwitchEffect(GameTime gameTime)
         {
+            if (themeTransition <= 0 || themeTransition >= 1)
+            {
+                return;
+            }
+
             float fTime0_X = (float)gameTime.TotalRealTime.TotalSeconds;
 
-            twitchEffect.Parameters["fTime0_X"].SetValue(fTime0_X);
+            twitchEffect.Parameters["fTime0_X"].SetValue(themeTransition + 0.5f);
             twitchEffect.Parameters["Screen_AlignedQuad_AfterTwitch_Pixel_Shader_fTime0_X"].SetValue(fTime0_X);
             twitchEffect.Parameters["scene_Tex"].SetValue(resolvedBackbuffer);
             twitchEffect.Parameters["noise_tex_Tex"].SetValue(twitchNoise);
