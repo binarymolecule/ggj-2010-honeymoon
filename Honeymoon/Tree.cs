@@ -18,6 +18,7 @@ namespace Honeymoon
         public static float GrowthPerSecond = 0.5f;
 
         public Vector2 PositionOnPlanet;
+        public Vector2 CoconutPosition;
 
         public Tree(Planet planet)
         {
@@ -67,6 +68,10 @@ namespace Honeymoon
         {
             GameHM.spriteBatch.Begin();
             GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, SpriteCenter, 1.0f, SpriteEffects.None, 1);
+            if (isMature)
+            {
+                GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, SpriteCenter, 1.0f, SpriteEffects.None, 1);
+            }
             GameHM.spriteBatch.End();
         }
 
