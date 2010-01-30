@@ -47,9 +47,9 @@ namespace Honeymoon
             if (FadePercent < 0.0001) return;
 
             HoneymoonGame GameHM = Game as HoneymoonGame;
-            GameHM.spriteBatch.Begin();
+            //GameHM.spriteBatch.Begin();
             GameHM.spriteBatch.Draw(Sprite, monkey.planet.Position, null, new Color(Color.White, FadePercent), monkey.planet.Rotation + monkey.PositionOnPlanet.X + (float)Math.PI / 2.0f, SpriteCenter, 1.0f, SpriteEffects.None, 0);
-            GameHM.spriteBatch.End();
+            //GameHM.spriteBatch.End();
         }
 
 
