@@ -18,7 +18,7 @@ namespace Honeymoon
         public static float Friction = 0.9f;
         public static float RotationFriction = 0.5f;
         public static float PlanetRadius = 64.0f;
-        public static float RotationSpeedScaleOnCollide = 0.05f;
+        public static float RotationSpeedScaleOnCollide = 0.01f;
 
         public Planet()
         {
@@ -38,12 +38,12 @@ namespace Honeymoon
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Position += Velocity * seconds;
-            Rotation += RotationSpeed  * seconds;
+            Rotation += RotationSpeed * seconds;
             Velocity *= (float)Math.Pow(1.0f - Friction, seconds);
             RotationSpeed *= (float)Math.Pow(1.0f - RotationFriction, seconds);
 
             Vector2 windowSize = new Vector2(Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
-            CollidableGameComponent wall = new CollidableGameComponent();
+            ScreenWall wall = new ScreenWall();
             if (Position.X < CollisionRadius && Velocity.X < 0) OnCollide(wall, -Vector2.UnitX);
             if (Position.X > windowSize.X - CollisionRadius && Velocity.X > 0) OnCollide(wall, Vector2.UnitX);
             if (Position.Y < CollisionRadius && Velocity.Y < 0) OnCollide(wall, -Vector2.UnitY);
@@ -59,11 +59,12 @@ namespace Honeymoon
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
         {
+            if (!(otherObject is Planet) && !(otherObject is ScreenWall)) return;
+
             offsetMeToOther.Normalize();
             float dot = Vector2.Dot(Velocity, offsetMeToOther);
             if (dot < 0) return;
             Vector2 forceTowardsOther = offsetMeToOther * dot;
-            Vector2 oldVelocity = Velocity;
 
             if (otherObject is Planet)
             {
@@ -76,16 +77,12 @@ namespace Honeymoon
                 Velocity -= forceTowardsOther * (1.0f + BounceFactor);
             }
 
-            oldVelocity.Normalize();
-            float speedAfter = Vector2.Dot(Velocity, oldVelocity);
-            if (speedAfter > 0)
-            {
-                Vector2 rightSide = new Vector2(-Velocity.Y, Velocity.X);
-                float sign = Math.Sign(Vector2.Dot(offsetMeToOther, rightSide));
-                RotationSpeed += speedAfter * sign * RotationSpeedScaleOnCollide;
-                if (otherObject is Planet)
-                    (otherObject as Planet).RotationSpeed -= (float)Math.Acos(speedAfter) * sign * RotationSpeedScaleOnCollide;
-          }
+            Vector2 wallPerpendicular = new Vector2(offsetMeToOther.Y, -offsetMeToOther.X);
+            float speedAfter = Vector2.Dot(Velocity, wallPerpendicular);
+            RotationSpeed += speedAfter * RotationSpeedScaleOnCollide;
+            if (otherObject is Planet)
+                (otherObject as Planet).RotationSpeed += speedAfter * RotationSpeedScaleOnCollide;
+
         }
 
         public Vector2 GetPositionOnPlanet(float RotationRelativeToPlanet, float HeightAbovePlanetGround)
