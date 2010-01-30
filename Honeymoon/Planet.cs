@@ -15,10 +15,10 @@ namespace Honeymoon
         public float RotationSpeed;
         public Vector2 Velocity;
         public static float BounceFactor = 0.9f;
-        public static float Friction = 0.5f;
-        public static float RotationFriction = 0.1f;
+        public static float Friction = 0.9f;
+        public static float RotationFriction = 0.5f;
         public static float PlanetRadius = 64.0f;
-        public static float RotationSpeedScaleOnCollide = 0.02f;
+        public static float RotationSpeedScaleOnCollide = 0.05f;
 
         public Planet()
         {
@@ -42,9 +42,12 @@ namespace Honeymoon
             Velocity *= (float)Math.Pow(1.0f - Friction, seconds);
             RotationSpeed *= (float)Math.Pow(1.0f - RotationFriction, seconds);
 
-            Vector2 windowSize = new Vector2(800,600);
-            if ((Position.X < CollisionRadius && Velocity.X < 0) || (Position.X > windowSize.X - CollisionRadius && Velocity.X > 0)) Velocity.X *= -BounceFactor;
-            if ((Position.Y < CollisionRadius && Velocity.Y < 0) || (Position.Y > windowSize.Y - CollisionRadius && Velocity.Y > 0)) Velocity.Y *= -BounceFactor;
+            Vector2 windowSize = new Vector2(Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
+            CollidableGameComponent wall = new CollidableGameComponent();
+            if (Position.X < CollisionRadius && Velocity.X < 0) OnCollide(wall, -Vector2.UnitX);
+            if (Position.X > windowSize.X - CollisionRadius && Velocity.X > 0) OnCollide(wall, Vector2.UnitX);
+            if (Position.Y < CollisionRadius && Velocity.Y < 0) OnCollide(wall, -Vector2.UnitY);
+            if (Position.Y > windowSize.Y - CollisionRadius && Velocity.Y > 0) OnCollide(wall, Vector2.UnitY);
         }
 
         public override void Draw(GameTime gameTime)
@@ -81,7 +84,7 @@ namespace Honeymoon
                 float sign = Math.Sign(Vector2.Dot(offsetMeToOther, rightSide));
                 RotationSpeed += speedAfter * sign * RotationSpeedScaleOnCollide;
                 if (otherObject is Planet)
-                    (otherObject as Planet).RotationSpeed -= speedAfter * sign * RotationSpeedScaleOnCollide;
+                    (otherObject as Planet).RotationSpeed -= (float)Math.Acos(speedAfter) * sign * RotationSpeedScaleOnCollide;
           }
         }
 
