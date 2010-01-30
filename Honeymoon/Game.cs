@@ -43,16 +43,15 @@ namespace Honeymoon
         /// </summary>
         protected override void Initialize()
         {
-            SunlightDir = new Vector2(0.0f, 1.0f);
+            SunlightDir = new Vector2(-1.0f, 0.0f);
 
-            Planet prop1 = new Planet();
-            prop1.Position = new Vector2(200, 400);            
+            Planet prop = new Planet();
+            prop.Position = new Vector2(200, 400);
+            new Monkey(prop, PlayerIndex.One);
+
             Planet prop2 = new Planet();
             prop2.Position = new Vector2(1000, 400);
-            
-            Monkey monkey1 = new Monkey(prop1, PlayerIndex.One);
-            Monkey monkey2 = new Monkey(prop2, PlayerIndex.Two);
-
+            new Monkey(prop2, PlayerIndex.Two);
             base.Initialize();
         }
 
@@ -84,7 +83,7 @@ namespace Honeymoon
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
-            { 
+            {
                 this.Exit();
             }
 
@@ -93,20 +92,20 @@ namespace Honeymoon
             {
                 CollidableGameComponent A = collide[i];
                 if (!A.CollisionEnabled) continue;
-                for (int j = i+1; j < collide.Length; j++)
+                for (int j = i + 1; j < collide.Length; j++)
                 {
                     CollidableGameComponent B = collide[j];
                     if (!B.CollisionEnabled) continue;
 
                     Vector2 aToB = B.Position - A.Position;
                     float r = A.CollisionRadius + B.CollisionRadius;
-                    if(r*r < aToB.LengthSquared()) continue;
+                    if (r * r < aToB.LengthSquared()) continue;
 
                     A.OnCollide(B, aToB);
                     B.OnCollide(A, -aToB);
                 }
             }
-            
+
             base.Update(gameTime);
         }
 
