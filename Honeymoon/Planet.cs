@@ -51,7 +51,7 @@ namespace Honeymoon
             
             GameHM.spriteBatch.End();
             GameHM.spriteBatchAdditiveStart();
-            GameHM.CurrentTheme.Planet.Draw(this, gameTime, "highlightandshadow", Position, Color.White, 0, 1);
+            GameHM.CurrentTheme.Planet.Draw(Velocity, gameTime, "highlightandshadow", Position, Color.White, 0, 1);
             GameHM.spriteBatch.End();
             GameHM.spriteBatchStart(); 
         }
