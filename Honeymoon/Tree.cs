@@ -47,7 +47,7 @@ namespace Honeymoon
         public override void Update(GameTime gameTime)
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Vector2 direction = new Vector2((float)Math.Cos(planet.Rotation + PositionOnPlanet.X),
+            Vector2 direction = new Vector2(-(float)Math.Cos(planet.Rotation + PositionOnPlanet.X),
                                             -(float)Math.Sin(planet.Rotation + PositionOnPlanet.X));
             sunlightFactor = Math.Max(0.0f, Vector2.Dot(GameHM.SunlightDir, direction));
             growth += seconds * sunlightFactor * GrowthPerSecond;

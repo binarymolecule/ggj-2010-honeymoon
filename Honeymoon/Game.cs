@@ -43,7 +43,7 @@ namespace Honeymoon
         /// </summary>
         protected override void Initialize()
         {
-            SunlightDir = new Vector2(0.0f, 1.0f);
+            SunlightDir = new Vector2(-1.0f, 0.0f);
 
             Planet prop = new Planet();
             Components.Add(prop);
@@ -54,7 +54,7 @@ namespace Honeymoon
             prop.Velocity = new Vector2(100, 0);
             prop2.Velocity = new Vector2(-100, 0);
 
-            Monkey monkey1 = new Monkey(prop);
+            Monkey monkey1 = new Monkey(prop, PlayerIndex.One);
             Components.Add(monkey1);
 
             Tree tree1 = new Tree(prop);
