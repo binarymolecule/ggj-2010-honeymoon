@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Honeymoon", "Honeymoon.csproj", "{D09918EB-7BDA-4035-BAAC-A9E5E75BCF05}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D09918EB-7BDA-4035-BAAC-A9E5E75BCF05}.Debug|x86.ActiveCfg = Debug|x86
+		{D09918EB-7BDA-4035-BAAC-A9E5E75BCF05}.Debug|x86.Build.0 = Debug|x86
+		{D09918EB-7BDA-4035-BAAC-A9E5E75BCF05}.Release|x86.ActiveCfg = Release|x86
+		{D09918EB-7BDA-4035-BAAC-A9E5E75BCF05}.Release|x86.Build.0 = Release|x86
+		{9985F4D0-FD3B-47FA-B899-8C992D5B7C94}.Debug|x86.ActiveCfg = Debug|x86
+		{9985F4D0-FD3B-47FA-B899-8C992D5B7C94}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,6 @@
+C:\NGJ2010\GitLocal\Honeymoon\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\NGJ2010\GitLocal\Honeymoon\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\NGJ2010\GitLocal\Honeymoon\bin\x86\Debug\Honeymoon.exe
+C:\NGJ2010\GitLocal\Honeymoon\bin\x86\Debug\Honeymoon.pdb
+C:\NGJ2010\GitLocal\Honeymoon\obj\x86\Debug\Honeymoon.exe
+C:\NGJ2010\GitLocal\Honeymoon\obj\x86\Debug\Honeymoon.pdb
