@@ -31,6 +31,7 @@ namespace Honeymoon
             this.isMature = false;
             this.PositionOnPlanet = Vector2.Zero;
             this.DrawOrder = 0;
+            Game.Components.Add(this);
         }
 
         protected override void LoadContent()
