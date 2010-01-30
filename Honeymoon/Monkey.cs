@@ -39,6 +39,8 @@ namespace Honeymoon
             this.PlayerNumber = PlayerNumber;
             this.planet = planet;
             this.DrawOrder = 1;
+            this.CollisionEnabled = true;
+            this.CollisionRadius = 30;
         }
 
         protected override void LoadContent()
@@ -86,7 +88,13 @@ namespace Honeymoon
             GameHM.spriteBatch.End();
         }
 
-
-
+        public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
+        {
+            System.Console.Out.WriteLine("Monkey collides with other object!");
+            if (otherObject is CoconutOrbit)
+            {
+                // Do some animation stuff?
+            }
+        }
     }
 }

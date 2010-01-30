@@ -66,7 +66,7 @@ namespace Honeymoon
                 else
                 {
                     // Coconut has been produced
-                    CoconutOrbit coconut = new CoconutOrbit(planet, PositionOnPlanet.Y + 1.5f * Sprite.Height - CoconutOffsetFromTop);
+                    CoconutOrbit coconut = new CoconutOrbit(planet, PositionOnPlanet.X, PositionOnPlanet.Y + 1.5f * Sprite.Height - CoconutOffsetFromTop);
                     GameHM.Components.Add(coconut);
                 }
             }
