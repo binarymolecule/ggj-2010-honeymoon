@@ -21,7 +21,7 @@ namespace Honeymoon
         {
             CollisionEnabled = true;
             GameHM.collidableObjects.Add(this);
-            CollisionRadius = 64.0f + 64.0f;
+            CollisionRadius = 64.0f;
             this.DrawOrder = 2;
         }
 
@@ -55,7 +55,18 @@ namespace Honeymoon
             offsetMeToOther.Normalize();
             float dot = Vector2.Dot(Velocity, offsetMeToOther);
             if (dot < 0) return;
-            Velocity -= offsetMeToOther * dot * (1.0f + BounceFactor);
+            Vector2 forceTowardsOther = offsetMeToOther * dot;
+
+            if (otherObject is Planet)
+            {
+                Planet otherPlanet = otherObject as Planet;
+                Velocity -= forceTowardsOther * 1.5f;
+                otherPlanet.Velocity += forceTowardsOther * 0.5f;
+            }
+            else
+            {
+                Velocity -= forceTowardsOther * (1.0f + BounceFactor);
+            }
         }
 
         public Vector2 GetPositionOnPlanet(float RotationRelativeToPlanet, float HeightAbovePlanetGround)
