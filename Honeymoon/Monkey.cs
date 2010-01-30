@@ -23,6 +23,7 @@ namespace Honeymoon
         public static float MaxHeightForJump = 5.0f;
         public static float MinHeightForCrashJump = 30.0f;
         public static float RunStrength = 0.2f;
+        public static float RunStrengthPlanet = 0.1f;
         public static float JumpStrength = 300.0f;
         public static float CrashJumpDownspeed = 300.0f;
         public static float CrashJumpPlanetSpeed = 5.0f;
@@ -56,9 +57,18 @@ namespace Honeymoon
             if (gameTime.TotalGameTime > CrashJumpPenaltyUntil)
             {
                 GamePadState gamePadState = GamePad.GetState(PlayerNumber);
-                VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
+
                 if (gamePadState.IsButtonDown(Buttons.A) && PositionOnPlanet.Y < MaxHeightForJump) VelocityOnPlanet.Y = JumpStrength;
                 if (gamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0)) DoingCrashJump = true;
+                if (!gamePadState.IsButtonDown(Buttons.LeftTrigger))
+                {
+                    if (PositionOnPlanet.Y < MaxHeightForJump)
+                    {
+                        planet.RotationSpeed += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
+                        VelocityOnPlanet.X -= gamePadState.ThumbSticks.Left.X * RunStrength;
+                    }
+                }else VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
+
             }
 
             VelocityOnPlanet.Y -= GravityStrength * seconds;
