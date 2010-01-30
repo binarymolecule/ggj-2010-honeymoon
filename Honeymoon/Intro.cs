@@ -16,27 +16,16 @@ namespace Honeymoon
     public class Intro : DrawableGameComponent
     {
         public HoneymoonGame GameHM;
-        int selection;
         GamePadState currentGamePadState;
         GamePadState oldGamePadState;
+        bool leavingIntro;
 
         public Intro()
             : base(HoneymoonGame.Instance)
         {
             GameHM = HoneymoonGame.Instance;
-            Game.Components.Add(this);
-            this.DrawOrder = 10;
-            this.selection = 0;
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
-        protected override void LoadContent()
-        {
-            base.LoadContent();
+            this.DrawOrder = 8;
+            this.leavingIntro = false;
         }
 
         public override void Update(GameTime gameTime)
@@ -44,26 +33,25 @@ namespace Honeymoon
             currentGamePadState = GamePad.GetState(PlayerIndex.One);
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (!GameHM.Camera.IsMoving)
+            if (leavingIntro)
             {
-                if (selection > 0 &&
-                    (KeyJustPressed(Buttons.DPadUp) || KeyJustPressed(Buttons.LeftThumbstickUp)))
+                if (!GameHM.Camera.IsShaking)
                 {
-                    GameHM.Camera.MoveCamera(Vector2.UnitY, 100.0f);
-                }
-                else if (selection < 1 &&
-                         (KeyJustPressed(Buttons.DPadDown) || KeyJustPressed(Buttons.LeftThumbstickDown)))
-                {
-                    GameHM.Camera.MoveCamera(-Vector2.UnitY, 100.0f);
+                    GameHM.GameState = HoneymoonGame.GameStates.Game;
+                    leavingIntro = false;
                 }
             }
-            if (KeyJustPressed(Buttons.A) || KeyJustPressed(Buttons.X) ||
-                KeyJustPressed(Buttons.Start))
+            else
             {
+                if (KeyJustPressed(Buttons.A) || KeyJustPressed(Buttons.X) ||
+                    KeyJustPressed(Buttons.Start))
+                {
+                    GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime, DriftingCamera.CameraShakingFrequency, DriftingCamera.CameraShakingAmplitude);
+                    leavingIntro = true;
+                }
             }
 
             oldGamePadState = currentGamePadState;
-            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
