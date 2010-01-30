@@ -17,7 +17,7 @@ namespace Honeymoon
         public static float MonkeyWalkingHeight = 28.0f;
         public static float GravityStrength = 1000.0f;
         public static float BounceFactor = 0.2f;
-        public static float Friction = 0.95f;
+        public static float Friction = 0.9f;
         public static float MaxHeightForJump = 5.0f;
         public static float MinHeightForCrashJump = 20.0f;
         public static float RunStrength = 0.2f;
