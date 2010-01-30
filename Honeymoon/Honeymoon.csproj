@@ -87,6 +87,7 @@
     <Compile Include="CoconutMissile.cs" />
     <Compile Include="CoconutOrbit.cs" />
     <Compile Include="CollidableGameComponent.cs" />
+    <Compile Include="HelpSystem.cs" />
     <Compile Include="Monkey.cs" />
     <Compile Include="Planet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
