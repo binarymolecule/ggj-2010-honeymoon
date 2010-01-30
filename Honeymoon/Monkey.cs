@@ -33,7 +33,7 @@ namespace Honeymoon
         public HelpSystem HelpMovement;
 
         public int HitPoints;
-        public static int MaxHitPoints = 5;
+        public static int MaxHitPoints = 4;
 
         public Monkey(Planet planet, PlayerIndex PlayerNumber)
             : base(PlayerNumber)

@@ -10,5 +10,6 @@ namespace Honeymoon
     {
         public Texture2D Background;
         public SpriteAnimationSwitcher Monkey;
+        public SpriteAnimation Panel;
     }
 }

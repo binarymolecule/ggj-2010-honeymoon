@@ -13,7 +13,7 @@ namespace Honeymoon
         public CollidableGameComponent(PlayerIndex PlayerNumber)
             : base(HoneymoonGame.Instance)
         {
-            GameHM = HoneymoonGame.Instance;
+            this.GameHM = HoneymoonGame.Instance;
             this.PlayerNumber = PlayerNumber;
         }
 
