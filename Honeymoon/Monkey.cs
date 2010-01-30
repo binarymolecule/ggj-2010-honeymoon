@@ -70,7 +70,7 @@ namespace Honeymoon
                 if (!gamePadState.IsButtonDown(Buttons.LeftTrigger) && PositionOnPlanet.Y < MaxHeightForJump)
                 {
                     planet.RotationSpeed += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
-                    VelocityOnPlanet.X -= gamePadState.ThumbSticks.Left.X * RunStrength;
+                    VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
                 }
                 else VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
 
@@ -89,13 +89,13 @@ namespace Honeymoon
                 VelocityOnPlanet.Y *= -BounceFactor;
                 if (DoingCrashJump)
                 {
-                    planet.Velocity -= (planet.GetPositionOnPlanet(PositionOnPlanet.X, 0.0f) - planet.Position) * CrashJumpPlanetSpeed;
+                    planet.Velocity -= (planet.GetPositionOnPlanetGround(PositionOnPlanet.X, 0.0f) - planet.Position) * CrashJumpPlanetSpeed;
                     DoingCrashJump = false;
                     CrashJumpPenaltyUntil = gameTime.TotalGameTime.Add(CrashJumpPenalty);
                 }
             }
 
-            Position = planet.GetPositionOnPlanet(PositionOnPlanet.X, MonkeyWalkingHeight + PositionOnPlanet.Y);
+            Position = planet.GetPositionOnPlanetGround(PositionOnPlanet.X, MonkeyWalkingHeight + PositionOnPlanet.Y);
         }
 
         public override void Draw(GameTime gameTime)
