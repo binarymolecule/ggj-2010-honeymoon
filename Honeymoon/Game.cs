@@ -117,6 +117,7 @@ namespace Honeymoon
                 Themes[i] = new Theme
                 {
                     Background = Content.Load<Texture2D>("Textures/Backgrounds/" + type),
+                    Parallax = Content.Load<Texture2D>("Textures/Backgrounds/stars"),
                     Monkey = new SpriteAnimationSwitcher("monkey_" + type, new String[] { "left", "right", "crash", "penalty" }),
                     Panel = new SpriteAnimationSwitcher("score_" + type, new String[] { "score_000", "score_001", "score_002", "score_003", "score_004", "score_005" }),
                     Coconut = new SpriteAnimationSwitcher(type, new String[] { "coconut", "explosion" }),
@@ -209,7 +210,9 @@ namespace Honeymoon
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatchStart();
-            spriteBatch.Draw(CurrentTheme.Background, -DriftingCamera.MaxOffset, Color.White);
+            Vector2 camTranslation = new Vector2(-Camera.Translation.X, -Camera.Translation.Y);
+            spriteBatch.Draw(CurrentTheme.Background, camTranslation * 0.9f, Color.White);
+            spriteBatch.Draw(CurrentTheme.Parallax, camTranslation * 0.7f, Color.White);
             base.Draw(gameTime);
             spriteBatch.End();
 
