@@ -616,6 +616,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Effects\twitch.fx">
+      <Name>twitch</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Helpers\twitch_noise.png">
+      <Name>twitch_noise</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Textures\good\explosion_000.png">
       <Name>explosion_000</Name>
       <Importer>TextureImporter</Importer>

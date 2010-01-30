@@ -49,8 +49,11 @@ namespace Honeymoon
         }
 
         String CurrentAnimation;
-
         int nextTheme;
+
+        GamePadState currentGamePadState;
+        GamePadState oldGamePadState;
+
         public override void Update(GameTime gameTime)
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -58,35 +61,52 @@ namespace Honeymoon
             bool standingOnTheGround = PositionOnPlanet.Y < MaxHeightForJump;
             if (gameTime.TotalGameTime > CrashJumpPenaltyUntil)
             {
-                GamePadState gamePadState = GamePad.GetState(PlayerNumber);
+                currentGamePadState = GamePad.GetState(PlayerNumber);
 
 #if(DEBUG)
-                if (gamePadState.IsButtonDown(Buttons.LeftTrigger))
+                // Some debugging controls...
+                if (currentGamePadState.IsButtonDown(Buttons.Y) && !GameHM.Camera.IsShaking)
                 {
-                    if (gamePadState.IsButtonDown(Buttons.DPadLeft)) planet.Rotation -= 0.1f;
-                    else if (gamePadState.IsButtonDown(Buttons.DPadRight)) planet.Rotation += 0.1f;
+                    GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime,
+                                              DriftingCamera.CameraShakingFrequency,
+                                              DriftingCamera.CameraShakingAmplitude);
+                }
+                if (currentGamePadState.IsButtonDown(Buttons.LeftTrigger))
+                {
+                    if (currentGamePadState.IsButtonDown(Buttons.DPadLeft)) planet.Rotation -= 0.1f;
+                    else if (currentGamePadState.IsButtonDown(Buttons.DPadRight)) planet.Rotation += 0.1f;
                 }
                 else
                 {
-                    if (gamePadState.IsButtonDown(Buttons.DPadLeft)) planet.Position.X -= 10.0f;
-                    else if (gamePadState.IsButtonDown(Buttons.DPadRight)) planet.Position.X += 10.0f;
-                    if (gamePadState.IsButtonDown(Buttons.DPadUp)) planet.Position.Y -= 10.0f;
-                    else if (gamePadState.IsButtonDown(Buttons.DPadDown)) planet.Position.Y += 10.0f;
+                    if (currentGamePadState.IsButtonDown(Buttons.DPadLeft)) planet.Position.X -= 10.0f;
+                    else if (currentGamePadState.IsButtonDown(Buttons.DPadRight)) planet.Position.X += 10.0f;
+                    if (currentGamePadState.IsButtonDown(Buttons.DPadUp)) planet.Position.Y -= 10.0f;
+                    else if (currentGamePadState.IsButtonDown(Buttons.DPadDown)) planet.Position.Y += 10.0f;
                 }
 
 
-                if (gamePadState.IsButtonDown(Buttons.Start)) GameHM.CurrentTheme = GameHM.Themes[(nextTheme++) % 2];
+                if (KeyJustPressed(Buttons.Start)) GameHM.CurrentTheme = GameHM.Themes[(nextTheme++) % 2];
 #endif
 
 
-                if (gamePadState.IsButtonDown(Buttons.A) && standingOnTheGround) VelocityOnPlanet.Y = JumpStrength;
-                if (gamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0)) DoingCrashJump = true;
-                if (!gamePadState.IsButtonDown(Buttons.LeftTrigger) && standingOnTheGround)
+                if (currentGamePadState.IsButtonDown(Buttons.A) && standingOnTheGround)
+                    VelocityOnPlanet.Y = JumpStrength;
+                if (!DoingCrashJump && currentGamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0))
                 {
-                    planet.RotationSpeed -= gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
-                    VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
+                    DoingCrashJump = true;
+                    if (!GameHM.Camera.IsShaking)
+                    {
+                        // rotate by small random amount
+                        float angle = PositionOnPlanet.X + planet.Rotation;
+                        GameHM.Camera.MoveCamera(planet.rot2vec(angle), DriftingCamera.CameraMotionVelocity);
+                    }
                 }
-                else VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
+                if (!currentGamePadState.IsButtonDown(Buttons.LeftTrigger) && standingOnTheGround)
+                {
+                    planet.RotationSpeed -= currentGamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
+                    VelocityOnPlanet.X += currentGamePadState.ThumbSticks.Left.X * RunStrength;
+                }
+                else VelocityOnPlanet.X += currentGamePadState.ThumbSticks.Left.X * RunStrength;
 
                 if (DoingCrashJump) CurrentAnimation = "crash";
                 else CurrentAnimation = VelocityOnPlanet.X > 0 ? "right" : "left";
@@ -120,6 +140,18 @@ namespace Honeymoon
             }
 
             Position = planet.GetPositionOnPlanetGround(PositionOnPlanet.X, MonkeyWalkingHeight + PositionOnPlanet.Y);
+
+            oldGamePadState = currentGamePadState;
+        }
+
+        private bool KeyJustPressed(Buttons button)
+        {
+            if (oldGamePadState == null || currentGamePadState == null)
+            {
+                return false;
+            }
+
+            return oldGamePadState.IsButtonUp(button) && currentGamePadState.IsButtonDown(button);
         }
 
         public override void Draw(GameTime gameTime)
@@ -150,6 +182,11 @@ namespace Honeymoon
 
             // Player is hurt
             HitPoints--;
+
+            // Shake screen
+            GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime,
+                                      DriftingCamera.CameraShakingFrequency,
+                                      DriftingCamera.CameraShakingAmplitude);
 
             if (offsetMeToOther.LengthSquared() > 5)
                 new CoconutExplosion(Position, PlayerNumber, this);
