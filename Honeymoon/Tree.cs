@@ -21,7 +21,7 @@ namespace Honeymoon
         public Texture2D CoconutSprite;
         public Vector2 CoconutCenter;
         public Vector2 CoconutPosition;
-        public static float CoconutOffsetFromTop = 24.0f;
+        public static float CoconutOffsetFromTop = 16.0f;
         
         public Tree(Planet planet)
         {
@@ -56,6 +56,8 @@ namespace Honeymoon
                 else
                 {
                     // Coconut has been produced
+                    CoconutOrbit coconut = new CoconutOrbit(planet, PositionOnPlanet.Y + 1.5f * Sprite.Height - CoconutOffsetFromTop);
+                    GameHM.Components.Add(coconut);
                 }
             }
             if (!isMature)
