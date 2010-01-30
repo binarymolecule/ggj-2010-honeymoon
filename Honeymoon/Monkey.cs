@@ -41,7 +41,7 @@ namespace Honeymoon
             this.HitPoints = MaxHitPoints;
             this.planet = planet;
             this.DrawOrder = 1;
-            HelpMovement = new HelpSystem(this, "move");
+            HelpMovement = new HelpSystem(this, "help_move");
             HelpMovement.DisplayHelp = true;
             this.CollisionEnabled = true;
             this.CollisionRadius = 30;
@@ -50,6 +50,7 @@ namespace Honeymoon
 
         String CurrentAnimation;
 
+        int nextTheme;
         public override void Update(GameTime gameTime)
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -71,6 +72,9 @@ namespace Honeymoon
                     if (gamePadState.IsButtonDown(Buttons.DPadUp)) planet.Position.Y -= 10.0f;
                     else if (gamePadState.IsButtonDown(Buttons.DPadDown)) planet.Position.Y += 10.0f;
                 }
+
+
+                if (gamePadState.IsButtonDown(Buttons.Start)) GameHM.CurrentTheme = GameHM.Themes[(nextTheme++)%2];
 #endif
 
 
