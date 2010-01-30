@@ -66,13 +66,11 @@ namespace Honeymoon
                 }
                 else VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
 
-                CurrentAnimation = "penalty";
-            }
-            else
-            {
                 if (DoingCrashJump) CurrentAnimation = "crash";
                 else CurrentAnimation = VelocityOnPlanet.X > 0 ? "right" : "left";
             }
+            else CurrentAnimation = "penalty";
+
 
             if (VelocityOnPlanet.LengthSquared() > 11.0f)
                 HelpMovement.DisplayHelp = false;

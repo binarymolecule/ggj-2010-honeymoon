@@ -91,11 +91,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\monkey_evil\monkey1.png">
-      <Name>monkey1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Textures\monkey_evil\penalty.png">
       <Name>penalty</Name>
       <Importer>TextureImporter</Importer>
@@ -113,11 +108,6 @@
     </Compile>
     <Compile Include="Textures\monkey_good\left.png">
       <Name>left</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\monkey_good\monkey1.png">
-      <Name>monkey1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
