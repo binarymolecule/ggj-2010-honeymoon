@@ -172,6 +172,7 @@ namespace Honeymoon
             if (otherObject is CoconutOrbit)
             {
                 // Do some animation stuff?
+                VelocityOnPlanet.Y = 0;
             }
             else if (otherObject is CoconutExplosion)
             {
