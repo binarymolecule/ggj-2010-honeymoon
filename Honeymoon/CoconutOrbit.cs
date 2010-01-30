@@ -52,7 +52,6 @@ namespace Honeymoon
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
         {
-            System.Console.Out.WriteLine("Coconut collides with other object!");
             if (otherObject is Monkey)
             {
                 Vector2 dir = -1.0f * offsetMeToOther;

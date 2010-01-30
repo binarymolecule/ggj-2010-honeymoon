@@ -100,7 +100,6 @@ namespace Honeymoon
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
         {
-            System.Console.Out.WriteLine("Monkey collides with other object!");
             if (otherObject is CoconutOrbit)
             {
                 // Do some animation stuff?

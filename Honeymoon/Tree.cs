@@ -54,9 +54,6 @@ namespace Honeymoon
             sunlightFactor = 4.0f; // DEBUG
             
             growth += seconds * sunlightFactor * GrowthPerSecond;
-
-
-
             if (growth >= 1.0f) {
                 growth = 0.0f;
                 if (!isMature) {
