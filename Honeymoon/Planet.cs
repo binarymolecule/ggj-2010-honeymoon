@@ -21,7 +21,7 @@ namespace Honeymoon
         {
             CollisionEnabled = true;
             GameHM.collidableObjects.Add(this);
-            CollisionRadius = 64.0f+64.0f;
+            CollisionRadius = 64.0f + 64.0f;
             this.DrawOrder = 2;
         }
 
@@ -33,10 +33,14 @@ namespace Honeymoon
 
         public override void Update(GameTime gameTime)
         {
-            float  seconds = (float) gameTime.ElapsedGameTime.TotalSeconds;
+            float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Position += Velocity * seconds;
             Rotation += 1.0f * seconds;
             Velocity *= (float)Math.Pow(1.0f - Friction, seconds);
+
+            Vector2 windowSize = new Vector2(GameHM.GraphicsDevice.DisplayMode.Width, GameHM.GraphicsDevice.DisplayMode.Height);
+            if ((Position.X < CollisionRadius && Velocity.X < 0) || (Position.X > windowSize.X - CollisionRadius && Velocity.X > 0)) Velocity.X *= -BounceFactor;
+            if ((Position.Y < CollisionRadius && Velocity.Y < 0) || (Position.Y > windowSize.Y - CollisionRadius && Velocity.Y > 0)) Velocity.Y *= -BounceFactor;
         }
 
         public override void Draw(GameTime gameTime)
@@ -51,7 +55,7 @@ namespace Honeymoon
             offsetMeToOther.Normalize();
             float dot = Vector2.Dot(Velocity, offsetMeToOther);
             if (dot < 0) return;
-            Velocity -= offsetMeToOther* dot * (1.0f + BounceFactor);
+            Velocity -= offsetMeToOther * dot * (1.0f + BounceFactor);
         }
 
         public Vector2 GetPositionOnPlanet(float RotationRelativeToPlanet, float HeightAbovePlanetGround)
