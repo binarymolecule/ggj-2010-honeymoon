@@ -78,6 +78,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Textures\Backgrounds\evil.jpg">
+      <Name>evil</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Backgrounds\good.jpg">
+      <Name>good</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="explosion.png">
       <Name>explosion</Name>
       <Importer>TextureImporter</Importer>
