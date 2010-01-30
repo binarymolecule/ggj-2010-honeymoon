@@ -10,6 +10,8 @@ namespace Honeymoon
 {
     public class HelpSystem : DrawableGameComponent
     {
+        public static bool GloballyEnabled = true;
+
         public ObjectOnPlanet monkey;
         public SpriteAnimationSwitcher animations;
         public String screen;
@@ -30,7 +32,7 @@ namespace Honeymoon
         public override void Update(GameTime gameTime)
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            FadePercent += seconds * (DisplayHelp ? 1.0f : -1.0f);
+            FadePercent += seconds * ((DisplayHelp && GloballyEnabled) ? 1.0f : -1.0f);
             if (FadePercent > 1) FadePercent = 1;
             else if (FadePercent < 0) FadePercent = 0;
         }
