@@ -10,8 +10,6 @@ namespace Honeymoon
 {
     public class CoconutMissile : CollidableGameComponent
     {
-        public Texture2D Sprite;
-        public Vector2 SpriteCenter;
         public Vector2 Velocity;
         public float Angle;
         public float fadeOutDuration;
@@ -29,13 +27,7 @@ namespace Honeymoon
             this.Angle = (float)Math.Atan2(dir.Y, dir.X);
             this.CollisionEnabled = true;
             this.fadingOut = false;
-        }
-
-        protected override void LoadContent()
-        {
-            Sprite = GameHM.Content.Load<Texture2D>("coconut");
-            SpriteCenter = new Vector2(Sprite.Width, Sprite.Height) / 2.0f;
-            this.CollisionRadius = 0.5f * Sprite.Width;
+            this.CollisionRadius = 16.0f;
         }
 
         public override void Update(GameTime gameTime)
@@ -56,7 +48,7 @@ namespace Honeymoon
             {            
                 // Check if coconut is outside display
                 Vector2 windowSize = new Vector2(Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
-                float offset = Math.Max(Sprite.Width, Sprite.Height);
+                float offset = CollisionRadius * 2.0f;
                 if ((Position.X < -offset) || (Position.X > windowSize.X + offset) ||
                     (Position.Y < -offset) || (Position.Y > windowSize.Y + offset))
                 {
@@ -69,9 +61,7 @@ namespace Honeymoon
         {
             Color color = (fadingOut ? new Color(Color.White, (float)Math.Max(0.0f, fadeOutDuration / CoconutMissileFadeoutDuration)) : Color.White);
             float scale = (fadingOut ? (float)Math.Max(0.0f, fadeOutDuration / CoconutMissileFadeoutDuration) : 1.0f);
-            GameHM.spriteBatch.Begin();
-            GameHM.spriteBatch.Draw(Sprite, Position, null, color, Angle, SpriteCenter, scale, SpriteEffects.None, 0);
-            GameHM.spriteBatch.End();
+            GameHM.CurrentTheme.Coconut.Draw(this, gameTime, "coconut", Position, color, Angle, scale);
         }
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)

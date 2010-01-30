@@ -11,9 +11,9 @@ namespace Honeymoon
     {
         HoneymoonGame game;
 
-        public String CurrentAnimation;
-        public Dictionary<String, SpriteAnimation> Animations = new Dictionary<string, SpriteAnimation>();
-        SpriteAnimation drawMe;
+        public Dictionary<object, String> CurrentAnimation = new Dictionary<object, String>();
+        public Dictionary<String, SpriteAnimation> Animations = new Dictionary<String, SpriteAnimation>();
+        public Dictionary<object, float> CurrentFrame = new Dictionary<object,float>();
 
         public SpriteAnimationSwitcher(String theme, String[] animations)
         {
@@ -24,31 +24,37 @@ namespace Honeymoon
             }
         }
 
-        public float CurrentFrame;
-        public int CurrentIntegerFrame { get { return (int)Math.Floor(CurrentFrame); } }
 
-        TimeSpan lastUpdateTime = TimeSpan.Zero;
+        Dictionary<object,TimeSpan> lastUpdateTime = new Dictionary<object,TimeSpan>();
 
-        public void Draw(GameTime gameTime, String Animation, Vector2 Position, Color Color, float Rotation, float Scale)
+        public void Draw(object GameObject, GameTime gameTime, String Animation, Vector2 Position, Color Color, float Rotation, float Scale)
         {
-            if (CurrentAnimation != Animation)
+            if (! CurrentAnimation.ContainsKey(GameObject))
             {
-                CurrentAnimation = Animation;
-                drawMe = Animations[CurrentAnimation];
-                CurrentFrame = 0;
+                CurrentAnimation[GameObject] = null;
+                lastUpdateTime[GameObject] = TimeSpan.Zero;
             }
 
-            float diff = (float)gameTime.TotalGameTime.Subtract(lastUpdateTime).TotalSeconds;
+            if (CurrentAnimation[GameObject] != Animation)
+            {
+                CurrentAnimation[GameObject] = Animation;
+                CurrentFrame[GameObject] = 0;
+            }
+            SpriteAnimation drawMe = Animations[Animation];
+
+            float diff = (float)gameTime.TotalGameTime.Subtract(lastUpdateTime[GameObject]).TotalSeconds;
+            lastUpdateTime[GameObject] = gameTime.TotalGameTime;
             if (diff > 2.0f) diff = 0.0f;
 
-            CurrentFrame += (float)gameTime.ElapsedGameTime.TotalSeconds * drawMe.AnimationFPS;
-            int frame = CurrentIntegerFrame;
+            CurrentFrame[GameObject] += diff * drawMe.AnimationFPS;
+            int frame = (int)Math.Floor(CurrentFrame[GameObject]);
             if (frame >= drawMe.NumberOfFrames)
             {
-                CurrentFrame = 0;
+                CurrentFrame[GameObject] = 0;
+                frame = 0;
             }
 
-            drawMe.Draw(CurrentIntegerFrame, Position, Color, Rotation, Scale);
+            drawMe.Draw(frame, Position, Color, Rotation, Scale);
         }
     }
 }
