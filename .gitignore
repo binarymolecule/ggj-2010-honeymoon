@@ -1,2 +1,6 @@
-Honeymoon/Content/bin
-Honeymoon/Content/obj
+Honeymoon/Content/bin/
+Honeymoon/Content/obj/
+Honeymoon/bin/
+Honeymoon/obj/
+Honeymoon/*.cachefile
+Honeymoon/*.suo

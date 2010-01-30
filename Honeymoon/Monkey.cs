@@ -19,7 +19,7 @@ namespace Honeymoon
         {
             this.planet = planet;
         }
-
+         
         protected override void LoadContent()
         {
             Sprite = GameHM.Content.Load<Texture2D>("monkey");
