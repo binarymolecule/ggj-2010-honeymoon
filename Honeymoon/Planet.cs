@@ -22,7 +22,11 @@ namespace Honeymoon
             CollisionEnabled = true;
             GameHM.collidableObjects.Add(this);
             CollisionRadius = 64.0f + 64.0f;
+<<<<<<< HEAD
+            
+=======
             this.DrawOrder = 2;
+>>>>>>> 9beb06fe1a1e2a2fb7edf6ec3e9e143f94634fd2
         }
 
         protected override void LoadContent()
@@ -38,7 +42,7 @@ namespace Honeymoon
             Rotation += 1.0f * seconds;
             Velocity *= (float)Math.Pow(1.0f - Friction, seconds);
 
-            Vector2 windowSize = new Vector2(GameHM.GraphicsDevice.DisplayMode.Width, GameHM.GraphicsDevice.DisplayMode.Height);
+            Vector2 windowSize = new Vector2(800,600);
             if ((Position.X < CollisionRadius && Velocity.X < 0) || (Position.X > windowSize.X - CollisionRadius && Velocity.X > 0)) Velocity.X *= -BounceFactor;
             if ((Position.Y < CollisionRadius && Velocity.Y < 0) || (Position.Y > windowSize.Y - CollisionRadius && Velocity.Y > 0)) Velocity.Y *= -BounceFactor;
         }
