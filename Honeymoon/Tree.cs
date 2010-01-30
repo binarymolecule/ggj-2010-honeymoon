@@ -15,11 +15,14 @@ namespace Honeymoon
         public Planet planet;
         public float growthFactor;
         public bool isMature;
-        public static float GrowthPerSecond = 0.5f;
-
         public Vector2 PositionOnPlanet;
+        public static float GrowthPerSecond = 0.2f;
+                
+        public Texture2D CoconutSprite;
+        public Vector2 CoconutCenter;
         public Vector2 CoconutPosition;
-
+        public static float CoconutOffsetFromTop = 24.0f;
+        
         public Tree(Planet planet)
         {
             this.planet = planet;
@@ -35,6 +38,9 @@ namespace Honeymoon
             SpriteCenter = new Vector2(Sprite.Width, Sprite.Height) / 2.0f;
             PositionOnPlanet.X = 0.0f;
             PositionOnPlanet.Y = -SpriteCenter.Y;
+
+            CoconutSprite = GameHM.Content.Load<Texture2D>("coconut");
+            CoconutCenter = new Vector2(CoconutSprite.Width, CoconutSprite.Height) / 2.0f;
         }
 
         public override void Update(GameTime gameTime)
@@ -61,16 +67,19 @@ namespace Honeymoon
             else
             {
                 Position = planet.GetPositionOnPlanet(PositionOnPlanet.X, PositionOnPlanet.Y + Sprite.Height);
+                CoconutPosition = planet.GetPositionOnPlanet(PositionOnPlanet.X, PositionOnPlanet.Y + 1.5f * Sprite.Height - CoconutOffsetFromTop);
             }
         }
 
         public override void Draw(GameTime gameTime)
         {
+            float angle = planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f;
+
             GameHM.spriteBatch.Begin();
-            GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, SpriteCenter, 1.0f, SpriteEffects.None, 1);
+            GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, angle, SpriteCenter, 1.0f, SpriteEffects.None, 1);
             if (isMature)
             {
-                GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, SpriteCenter, 1.0f, SpriteEffects.None, 1);
+                GameHM.spriteBatch.Draw(CoconutSprite, CoconutPosition, null, Color.White, angle, CoconutCenter, growthFactor, SpriteEffects.None, 1);
             }
             GameHM.spriteBatch.End();
         }
