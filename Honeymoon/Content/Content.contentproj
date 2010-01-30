@@ -1177,17 +1177,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="Textures\Backgrounds\title.png">
       <Name>title</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-=======
+    </Compile>
     <Compile Include="Music\space.mp3">
       <Name>space</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
->>>>>>> 5069b160f07b274bdb899f00a684aa25142541b3
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

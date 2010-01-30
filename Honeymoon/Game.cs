@@ -188,19 +188,14 @@ namespace Honeymoon
             // Update camera matrix
             Camera.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-<<<<<<< HEAD
             if (GameState == GameStates.Game)
                 base.Update(gameTime);
             else
                 IntroController.Update(gameTime);
-=======
             if (MediaPlayer.State != MediaState.Playing)
             {
                 MediaPlayer.Play(CurrentTheme.BackgroundMusic);
             }
-
-            base.Update(gameTime);
->>>>>>> 5069b160f07b274bdb899f00a684aa25142541b3
         }
 
         public void spriteBatchStart()
