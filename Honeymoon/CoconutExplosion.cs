@@ -14,6 +14,7 @@ namespace Honeymoon
         public float angle;
         public float scale;
         public static float CoconutExplosionTime = 1.0f;
+        private bool disableCollisionInUpdate;
 
         public CoconutExplosion(Vector2 pos, float angle, float scale, PlayerIndex PlayerNumber)
             : base(PlayerNumber)
@@ -35,6 +36,10 @@ namespace Honeymoon
             {
                 this.Dispose();
             }
+            if (disableCollisionInUpdate && CollisionEnabled)
+            {
+                CollisionEnabled = false; // remove from game's collidable object list    
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -48,7 +53,7 @@ namespace Honeymoon
         {
             if (otherObject is Monkey)
             {
-                CollisionEnabled = false; // remove from game's collidable object list    
+                disableCollisionInUpdate = true;
             }
         }
     }
