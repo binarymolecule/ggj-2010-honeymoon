@@ -37,8 +37,9 @@ namespace Honeymoon
             Rotation += 1.0f * seconds;
             Velocity *= (float)Math.Pow(1.0f - Friction, seconds);
 
-            if ((Position.X < CollisionRadius && Velocity.X < 0) || (Position.X > GameHM.GraphicsDevice.DisplayMode.Width - CollisionRadius && Velocity.X > 0)) Velocity.X *= -BounceFactor;
-            if ((Position.Y < CollisionRadius && Velocity.Y < 0) || (Position.Y > GameHM.GraphicsDevice.DisplayMode.Height - CollisionRadius && Velocity.Y > 0)) Velocity.Y *= -BounceFactor;
+            Vector2 windowSize = new Vector2(GameHM.GraphicsDevice.DisplayMode.Width, GameHM.GraphicsDevice.DisplayMode.Height);
+            if ((Position.X < CollisionRadius && Velocity.X < 0) || (Position.X > windowSize.X - CollisionRadius && Velocity.X > 0)) Velocity.X *= -BounceFactor;
+            if ((Position.Y < CollisionRadius && Velocity.Y < 0) || (Position.Y > windowSize.Y - CollisionRadius && Velocity.Y > 0)) Velocity.Y *= -BounceFactor;
         }
 
         public override void Draw(GameTime gameTime)
