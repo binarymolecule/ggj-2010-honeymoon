@@ -46,19 +46,12 @@ namespace Honeymoon
             SunlightDir = new Vector2(-1.0f, 0.0f);
 
             Planet prop = new Planet();
-            Components.Add(prop);
+            prop.Position = new Vector2(200, 400);
+            new Monkey(prop, PlayerIndex.One);
+
             Planet prop2 = new Planet();
-            Components.Add(prop2);
-            prop.Position = new Vector2(100, 100);
-            prop2.Position = new Vector2(500, 120);
-            prop.Velocity = new Vector2(100, 0);
-            prop2.Velocity = new Vector2(-100, 0);
-
-            Monkey monkey1 = new Monkey(prop, PlayerIndex.One);
-            Components.Add(monkey1);
-
-            Tree tree1 = new Tree(prop);
-            Components.Add(tree1);
+            prop2.Position = new Vector2(1000, 400);
+            new Monkey(prop2, PlayerIndex.Two);
 
             base.Initialize();
         }
