@@ -33,6 +33,7 @@ namespace Honeymoon
             this.DrawOrder = 0;
             this.CoconutCount = 0;
             Game.Components.Add(this);
+            PositionOnPlanet.X = (float) Math.PI / 2;
             PositionOnPlanet.Y = spriteHeight / 2.0f;
             HelpCoconut = new HelpSystem(this, "help_coconut");
         }
