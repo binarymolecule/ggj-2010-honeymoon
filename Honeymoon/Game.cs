@@ -51,7 +51,7 @@ namespace Honeymoon
         /// </summary>
         protected override void Initialize()
         {
-            SunlightDir = new Vector2(0.0f, 1.0f);
+            SunlightDir = new Vector2(0.0f, -1.0f);
 
             Planet prop = new Planet(PlayerIndex.One);
             prop.Position = new Vector2(200, 400);

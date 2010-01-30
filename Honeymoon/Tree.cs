@@ -39,9 +39,7 @@ namespace Honeymoon
         public override void Update(GameTime gameTime)
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Vector2 direction = new Vector2(-(float)Math.Cos(planet.Rotation + PositionOnPlanet.X),
-                                            -(float)Math.Sin(planet.Rotation + PositionOnPlanet.X));
-            sunlightFactor = Math.Max(0.0f, Vector2.Dot(GameHM.SunlightDir, direction));
+            sunlightFactor = Math.Max(0.0f, Vector2.Dot(GameHM.SunlightDir, planet.rot2vec(planet.Rotation+PositionOnPlanet.X)));
             if (CoconutCount < MaxNumberOfCoconuts)
             {
                 growth += seconds * sunlightFactor * GrowthPerSecond;
@@ -69,9 +67,7 @@ namespace Honeymoon
         public override void Draw(GameTime gameTime)
         {
             float angle = planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f;
-            float c = Math.Min(1.0f, 0.5f + 0.5f * sunlightFactor);
-            Color color = new Color(c, c, c);
-            GameHM.CurrentTheme.Tree.DrawPercentage(this, "palme", isMature ? 1 : growth, Position, color, angle, 1.0f);
+            GameHM.CurrentTheme.Tree.DrawPercentage(this, "palme", isMature ? 1 : growth, Position, planet.GetShadingForPlanetGround(PositionOnPlanet.X), angle, 1.0f);
             if (isMature)
                 GameHM.CurrentTheme.Coconut.DrawPercentage(this, "coconut", 0, CoconutPosition, Color.White, angle, growth);
         }

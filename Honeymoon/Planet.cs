@@ -78,18 +78,35 @@ namespace Honeymoon
 
         }
 
+        public Vector2 rot2vec(float rot)
+        {
+            return new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot));
+        }
+
         public Vector2 GetPositionOnPlanetGround(float RotationRelativeToPlanet, float HeightAbovePlanetGround)
         {
             float rot = Rotation + RotationRelativeToPlanet;
             float abs = PlanetRadius + HeightAbovePlanetGround;
-            return Position + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot)) * abs;
+            return Position + rot2vec(rot) * abs;
         }
 
         public Vector2 GetPositionInPlanetOrbit(float Rotation, float HeightAbovePlanetGround)
         {
             float abs = PlanetRadius + HeightAbovePlanetGround;
-            return Position + new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation)) * abs;
+            return Position + rot2vec(Rotation) * abs;
         }
 
+        public Color GetShadingForPlanetGround(float RotationRelativeToPlanet)
+        {
+            float b = Vector2.Dot(GameHM.SunlightDir, rot2vec(Rotation + RotationRelativeToPlanet));
+            b = Math.Max(0.2f, b);
+            return new Color(b, b, b, 1);
+        }
+        public Color GetShadingForPlanetOrbit(float Rotation)
+        {
+            float b = Vector2.Dot(GameHM.SunlightDir, rot2vec(Rotation));
+            b = Math.Max(0.2f, b);
+            return new Color(b, b, b, 1);
+        }
     }
 }
