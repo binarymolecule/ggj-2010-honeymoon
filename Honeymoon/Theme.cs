@@ -8,6 +8,7 @@ namespace Honeymoon
 {
     public class Theme
     {
+        public Texture2D Parallax;
         public Texture2D Background;
         public SpriteAnimationSwitcher Monkey;
         public SpriteAnimationSwitcher Panel;
