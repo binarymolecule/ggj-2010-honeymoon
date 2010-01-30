@@ -58,7 +58,7 @@ namespace Honeymoon
 
                 if (gamePadState.IsButtonDown(Buttons.A) && PositionOnPlanet.Y < MaxHeightForJump) VelocityOnPlanet.Y = JumpStrength;
                 if (gamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0)) DoingCrashJump = true;
-                if (gamePadState.IsButtonDown(Buttons.LeftTrigger))
+                if (!gamePadState.IsButtonDown(Buttons.LeftTrigger))
                 {
                     if (PositionOnPlanet.Y < MaxHeightForJump)
                     {
