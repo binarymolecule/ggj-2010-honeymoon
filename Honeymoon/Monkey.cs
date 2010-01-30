@@ -116,7 +116,6 @@ namespace Honeymoon
                 CurrentAnimation = "penalty";
             }
 
-
             if (VelocityOnPlanet.LengthSquared() > 11.0f)
                 HelpMovement.DisplayHelp = false;
 
@@ -190,10 +189,13 @@ namespace Honeymoon
             // Player is hurt
             HitPoints--;
 
-            // Shake screen
-            GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime,
-                                      DriftingCamera.CameraShakingFrequency,
-                                      DriftingCamera.CameraShakingAmplitude);
+            // Shake screen (only in evil mode)
+            if (GameHM.CurrentThemeID == 1)
+            {
+                GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime,
+                                          DriftingCamera.CameraShakingFrequency,
+                                          DriftingCamera.CameraShakingAmplitude);
+            }
 
             if (offsetMeToOther.LengthSquared() > 5)
                 new CoconutExplosion(Position, PlayerNumber, this);

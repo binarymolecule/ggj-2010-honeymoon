@@ -18,6 +18,10 @@ namespace Honeymoon
     /// </summary>
     public class HoneymoonGame : Microsoft.Xna.Framework.Game
     {
+        public enum GameStates { Intro, Game };
+        GameStates gameState;
+        public GameStates GameState { get { return gameState; } }
+
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         public List<CollidableGameComponent> collidableObjects = new List<CollidableGameComponent>();
@@ -29,6 +33,7 @@ namespace Honeymoon
         public DriftingCamera Camera;
         float themeTransition = 0.0f;
         int targetTheme = 0;
+        public int CurrentThemeID { get { return themeTransition > 0.5f ? 1 : 0; } }
 
         public Theme CurrentTheme
         {
@@ -63,7 +68,7 @@ namespace Honeymoon
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize()
-        {        
+        {
             Planet prop1 = new Planet(PlayerIndex.One);
             prop1.Position = new Vector2(200, 400);
             Monkey monkey1 = new Monkey(prop1);
@@ -78,7 +83,12 @@ namespace Honeymoon
             PlayerPanel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
 
             SunlightDir = new Vector2(0.0f, -1.0f);
-            Camera = new DriftingCamera();
+            Camera = new DriftingCamera();            
+
+            // Create intro game component as active component
+            new Intro();
+
+            InitGameState(GameStates.Game);
 
             base.Initialize();
         }
@@ -151,21 +161,23 @@ namespace Honeymoon
                 themeTransition = (float)Math.Min(themeTransition + worldTransitionDiff, targetTheme);
             }
 
-            // Check for collisions
-            CollidableGameComponent[] collide = collidableObjects.ToArray();
-            for (int i = 0; i < collide.Length; i++)
+            if (gameState == GameStates.Game)
             {
-                CollidableGameComponent A = collide[i];
-                for (int j = i + 1; j < collide.Length; j++)
+                // Check for collisions
+                CollidableGameComponent[] collide = collidableObjects.ToArray();
+                for (int i = 0; i < collide.Length; i++)
                 {
-                    CollidableGameComponent B = collide[j];
+                    CollidableGameComponent A = collide[i];
+                    for (int j = i + 1; j < collide.Length; j++)
+                    {
+                        CollidableGameComponent B = collide[j];
+                        Vector2 aToB = B.Position - A.Position;
+                        float r = A.CollisionRadius + B.CollisionRadius;
+                        if (r * r < aToB.LengthSquared()) continue;
 
-                    Vector2 aToB = B.Position - A.Position;
-                    float r = A.CollisionRadius + B.CollisionRadius;
-                    if (r * r < aToB.LengthSquared()) continue;
-
-                    A.OnCollide(B, aToB);
-                    B.OnCollide(A, -aToB);
+                        A.OnCollide(B, aToB);
+                        B.OnCollide(A, -aToB);
+                    }
                 }
             }
 
@@ -179,6 +191,7 @@ namespace Honeymoon
         {
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.SaveState, Camera.TransformMatrix);
         }
+
         public void spriteBatchAdditiveStart()
         {
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.SaveState, Camera.TransformMatrix);
@@ -199,10 +212,13 @@ namespace Honeymoon
             base.Draw(gameTime);
             spriteBatch.End();
 
-            spriteBatch.Begin();
-            PlayerPanel1.DrawPanelFixed(gameTime);
-            PlayerPanel2.DrawPanelFixed(gameTime);
-            spriteBatch.End();
+            if (gameState == GameStates.Game)
+            {
+                spriteBatch.Begin();
+                PlayerPanel1.DrawPanelFixed(gameTime);
+                PlayerPanel2.DrawPanelFixed(gameTime);
+                spriteBatch.End();
+            }
 
             PerformTwitchEffect(gameTime);
         }
@@ -273,6 +289,33 @@ namespace Honeymoon
         {
             Viewport viewport = graphics.GraphicsDevice.Viewport;
             return new Rectangle(0, 0, viewport.Width, viewport.Height);
+        }
+
+        void InitGameState(GameStates state)
+        {            
+            this.gameState = state;
+
+            // Disable all unwanted game components
+            bool introFlag = (gameState == GameStates.Intro);
+            for (int i = 0; i < Components.Count; i++)
+            {
+                if (Components.ElementAt<IGameComponent>(i) is Intro)
+                {
+                    ((Intro)Components.ElementAt<IGameComponent>(i)).Visible = introFlag;
+                    ((Intro)Components.ElementAt<IGameComponent>(i)).Enabled = introFlag;
+                }
+                else
+                {
+                    if (Components.ElementAt<IGameComponent>(i) is DrawableGameComponent)
+                    {
+                        ((DrawableGameComponent)Components.ElementAt<IGameComponent>(i)).Visible = !introFlag;
+                    }
+                    if (Components.ElementAt<IGameComponent>(i) is GameComponent)
+                    {
+                        ((GameComponent)Components.ElementAt<IGameComponent>(i)).Enabled = !introFlag;
+                    }
+                }
+            }
         }
     }
 }

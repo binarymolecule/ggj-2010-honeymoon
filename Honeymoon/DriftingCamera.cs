@@ -28,6 +28,7 @@ namespace Honeymoon
         public static float CameraShakingTime = 1.0f;
         public static float CameraShakingFrequency = 5.0f;
         public static float CameraShakingAmplitude = 10.0f;
+        public static float CameraShakingDampening = 0.95f;
         public static float CameraVelocityFactor = 0.01f;
 
         public Matrix TransformMatrix { get { return Matrix.CreateTranslation(Translation); } }
@@ -39,12 +40,15 @@ namespace Honeymoon
 
         public void ShakeCamera(float seconds, float frequency, float amplitude)
         {
-            shakeFactor = 2.0f * (float)Math.PI * frequency;
-            shakeAmplitude = amplitude;
-            shakeTimer = seconds;
-            isShaking = true;
-            backupTranslation.X = Translation.X;
-            backupTranslation.Y = Translation.Y;
+            if (!isShaking)
+            {
+                shakeFactor = 2.0f * (float)Math.PI * frequency;
+                shakeAmplitude = amplitude;
+                shakeTimer = seconds;
+                isShaking = true;
+                backupTranslation.X = Translation.X;
+                backupTranslation.Y = Translation.Y;
+            }
         }
 
         public void MoveCamera(Vector2 dir, float velocity)
@@ -70,10 +74,20 @@ namespace Honeymoon
                 }
                 else
                 {
-                    float offsetX = (float)Math.Sin(shakeTimer * shakeFactor) * shakeAmplitude;
-                    float offsetY = (float)Math.Sin(shakeTimer * shakeFactor + 0.25) * shakeAmplitude;
-                    Translation.X = backupTranslation.X + offsetX;
-                    Translation.Y = backupTranslation.Y + offsetY;
+                    shakeAmplitude *= CameraShakingDampening;
+                    if (shakeAmplitude < 0.5f)
+                    {
+                        isShaking = false;
+                        Translation.X = backupTranslation.X;
+                        Translation.Y = backupTranslation.Y;
+                    }
+                    else
+                    {
+                        float offsetX = (float)Math.Sin(shakeTimer * shakeFactor) * shakeAmplitude;
+                        float offsetY = (float)Math.Sin(shakeTimer * shakeFactor + 0.25) * shakeAmplitude;
+                        Translation.X = backupTranslation.X + offsetX;
+                        Translation.Y = backupTranslation.Y + offsetY;
+                    }
                 }
 
                 vibration = 0.6f;

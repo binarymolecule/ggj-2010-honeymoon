@@ -89,6 +89,7 @@
     <Compile Include="CoconutOrbit.cs" />
     <Compile Include="CollidableGameComponent.cs" />
     <Compile Include="DriftingCamera.cs" />
+    <Compile Include="Intro.cs" />
     <Compile Include="ObjectOnPlanet.cs" />
     <Compile Include="HelpSystem.cs" />
     <Compile Include="Monkey.cs" />
