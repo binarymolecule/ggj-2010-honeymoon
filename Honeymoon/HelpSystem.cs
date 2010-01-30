@@ -10,20 +10,20 @@ namespace Honeymoon
 {
     public class HelpSystem : DrawableGameComponent
     {
-        public Monkey monkey;
+        public ObjectOnPlanet monkey;
         public SpriteAnimationSwitcher animations;
         public String screen;
-        public bool DisplayHelp = true;
+        public bool DisplayHelp = false;
         public float FadePercent = 1.0f;
 
-        public HelpSystem(Monkey monkey, String screen)
+        public HelpSystem(ObjectOnPlanet monkey, String screen)
             : base(HoneymoonGame.Instance)
         {
             this.monkey = monkey;
             this.DrawOrder = 3;
             this.screen = screen;
             animations = new SpriteAnimationSwitcher("help", new String[] { screen });
-            animations.Animations[screen].AnimationFPS = 1.0f;
+            animations.Animations[screen].AnimationFPS = 2.0f;
             Game.Components.Add(this);
         }
 

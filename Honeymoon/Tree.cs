@@ -8,14 +8,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Honeymoon
 {
-    public class Tree : CollidableGameComponent
+    public class Tree : ObjectOnPlanet
     {
-        public Planet planet;
-        public Vector2 PositionOnPlanet;
         public float growth;  // within range 0..1
         public bool isMature; // mature tree is fully grown and produces coconuts
         public float sunlightFactor;
-        public static float GrowthPerSecond = 1.2f;
+        public static float GrowthPerSecond = 25.0f / 80.0f;
 
         public Vector2 CoconutPosition;
         public int CoconutCount;
@@ -23,8 +21,10 @@ namespace Honeymoon
         public static int MaxNumberOfCoconuts = 5;
         public static float spriteHeight = 96.0f;
 
+        public HelpSystem HelpCoconut;
+
         public Tree(Planet planet)
-            : base(planet.PlayerNumber)
+            : base(planet)
         {
             this.planet = planet;
             this.growth = 0.0f;
@@ -34,6 +34,7 @@ namespace Honeymoon
             this.CoconutCount = 0;
             Game.Components.Add(this);
             PositionOnPlanet.Y = spriteHeight / 2.0f;
+            HelpCoconut = new HelpSystem(this, "help_coconut");
         }
 
         public override void Update(GameTime gameTime)
@@ -48,11 +49,14 @@ namespace Honeymoon
                     growth = 0.0f;
                     if (!isMature)
                     {
+                        HelpCoconut.DisplayHelp = true;
                         isMature = true;
                         // Tree has grown to maturity
                     }
                     else //if (CoconutCount < MaxNumberOfCoconuts)
                     {
+                        HelpCoconut.DisplayHelp = false;
+
                         // Coconut has been produced
                         CoconutOrbit coconut = new CoconutOrbit(planet, this, PositionOnPlanet.X + planet.Rotation, PositionOnPlanet.Y + 0.5f * spriteHeight - CoconutOffsetFromTop);
                         GameHM.Components.Add(coconut);

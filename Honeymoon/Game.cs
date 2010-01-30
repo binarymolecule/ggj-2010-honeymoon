@@ -58,11 +58,11 @@ namespace Honeymoon
 
             Planet prop = new Planet(PlayerIndex.One);
             prop.Position = new Vector2(200, 400);
-            Monkey monkey1 = new Monkey(prop, PlayerIndex.One);
+            Monkey monkey1 = new Monkey(prop);
 
             Planet prop2 = new Planet(PlayerIndex.Two);
             prop2.Position = new Vector2(1000, 400);
-            Monkey monkey2 = new Monkey(prop2, PlayerIndex.Two);
+            Monkey monkey2 = new Monkey(prop2);
 
             PlayerPanel panel1 = new PlayerPanel(monkey1);
             PlayerPanel panel2 = new PlayerPanel(monkey2);
