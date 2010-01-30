@@ -10,8 +10,6 @@ namespace Honeymoon
 {
     public class Monkey : CollidableGameComponent
     {
-        public Texture2D Sprite;
-        public Vector2 SpriteCenter;
         public Planet planet;
 
         public static float MonkeyWalkingHeight = 28.0f;
@@ -46,18 +44,11 @@ namespace Honeymoon
             HelpMovement = new HelpSystem(this, "move");
             HelpMovement.DisplayHelp = true;
             this.CollisionEnabled = true;
+            this.CollisionRadius = 30;
             Game.Components.Add(this);
         }
 
-        protected override void LoadContent()
-        {
-            if (this.PlayerNumber == PlayerIndex.One)
-                Sprite = GameHM.Content.Load<Texture2D>("monkey1");
-            else
-                Sprite = GameHM.Content.Load<Texture2D>("monkey2");
-            SpriteCenter = new Vector2(Sprite.Width, Sprite.Height) / 2.0f;
-            this.CollisionRadius = 0.5f * Sprite.Width;
-        }
+        String CurrentAnimation;
 
         public override void Update(GameTime gameTime)
         {
@@ -67,6 +58,8 @@ namespace Honeymoon
             {
                 GamePadState gamePadState = GamePad.GetState(PlayerNumber);
 
+                bool standingOnTheGround = PositionOnPlanet.Y < MaxHeightForJump;
+                if (gamePadState.IsButtonDown(Buttons.A) && standingOnTheGround) VelocityOnPlanet.Y = JumpStrength;
 #if(DEBUG)
                 if (gamePadState.IsButtonDown(Buttons.LeftTrigger))
                 {
@@ -83,18 +76,22 @@ namespace Honeymoon
 #endif
 
 
-                if (gamePadState.IsButtonDown(Buttons.A) && PositionOnPlanet.Y < MaxHeightForJump) VelocityOnPlanet.Y = JumpStrength;
                 if (gamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0)) DoingCrashJump = true;
-                if (!gamePadState.IsButtonDown(Buttons.LeftTrigger) && PositionOnPlanet.Y < MaxHeightForJump)
+                if (!gamePadState.IsButtonDown(Buttons.LeftTrigger) && standingOnTheGround)
                 {
                     planet.RotationSpeed += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
                     VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
                 }
-                else
-                    VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
-            }
+                else VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
 
-            if (VelocityOnPlanet.LengthSquared() > 20.0f) HelpMovement.DisplayHelp = false;
+                if (DoingCrashJump) CurrentAnimation = "crash";
+                else CurrentAnimation = VelocityOnPlanet.X > 0 ? "right" : "left";
+            }
+            else CurrentAnimation = "penalty";
+
+
+            if (VelocityOnPlanet.LengthSquared() > 11.0f)
+                HelpMovement.DisplayHelp = false;
 
             VelocityOnPlanet.Y -= GravityStrength * seconds;
             VelocityOnPlanet *= (float)Math.Pow(1.0f - Friction, seconds);
@@ -118,9 +115,7 @@ namespace Honeymoon
 
         public override void Draw(GameTime gameTime)
         {
-            GameHM.spriteBatch.Begin();
-            GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, SpriteCenter, 1.0f, SpriteEffects.None, 0);
-            GameHM.spriteBatch.End();
+            GameHM.CurrentTheme.Monkey.Draw(gameTime, CurrentAnimation, Position, Color.White, planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 1.0f);
         }
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
