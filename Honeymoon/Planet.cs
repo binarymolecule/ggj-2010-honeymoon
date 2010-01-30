@@ -21,7 +21,7 @@ namespace Honeymoon
         {
             CollisionEnabled = true;
             GameHM.collidableObjects.Add(this);
-            CollisionRadius = 100.0f;
+            CollisionRadius = 64.0f+64.0f;
         }
 
         protected override void LoadContent()
