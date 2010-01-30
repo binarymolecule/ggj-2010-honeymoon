@@ -27,6 +27,7 @@ namespace Honeymoon
         public Monkey(Planet planet)
         {
             this.planet = planet;
+            this.DrawOrder = 1;
         }
 
         protected override void LoadContent()
