@@ -126,11 +126,9 @@ namespace Honeymoon
             for (int i = 0; i < collide.Length; i++)
             {
                 CollidableGameComponent A = collide[i];
-                if (!A.CollisionEnabled) continue;
                 for (int j = i + 1; j < collide.Length; j++)
                 {
                     CollidableGameComponent B = collide[j];
-                    if (!B.CollisionEnabled) continue;
 
                     Vector2 aToB = B.Position - A.Position;
                     float r = A.CollisionRadius + B.CollisionRadius;

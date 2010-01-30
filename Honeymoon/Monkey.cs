@@ -23,7 +23,7 @@ namespace Honeymoon
         public static float CrashJumpDownspeed = 300.0f;
         public static float CrashJumpPlanetSpeed = 5.0f;
         public static TimeSpan CrashJumpPenalty = TimeSpan.FromSeconds(0.5);
-        public static float SineStrength = 0.1f;
+        public static float SineStrength = 0.2f;
         public static float SineResolution = 10.2f;
 
         public Vector2 VelocityOnPlanet;
@@ -122,7 +122,7 @@ namespace Honeymoon
                 VelocityOnPlanet.Y = -CrashJumpDownspeed;
             }
 
-            float sineMod = (float)Math.Sin(PositionOnPlanet.X*SineResolution) * SineStrength + 1.0f;
+            float sineMod = (float)Math.Sin(PositionOnPlanet.X * SineResolution) * SineStrength + 1.0f;
             PositionOnPlanet += VelocityOnPlanet * seconds * sineMod;
             if (PositionOnPlanet.Y < 0)
             {
@@ -152,15 +152,32 @@ namespace Honeymoon
             }
             else if (otherObject is CoconutExplosion)
             {
-                // Player is hurt
-                HitPoints--;
-                GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime,
-                                          DriftingCamera.CameraShakingFrequency,
-                                          DriftingCamera.CameraShakingAmplitude);
-                if (HitPoints == 0)
-                {
-                    // End game
-                }
+                IGotHit(offsetMeToOther);
+            }
+            else if (otherObject is Planet && (otherObject as Planet).PlayerNumber != PlayerNumber)
+            {
+                IGotHit(offsetMeToOther);
+            }
+        }
+
+        private void IGotHit(Vector2 offsetMeToOther)
+        {
+            HelpSystem.GloballyEnabled = false;
+
+            // Player is hurt
+            HitPoints--;
+
+            // Shake screen
+            GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime,
+                                      DriftingCamera.CameraShakingFrequency,
+                                      DriftingCamera.CameraShakingAmplitude);
+
+            if (offsetMeToOther.LengthSquared() > 5)
+                new CoconutExplosion(Position, PlayerNumber, this);
+
+            if (HitPoints == 0)
+            {
+                // End game
             }
         }
     }
