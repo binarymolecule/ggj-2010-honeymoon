@@ -19,13 +19,15 @@ namespace Honeymoon
 
         public Vector2 PositionOnPlanet;
 
-        public CoconutOrbit(Planet planet, float height)
+        public CoconutOrbit(Planet planet, float angle, float height)
         {
             this.planet = planet;
             this.height = height; //CoconutOrbitHeight;
             this.DrawOrder = 3;
             this.CollisionEnabled = true;
             this.CollisionRadius = 14;
+            this.PositionOnPlanet = new Vector2(angle, height);
+            this.Position = planet.GetPositionOnPlanet(angle, height);
         }
 
         protected override void LoadContent()
@@ -50,10 +52,9 @@ namespace Honeymoon
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
         {
-            System.Console.Out.WriteLine("Coconut collides with other object!");
             if (otherObject is Monkey)
             {
-                Vector2 dir = offsetMeToOther;
+                Vector2 dir = -1.0f * offsetMeToOther;
                 dir.Normalize();
                 CoconutMissile coconut = new CoconutMissile(Position, dir);
                 GameHM.Components.Add(coconut);

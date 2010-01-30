@@ -14,13 +14,13 @@ namespace Honeymoon
         public Vector2 SpriteCenter;
         public Vector2 Velocity;
         public float Angle;
-        public static float CoconutMissileVelocity = 1.0f;
-        public static float CoconutMissileTorque = 0.1f;
+        public static float CoconutMissileVelocity = 250.0f;
+        public static float CoconutMissileTorque = 10.0f;
 
         public CoconutMissile(Vector2 pos, Vector2 dir)
         {
             this.Position = pos;
-            this.Velocity = Vector2.Multiply(dir, CoconutMissileVelocity);
+            this.Velocity = CoconutMissileVelocity * dir;
             this.Angle = (float)Math.Atan2(dir.Y, dir.X);
         }
 
@@ -33,11 +33,11 @@ namespace Honeymoon
         public override void Update(GameTime gameTime)
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Position += Vector2.Multiply(Velocity, seconds);
-            Angle += CoconutMissileTorque;
+            Position += seconds * Velocity;
+            Angle += seconds * CoconutMissileTorque;
 
             // Check if coconut is outside display
-            Vector2 windowSize = new Vector2(GameHM.graphics.PreferredBackBufferWidth, GameHM.graphics.PreferredBackBufferHeight);
+            Vector2 windowSize = new Vector2(Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
             float offset = Math.Max(Sprite.Width, Sprite.Height);
             if ((Position.X < -offset) || (Position.X > windowSize.X + offset) ||
                 (Position.Y < -offset) || (Position.Y > windowSize.Y + offset))

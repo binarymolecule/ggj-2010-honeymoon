@@ -43,6 +43,8 @@ namespace Honeymoon
             this.DrawOrder = 1;
             HelpMovement = new HelpSystem(this, "move");
             HelpMovement.DisplayHelp = true;
+            this.CollisionEnabled = true;
+            this.CollisionRadius = 30;
         }
 
         protected override void LoadContent()
@@ -99,7 +101,12 @@ namespace Honeymoon
             GameHM.spriteBatch.End();
         }
 
-
-
+        public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
+        {
+            if (otherObject is CoconutOrbit)
+            {
+                // Do some animation stuff?
+            }
+        }
     }
 }

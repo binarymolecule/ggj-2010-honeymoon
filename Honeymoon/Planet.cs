@@ -24,7 +24,6 @@ namespace Honeymoon
         public Planet()
         {
             CollisionEnabled = true;
-            GameHM.collidableObjects.Add(this);
             CollisionRadius = 64.0f;
             this.DrawOrder = 2;
         }

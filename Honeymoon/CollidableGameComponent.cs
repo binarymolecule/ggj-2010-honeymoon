@@ -13,13 +13,36 @@ namespace Honeymoon
         public CollidableGameComponent()
             : base(HoneymoonGame.Instance)
         {
-            GameHM = HoneymoonGame.Instance;
+            GameHM = HoneymoonGame.Instance;            
         }
 
-        public bool CollisionEnabled;
+        private bool collisionEnabled;
         public Vector2 Position;
         public float CollisionRadius;
         public float CollisionRadiusSq { get { return CollisionRadius * CollisionRadius; } }
+
+        public bool CollisionEnabled
+        {
+            get { return collisionEnabled; }
+            set
+            {
+                if (collisionEnabled != value)
+                {
+                    collisionEnabled = value;
+                    if (collisionEnabled)
+                        GameHM.collidableObjects.Add(this);
+                    else
+                        GameHM.collidableObjects.Remove(this);
+                }
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (collisionEnabled)
+                GameHM.collidableObjects.Remove(this);
+            base.Dispose(disposing);
+        }
 
         public virtual void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
         {
