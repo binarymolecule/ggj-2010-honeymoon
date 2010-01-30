@@ -10,7 +10,7 @@ namespace Honeymoon
     {
         public Texture2D Background;
         public SpriteAnimationSwitcher Monkey;
-        public SpriteAnimation Panel;
+        public SpriteAnimationSwitcher Panel;
         public SpriteAnimationSwitcher Coconut;
         public SpriteAnimationSwitcher Planet;
         public SpriteAnimationSwitcher Tree;
