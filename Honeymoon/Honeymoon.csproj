@@ -84,6 +84,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoconutExplosion.cs" />
     <Compile Include="CoconutMissile.cs" />
     <Compile Include="CoconutOrbit.cs" />
     <Compile Include="CollidableGameComponent.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="ScreenWall.cs" />
+    <Compile Include="Theme.cs" />
     <Compile Include="Tree.cs" />
   </ItemGroup>
   <ItemGroup>

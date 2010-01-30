@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Honeymoon
 {
@@ -43,7 +43,7 @@ namespace Honeymoon
             Rotation += RotationSpeed * seconds;
             Velocity *= (float)Math.Pow(1.0f - Friction, seconds);
             RotationSpeed *= (float)Math.Pow(1.0f - RotationFriction, seconds);
-
+      
             Vector2 windowSize = new Vector2(Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
             ScreenWall wall = new ScreenWall();
             if (Position.X < CollisionRadius && Velocity.X < 0) OnCollide(wall, -Vector2.UnitX);

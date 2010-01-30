@@ -15,8 +15,12 @@ namespace Honeymoon
         public Vector2 SpriteCenter;
         public Vector2 Velocity;
         public float Angle;
+        public float fadeOutDuration;
+        public bool fadingOut;
         public static float CoconutMissileVelocity = 250.0f;
         public static float CoconutMissileTorque = 10.0f;
+        public static float CoconutMissileFadeoutDuration = 1.0f;
+        public static float CoconutMissileBounceVelocity = 75.0f;
 
         public CoconutMissile(Vector2 pos, Vector2 dir, PlayerIndex PlayerNumber)
         {
@@ -26,6 +30,7 @@ namespace Honeymoon
             this.Angle = (float)Math.Atan2(dir.Y, dir.X);
             this.CollisionEnabled = true;
             this.CollisionRadius = 14;
+            this.fadingOut = false;
         }
 
         protected override void LoadContent()
@@ -40,13 +45,24 @@ namespace Honeymoon
             Position += seconds * Velocity;
             Angle += seconds * CoconutMissileTorque;
 
-            // Check if coconut is outside display
-            Vector2 windowSize = new Vector2(Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
-            float offset = Math.Max(Sprite.Width, Sprite.Height);
-            if ((Position.X < -offset) || (Position.X > windowSize.X + offset) ||
-                (Position.Y < -offset) || (Position.Y > windowSize.Y + offset))
+            if (fadingOut)
             {
-                this.Dispose();
+                fadeOutDuration -= seconds;
+                if (fadeOutDuration <= 0.0f)
+                {
+                    this.Dispose();
+                }
+            }
+            else
+            {            
+                // Check if coconut is outside display
+                Vector2 windowSize = new Vector2(Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
+                float offset = Math.Max(Sprite.Width, Sprite.Height);
+                if ((Position.X < -offset) || (Position.X > windowSize.X + offset) ||
+                    (Position.Y < -offset) || (Position.Y > windowSize.Y + offset))
+                {
+                    this.Dispose();
+                }
             }
         }
 
@@ -61,11 +77,18 @@ namespace Honeymoon
         {
             if (otherObject is Planet)
             {
+                // Create explosion
+                float angle = (float)(Math.Atan2(Velocity.Y, Velocity.X) - Math.PI/2);
+                CoconutExplosion explosion = new CoconutExplosion(Position, angle);
+                GameHM.Components.Add(explosion);
+
+                // Bounce from planet surface
                 Vector2 dir = -1.0f * offsetMeToOther;
                 dir.Normalize();
-                CoconutMissile coconut = new CoconutMissile(Position, dir, ((Monkey)otherObject).PlayerNumber);
-                GameHM.Components.Add(coconut);
-                this.Dispose();
+                Velocity = CoconutMissileBounceVelocity * dir;
+                this.fadeOutDuration = CoconutMissileFadeoutDuration;
+                this.fadingOut = true;
+                CollisionEnabled = false; // remove from game's collidable object list                
             }
         }
     }
