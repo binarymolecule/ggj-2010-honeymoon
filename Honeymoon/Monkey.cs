@@ -58,8 +58,6 @@ namespace Honeymoon
             {
                 GamePadState gamePadState = GamePad.GetState(PlayerNumber);
 
-                bool standingOnTheGround = PositionOnPlanet.Y < MaxHeightForJump;
-                if (gamePadState.IsButtonDown(Buttons.A) && standingOnTheGround) VelocityOnPlanet.Y = JumpStrength;
 #if(DEBUG)
                 if (gamePadState.IsButtonDown(Buttons.LeftTrigger))
                 {
@@ -76,6 +74,8 @@ namespace Honeymoon
 #endif
 
 
+                bool standingOnTheGround = PositionOnPlanet.Y < MaxHeightForJump;
+                if (gamePadState.IsButtonDown(Buttons.A) && standingOnTheGround) VelocityOnPlanet.Y = JumpStrength;
                 if (gamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0)) DoingCrashJump = true;
                 if (!gamePadState.IsButtonDown(Buttons.LeftTrigger) && standingOnTheGround)
                 {
@@ -95,7 +95,11 @@ namespace Honeymoon
 
             VelocityOnPlanet.Y -= GravityStrength * seconds;
             VelocityOnPlanet *= (float)Math.Pow(1.0f - Friction, seconds);
-            if (DoingCrashJump) VelocityOnPlanet.Y = -CrashJumpDownspeed;
+            if (DoingCrashJump)
+            {
+                VelocityOnPlanet.X = 0;
+                VelocityOnPlanet.Y = -CrashJumpDownspeed;
+            }
 
             PositionOnPlanet += VelocityOnPlanet * seconds;
             if (PositionOnPlanet.Y < 0)
@@ -115,7 +119,7 @@ namespace Honeymoon
 
         public override void Draw(GameTime gameTime)
         {
-            GameHM.CurrentTheme.Monkey.Draw(gameTime, CurrentAnimation, Position, Color.White, planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 1.0f);
+            GameHM.CurrentTheme.Monkey.Draw(this, gameTime, CurrentAnimation, Position, Color.White, planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 1.0f);
         }
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)

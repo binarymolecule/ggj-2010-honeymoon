@@ -81,7 +81,10 @@ namespace Honeymoon
                 {
                     Background = Content.Load<Texture2D>("Textures/Backgrounds/" + type),
                     Monkey = new SpriteAnimationSwitcher("monkey_" + type, new String[] { "left", "right", "crash", "penalty" }),
-                    Panel = new SpriteAnimation("Textures/Score/")
+                    Panel = new SpriteAnimation("Textures/Score/"),
+                    Coconut = new SpriteAnimationSwitcher(type, new String[] { "coconut", "explosion" }),
+                    Planet = new SpriteAnimationSwitcher(type, new String[] { "planet" }),
+                    Tree = new SpriteAnimationSwitcher(type, new String[] { "palm" })
                 };
             }
 
