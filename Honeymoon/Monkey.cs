@@ -64,6 +64,13 @@ namespace Honeymoon
                 currentGamePadState = GamePad.GetState(PlayerNumber);
 
 #if(DEBUG)
+                // Some debugging controls...
+                if (currentGamePadState.IsButtonDown(Buttons.Y) && !GameHM.Camera.IsShaking)
+                {
+                    GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime,
+                                              DriftingCamera.CameraShakingFrequency,
+                                              DriftingCamera.CameraShakingAmplitude);
+                }
                 if (currentGamePadState.IsButtonDown(Buttons.LeftTrigger))
                 {
                     if (currentGamePadState.IsButtonDown(Buttons.DPadLeft)) planet.Rotation -= 0.1f;
@@ -82,8 +89,18 @@ namespace Honeymoon
 #endif
 
 
-                if (currentGamePadState.IsButtonDown(Buttons.A) && standingOnTheGround) VelocityOnPlanet.Y = JumpStrength;
-                if (currentGamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0)) DoingCrashJump = true;
+                if (currentGamePadState.IsButtonDown(Buttons.A) && standingOnTheGround)
+                    VelocityOnPlanet.Y = JumpStrength;
+                if (!DoingCrashJump && currentGamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0))
+                {
+                    DoingCrashJump = true;
+                    if (!GameHM.Camera.IsShaking)
+                    {
+                        // rotate by small random amount
+                        float angle = PositionOnPlanet.X + planet.Rotation;
+                        GameHM.Camera.MoveCamera(planet.rot2vec(angle), DriftingCamera.CameraMotionVelocity);
+                    }
+                }
                 if (!currentGamePadState.IsButtonDown(Buttons.LeftTrigger) && standingOnTheGround)
                 {
                     planet.RotationSpeed -= currentGamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
@@ -164,6 +181,11 @@ namespace Honeymoon
 
             // Player is hurt
             HitPoints--;
+
+            // Shake screen
+            GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime,
+                                      DriftingCamera.CameraShakingFrequency,
+                                      DriftingCamera.CameraShakingAmplitude);
 
             if (offsetMeToOther.LengthSquared() > 5)
                 new CoconutExplosion(Position, PlayerNumber, this);
