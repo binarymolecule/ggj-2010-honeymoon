@@ -51,6 +51,9 @@ namespace Honeymoon
             Monkey monkey1 = new Monkey(prop);
             Components.Add(monkey1);
 
+            Tree tree1 = new Tree(prop);
+            Components.Add(tree1);
+
             base.Initialize();
         }
 
@@ -83,8 +86,11 @@ namespace Honeymoon
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                Keyboard.GetState().IsKeyDown(Keys.Escape))
+            { 
                 this.Exit();
+            }
 
             CollidableGameComponent[] collide = collidableObjects.ToArray();
             for (int i = 0; i < collide.Length; i++)
