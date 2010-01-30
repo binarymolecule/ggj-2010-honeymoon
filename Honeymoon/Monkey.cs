@@ -164,7 +164,7 @@ namespace Honeymoon
 
         public override void Draw(GameTime gameTime)
         {
-            GameHM.CurrentTheme.Monkey.Draw(this, gameTime, CurrentAnimation, Position, Color.White, planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 1.0f);
+            GameHM.CurrentTheme.Monkey.Draw(this, gameTime, CurrentAnimation, Position, planet.GetShadingForPlanetGround(PositionOnPlanet.X), planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 1.0f);
         }
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
