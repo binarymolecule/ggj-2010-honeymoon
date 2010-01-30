@@ -76,7 +76,8 @@ namespace Honeymoon
 
             }
 
-            if (VelocityOnPlanet.LengthSquared() > 20.0f) HelpMovement.DisplayHelp = false;
+            if (VelocityOnPlanet.LengthSquared() > 11.0f) 
+                HelpMovement.DisplayHelp = false;
 
             VelocityOnPlanet.Y -= GravityStrength * seconds;
             VelocityOnPlanet *= (float)Math.Pow(1.0f - Friction, seconds);
