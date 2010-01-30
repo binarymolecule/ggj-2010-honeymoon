@@ -34,7 +34,7 @@ namespace Honeymoon
         public HelpSystem HelpMovement;
 
         public int HitPoints;
-        public static int MaxHitPoints = 10;
+        public static int MaxHitPoints = 1;
 
         public Monkey(Planet planet)
             : base(planet)
@@ -51,8 +51,6 @@ namespace Honeymoon
         }
 
         String CurrentAnimation;
-        int nextTheme = 0;
-
         GamePadState currentGamePadState;
         GamePadState oldGamePadState;
 
@@ -87,7 +85,7 @@ namespace Honeymoon
                 }
 
 
-                if (KeyJustPressed(Buttons.Start)) GameHM.CurrentTheme = GameHM.Themes[(nextTheme++) % 2];
+                if (KeyJustPressed(Buttons.Start)) GameHM.CurrentTheme = GameHM.Themes[(GameHM.CurrentThemeID+1) % 2];
 #endif
 
 
@@ -212,7 +210,7 @@ namespace Honeymoon
 
             if (HitPoints == 0)
             {
-                // End game
+                GameHM.GameOver();
             }
         }
     }

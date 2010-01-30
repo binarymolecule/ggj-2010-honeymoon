@@ -18,7 +18,7 @@ namespace Honeymoon
     /// </summary>
     public class HoneymoonGame : Microsoft.Xna.Framework.Game
     {
-        public enum GameStates { Intro, Game };
+        public enum GameStates { Intro, Game, GameOver };
         public GameStates GameState;
 
         public GraphicsDeviceManager graphics;
@@ -86,7 +86,7 @@ namespace Honeymoon
             Camera = new DriftingCamera();            
 
             IntroController = new Intro();
-            GameState = GameStates.Game;
+            GameState = GameStates.Intro;
 
             base.Initialize();
         }
@@ -190,7 +190,7 @@ namespace Honeymoon
 
             if (GameState == GameStates.Game)
                 base.Update(gameTime);
-            else
+            else if (GameState == GameStates.Intro)
                 IntroController.Update(gameTime);
             if (MediaPlayer.State != MediaState.Playing)
             {
@@ -222,13 +222,13 @@ namespace Honeymoon
             Vector2 camTranslation = new Vector2(-Camera.Translation.X, -Camera.Translation.Y);
             spriteBatch.Draw(CurrentTheme.Background, camTranslation * 0.9f, Color.White);
             spriteBatch.Draw(CurrentTheme.Parallax, camTranslation * 0.7f, Color.White);
-            if (GameState == GameStates.Game)
-                base.Draw(gameTime);
-            else
+            if (GameState == GameStates.Intro)
                 IntroController.Draw(gameTime);
+            else
+                base.Draw(gameTime);
             spriteBatch.End();
 
-            if (GameState == GameStates.Game)
+            if (GameState != GameStates.Intro)
             {
                 spriteBatch.Begin();
                 PlayerPanel1.DrawPanelFixed(gameTime);
@@ -305,6 +305,16 @@ namespace Honeymoon
         {
             Viewport viewport = graphics.GraphicsDevice.Viewport;
             return new Rectangle(0, 0, viewport.Width, viewport.Height);
+        }
+
+        public void GameOver()
+        {
+            GameState = HoneymoonGame.GameStates.GameOver;
+            // Switch to evil mode if not already
+            if (CurrentThemeID != 1)
+            {
+                CurrentTheme = Themes[1];
+            }
         }
     }
 }
