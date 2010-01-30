@@ -54,11 +54,11 @@ namespace Honeymoon
         {        
             Planet prop1 = new Planet(PlayerIndex.One);
             prop1.Position = new Vector2(200, 400);
-            Monkey monkey1 = new Monkey(prop1, PlayerIndex.One);
+            Monkey monkey1 = new Monkey(prop1);
 
             Planet prop2 = new Planet(PlayerIndex.Two);
             prop2.Position = new Vector2(1000, 400);
-            Monkey monkey2 = new Monkey(prop2, PlayerIndex.Two);
+            Monkey monkey2 = new Monkey(prop2);
 
             PlayerPanel panel1 = new PlayerPanel(monkey1);
             PlayerPanel panel2 = new PlayerPanel(monkey2);
@@ -67,7 +67,7 @@ namespace Honeymoon
 
             SunlightDir = new Vector2(0.0f, -1.0f);
             Camera = new DriftingCamera(prop1, prop2);
-   
+
             base.Initialize();
         }
 
@@ -91,7 +91,7 @@ namespace Honeymoon
                     Monkey = new SpriteAnimationSwitcher("monkey_" + type, new String[] { "left", "right", "crash", "penalty" }),
                     Panel = new SpriteAnimationSwitcher("score_" + type, new String[] { "score_000", "score_001", "score_002", "score_003", "score_004", "score_005" }),
                     Coconut = new SpriteAnimationSwitcher(type, new String[] { "coconut", "explosion" }),
-                    Planet = new SpriteAnimationSwitcher(type, new String[] { "planet" }),
+                    Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlight", "shadow" }),
                     Tree = new SpriteAnimationSwitcher("palme_" + type, new String[] { "palme" })
                 };
             }

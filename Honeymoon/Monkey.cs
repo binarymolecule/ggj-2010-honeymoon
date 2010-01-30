@@ -8,10 +8,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Honeymoon
 {
-    public class Monkey : CollidableGameComponent
+    public class Monkey : ObjectOnPlanet
     {
-        public Planet planet;
-
         public static float MonkeyWalkingHeight = 28.0f;
         public static float GravityStrength = 1000.0f;
         public static float BounceFactor = 0.2f;
@@ -20,12 +18,12 @@ namespace Honeymoon
         public static float MinHeightForCrashJump = 30.0f;
         public static float RunStrength = 0.2f;
         public static float RunStrengthPlanet = 0.1f;
+        public static float RunStrengthPlanet2 = 0.3f;
         public static float JumpStrength = 300.0f;
         public static float CrashJumpDownspeed = 300.0f;
         public static float CrashJumpPlanetSpeed = 5.0f;
         public static TimeSpan CrashJumpPenalty = TimeSpan.FromSeconds(0.5);
 
-        public Vector2 PositionOnPlanet;
         public Vector2 VelocityOnPlanet;
         public bool DoingCrashJump;
         public TimeSpan CrashJumpPenaltyUntil = TimeSpan.Zero;
@@ -35,8 +33,8 @@ namespace Honeymoon
         public int HitPoints;
         public static int MaxHitPoints = 10;
 
-        public Monkey(Planet planet, PlayerIndex PlayerNumber)
-            : base(PlayerNumber)
+        public Monkey(Planet planet)
+            : base(planet)
         {
             this.HitPoints = MaxHitPoints;
             this.planet = planet;
@@ -83,8 +81,8 @@ namespace Honeymoon
                 if (gamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0)) DoingCrashJump = true;
                 if (!gamePadState.IsButtonDown(Buttons.LeftTrigger) && standingOnTheGround)
                 {
-                    planet.RotationSpeed += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
-                    VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
+                    planet.RotationSpeed -= gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
+                    VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet2;
                 }
                 else VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
 
