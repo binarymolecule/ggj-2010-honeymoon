@@ -50,7 +50,13 @@ namespace Honeymoon
             Vector2 direction = new Vector2(-(float)Math.Cos(planet.Rotation + PositionOnPlanet.X),
                                             -(float)Math.Sin(planet.Rotation + PositionOnPlanet.X));
             sunlightFactor = Math.Max(0.0f, Vector2.Dot(GameHM.SunlightDir, direction));
+
+            sunlightFactor = 4.0f; // DEBUG
+            
             growth += seconds * sunlightFactor * GrowthPerSecond;
+
+
+
             if (growth >= 1.0f) {
                 growth = 0.0f;
                 if (!isMature) {

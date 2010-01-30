@@ -24,6 +24,8 @@ namespace Honeymoon
             this.planet = planet;
             this.height = height; //CoconutOrbitHeight;
             this.DrawOrder = 3;
+            this.CollisionEnabled = true;
+            this.CollisionRadius = 14;
         }
 
         protected override void LoadContent()
@@ -44,6 +46,19 @@ namespace Honeymoon
             GameHM.spriteBatch.Begin();
             GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, SpriteCenter, 1.0f, SpriteEffects.None, 0);
             GameHM.spriteBatch.End();
+        }
+
+        public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
+        {
+            System.Console.Out.WriteLine("Coconut collides with other object!");
+            if (otherObject is Monkey)
+            {
+                Vector2 dir = offsetMeToOther;
+                dir.Normalize();
+                CoconutMissile coconut = new CoconutMissile(Position, dir);
+                GameHM.Components.Add(coconut);
+                this.Dispose();
+            }
         }
     }
 }
