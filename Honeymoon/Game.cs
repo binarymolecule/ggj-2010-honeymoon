@@ -74,7 +74,7 @@ namespace Honeymoon
                 Themes[i] = new Theme
                 {
                     Background = Content.Load<Texture2D>("Textures/Backgrounds/" + type),
-                    Monkey = new SpriteAnimationSwitcher(type, new String[] { "left", "right", "crash", "penalty" })
+                    Monkey = new SpriteAnimationSwitcher("monkey_" + type, new String[] { "left", "right", "crash", "penalty" })
                 };
             }
 

@@ -25,22 +25,25 @@ namespace Honeymoon
             {
                 Texture2D asset = game.Content.Load<Texture2D>(name);
                 Sprites = new Texture2D[] { asset };
-                return;
             }
             catch (ContentLoadException) { }
 
-            List<Texture2D> loaded = new List<Texture2D>();
-            while (true)
+            if (Sprites == null)
             {
-                String number = String.Format("{0:000}", loaded.Count);
-                try
+                List<Texture2D> loaded = new List<Texture2D>();
+                while (true)
                 {
-                    Texture2D asset = game.Content.Load<Texture2D>(name + number);
-                    loaded.Add(asset);
+                    String number = String.Format("{0:000}", loaded.Count);
+                    try
+                    {
+                        Texture2D asset = game.Content.Load<Texture2D>(name + number);
+                        loaded.Add(asset);
+                    }
+                    catch (ContentLoadException) { break; }
                 }
-                catch (ContentLoadException) { break; }
+                Sprites = loaded.ToArray();
             }
-            Sprites = loaded.ToArray();
+            SpriteCenter = new Vector2(Sprites[0].Width, Sprites[0].Height) / 2.0f;
 
         }
 
