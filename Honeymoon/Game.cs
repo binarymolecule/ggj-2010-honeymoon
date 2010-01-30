@@ -97,7 +97,7 @@ namespace Honeymoon
                     if (!B.CollisionEnabled) continue;
 
                     Vector2 aToB = B.Position - A.Position;
-                    if(A.RadiusSq+B.RadiusSq < aToB.LengthSquared()) continue;
+                    if(A.CollisionRadiusSq+B.CollisionRadiusSq < aToB.LengthSquared()) continue;
 
                     A.OnCollide(B, aToB);
                     B.OnCollide(A, -aToB);

@@ -18,8 +18,9 @@ namespace Honeymoon
 
         public Planet()
         {
+            CollisionEnabled = true;
             GameHM.collidableObjects.Add(this);
-            Radius = 64.0f;
+            CollisionRadius = 64.0f;
         }
 
         protected override void LoadContent()
@@ -54,7 +55,7 @@ namespace Honeymoon
         public Vector2 GetPositionOnPlanet(float RotationRelativeToPlanet, float HeightAbovePlanetGround)
         {
             float rot = Rotation + RotationRelativeToPlanet;
-            float abs = Radius + HeightAbovePlanetGround;
+            float abs = CollisionRadius + HeightAbovePlanetGround;
             return Position + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot)) * abs;
         }
 
