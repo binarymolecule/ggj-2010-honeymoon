@@ -8,8 +8,6 @@ namespace Honeymoon
 {
     public class DriftingCamera
     {
-        public Planet Planet1, Planet2;
-        public Vector2 WorldCenter;
         public Vector3 Translation;
         public static Vector2 MaxOffset = new Vector2(100, 50);
 
@@ -33,13 +31,9 @@ namespace Honeymoon
 
         public Matrix TransformMatrix { get { return Matrix.CreateTranslation(Translation); } }
 
-        public DriftingCamera(Planet planet1, Planet planet2)
+        public DriftingCamera()
         {
             this.Translation = Vector3.Zero;
-            this.Planet1 = planet1;
-            this.Planet2 = planet2;
-            this.WorldCenter = new Vector2(HoneymoonGame.Instance.GraphicsDevice.Viewport.Width/2,
-                                           HoneymoonGame.Instance.GraphicsDevice.Viewport.Height/2);
         }
 
         public void ShakeCamera(float seconds, float frequency, float amplitude)
@@ -93,13 +87,6 @@ namespace Honeymoon
                     Translation.X = Math.Min(MaxOffset.X, Math.Max(-MaxOffset.X, Translation.X + mot.X));
                     Translation.Y = Math.Min(MaxOffset.Y, Math.Max(-MaxOffset.Y, Translation.Y + mot.Y));
                 }
-                /*
-                Vector2 planetCenter = 0.5f * (Planet1.Position + Planet2.Position);
-                Vector2 difference = WorldCenter - planetCenter;
-                difference *= CameraVelocityFactor;
-                Translation.X = Math.Min(MaxOffset.X, Math.Max(-MaxOffset.X, Translation.X + difference.X));
-                Translation.Y = Math.Min(MaxOffset.Y, Math.Max(-MaxOffset.Y, Translation.Y + difference.Y));
-                */
             }
         }
     }
