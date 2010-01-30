@@ -61,6 +61,13 @@ namespace Honeymoon
                 GamePadState gamePadState = GamePad.GetState(PlayerNumber);
 
 #if(DEBUG)
+                // Some debugging controls...
+                if (gamePadState.IsButtonDown(Buttons.Y) && !GameHM.Camera.IsShaking)
+                {
+                    GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime,
+                                              DriftingCamera.CameraShakingFrequency,
+                                              DriftingCamera.CameraShakingAmplitude);
+                }
                 if (gamePadState.IsButtonDown(Buttons.LeftTrigger))
                 {
                     if (gamePadState.IsButtonDown(Buttons.DPadLeft)) planet.Rotation -= 0.1f;
@@ -79,8 +86,18 @@ namespace Honeymoon
 #endif
 
 
-                if (gamePadState.IsButtonDown(Buttons.A) && standingOnTheGround) VelocityOnPlanet.Y = JumpStrength;
-                if (gamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0)) DoingCrashJump = true;
+                if (gamePadState.IsButtonDown(Buttons.A) && standingOnTheGround)
+                    VelocityOnPlanet.Y = JumpStrength;
+                if (!DoingCrashJump && gamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0))
+                {
+                    DoingCrashJump = true;
+                    if (!GameHM.Camera.IsShaking)
+                    {
+                        // rotate by small random amount
+                        float angle = PositionOnPlanet.X + planet.Rotation;
+                        GameHM.Camera.MoveCamera(planet.rot2vec(angle), DriftingCamera.CameraMotionVelocity);
+                    }
+                }
                 if (!gamePadState.IsButtonDown(Buttons.LeftTrigger) && standingOnTheGround)
                 {
                     planet.RotationSpeed -= gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
@@ -137,6 +154,9 @@ namespace Honeymoon
             {
                 // Player is hurt
                 HitPoints--;
+                GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime,
+                                          DriftingCamera.CameraShakingFrequency,
+                                          DriftingCamera.CameraShakingAmplitude);
                 if (HitPoints == 0)
                 {
                     // End game
