@@ -14,13 +14,13 @@ namespace Honeymoon
         public float Angle;
         public float fadeOutDuration;
         public bool fadingOut;
-        public static float CoconutMissileVelocity = 250.0f;
+        public static float CoconutMissileVelocity = 550.0f;
         public static float CoconutMissileTorque = 10.0f;
         public static float CoconutMissileFadeoutDuration = 1.0f;
         public static float CoconutMissileBounceVelocity = 75.0f;
 
         public CoconutMissile(Vector2 pos, Vector2 dir, PlayerIndex PlayerNumber)
-            : base (PlayerNumber)
+            : base(PlayerNumber)
         {
             this.Position = pos;
             this.Velocity = CoconutMissileVelocity * dir;
@@ -45,7 +45,7 @@ namespace Honeymoon
                 }
             }
             else
-            {            
+            {
                 // Check if coconut is outside display
                 Vector2 windowSize = new Vector2(Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
                 float offset = CollisionRadius * 2.0f;
@@ -81,11 +81,9 @@ namespace Honeymoon
             {
                 CollisionEnabled = false; // remove from game's collidable object list
 
-                // Create explosion
-                float angle = (float)(Math.Atan2(Velocity.Y, Velocity.X) - Math.PI/2);
-                float scale = (otherObject is Planet ? 2.0f : 1.0f);
-                CoconutExplosion explosion = new CoconutExplosion(Position, angle, scale, PlayerNumber);
-                GameHM.Components.Add(explosion);
+                // Create explosion 
+                Vector2 exploPos = (otherObject is Monkey) ? otherObject.Position : Position;
+                new CoconutExplosion(exploPos, PlayerNumber, null);
 
                 // Bounce from planet surface
                 if (otherObject is Planet)
@@ -102,7 +100,7 @@ namespace Honeymoon
                     dir.Normalize();
                     Velocity = CoconutMissileBounceVelocity * dir;
                     this.fadeOutDuration = CoconutMissileFadeoutDuration;
-                    this.fadingOut = true;                    
+                    this.fadingOut = true;
                 }
                 else
                 {

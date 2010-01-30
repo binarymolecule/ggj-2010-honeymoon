@@ -112,11 +112,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\good\explosion.png">
-      <Name>explosion</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Textures\good\planet.png">
       <Name>planet</Name>
       <Importer>TextureImporter</Importer>
@@ -654,6 +649,21 @@
   <ItemGroup>
     <Compile Include="Textures\Helpers\twitch_noise.png">
       <Name>twitch_noise</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\good\explosion_000.png">
+      <Name>explosion_000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\good\explosion_001.png">
+      <Name>explosion_001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\good\explosion_002.png">
+      <Name>explosion_002</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

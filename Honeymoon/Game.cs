@@ -26,7 +26,8 @@ namespace Honeymoon
         public Random Randomizer;
         public Theme[] Themes = new Theme[2];
         public Theme CurrentTheme = null;
-        public DriftingCamera Camera; 
+        public PlayerPanel PlayerPanel1, PlayerPanel2;
+        public DriftingCamera Camera;
 
         public HoneymoonGame()
         {
@@ -60,10 +61,10 @@ namespace Honeymoon
             prop2.Position = new Vector2(1000, 400);
             Monkey monkey2 = new Monkey(prop2);
 
-            PlayerPanel panel1 = new PlayerPanel(monkey1);
-            PlayerPanel panel2 = new PlayerPanel(monkey2);
-            panel1.Position = new Vector2(125, 80);
-            panel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
+            PlayerPanel1 = new PlayerPanel(monkey1);
+            PlayerPanel2 = new PlayerPanel(monkey2);
+            PlayerPanel1.Position = new Vector2(125, 80);
+            PlayerPanel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
 
             SunlightDir = new Vector2(0.0f, -1.0f);
             Camera = new DriftingCamera(prop1, prop2);
@@ -133,11 +134,9 @@ namespace Honeymoon
             for (int i = 0; i < collide.Length; i++)
             {
                 CollidableGameComponent A = collide[i];
-                if (!A.CollisionEnabled) continue;
                 for (int j = i + 1; j < collide.Length; j++)
                 {
                     CollidableGameComponent B = collide[j];
-                    if (!B.CollisionEnabled) continue;
 
                     Vector2 aToB = B.Position - A.Position;
                     float r = A.CollisionRadius + B.CollisionRadius;
@@ -162,8 +161,13 @@ namespace Honeymoon
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, Camera.TransformMatrix);
-            spriteBatch.Draw(CurrentTheme.Background, Vector2.Zero, Color.White);            
+            spriteBatch.Draw(CurrentTheme.Background, -DriftingCamera.MaxOffset, Color.White);            
             base.Draw(gameTime);
+            spriteBatch.End();
+
+            spriteBatch.Begin();
+            PlayerPanel1.DrawPanelFixed(gameTime);
+            PlayerPanel2.DrawPanelFixed(gameTime);
             spriteBatch.End();
 
             PerformTwitchEffect(gameTime);
