@@ -91,6 +91,5 @@ namespace Honeymoon
             }
             GameHM.spriteBatch.End();
         }
-
     }
 }
