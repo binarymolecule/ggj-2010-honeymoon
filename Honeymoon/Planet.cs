@@ -9,8 +9,6 @@ namespace Honeymoon
 {
     public class Planet : CollidableGameComponent
     {
-        public Texture2D Sprite;
-        public Vector2 SpriteCenter;
         public float Rotation;
         public float RotationSpeed;
         public Vector2 Velocity;
@@ -25,16 +23,10 @@ namespace Honeymoon
             : base(PlayerNumber)
         {
             this.CollisionEnabled = true;
+            CollisionRadius = 64.0f;
             this.DrawOrder = 2;
             Game.Components.Add(this);
             new Tree(this);
-        }
-
-        protected override void LoadContent()
-        {
-            Sprite = GameHM.Content.Load<Texture2D>("planet");
-            SpriteCenter = new Vector2(Sprite.Width, Sprite.Height) / 2.0f;
-            CollisionRadius = 0.5f * Sprite.Width;
         }
 
         public override void Update(GameTime gameTime)
@@ -55,9 +47,7 @@ namespace Honeymoon
 
         public override void Draw(GameTime gameTime)
         {
-            GameHM.spriteBatch.Begin();
-            GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, Rotation, SpriteCenter, 1.0f, SpriteEffects.None, 0);
-            GameHM.spriteBatch.End();
+            GameHM.CurrentTheme.Planet.Draw(this, gameTime, "planet", Position, Color.White, Rotation, 1.0f);
         }
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)

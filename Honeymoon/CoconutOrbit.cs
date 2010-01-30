@@ -10,8 +10,6 @@ namespace Honeymoon
 {
     public class CoconutOrbit : CollidableGameComponent
     {
-        public Texture2D Sprite;
-        public Vector2 SpriteCenter;
         public Planet planet;
         public Tree tree;
         public float height;
@@ -30,6 +28,7 @@ namespace Honeymoon
             this.CollisionEnabled = true;
             this.PositionOnPlanet = new Vector2(angle, height);
             this.Position = planet.GetPositionInPlanetOrbit(angle, height);
+            this.CollisionRadius = 16.0f;
             this.tree.CoconutCount++;
         }
 
@@ -37,13 +36,6 @@ namespace Honeymoon
         {
             this.tree.CoconutCount--;
             base.Dispose(disposing);
-        }
-
-        protected override void LoadContent()
-        {
-            Sprite = GameHM.Content.Load<Texture2D>("coconut");
-            SpriteCenter = new Vector2(Sprite.Width, Sprite.Height) / 2.0f;
-            this.CollisionRadius = 0.5f * Sprite.Width;
         }
 
         public override void Update(GameTime gameTime)
@@ -55,9 +47,7 @@ namespace Honeymoon
 
         public override void Draw(GameTime gameTime)
         {
-            GameHM.spriteBatch.Begin();
-            GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, SpriteCenter, 1.0f, SpriteEffects.None, 0);
-            GameHM.spriteBatch.End();
+            GameHM.CurrentTheme.Coconut.Draw(this, gameTime, "coconut", Position, Color.White, planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 1.0f);
         }
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
