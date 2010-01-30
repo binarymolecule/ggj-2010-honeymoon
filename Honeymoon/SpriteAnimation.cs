@@ -36,7 +36,7 @@ namespace Honeymoon
                     String number = String.Format("{0:000}", loaded.Count);
                     try
                     {
-                        Texture2D asset = game.Content.Load<Texture2D>(name + number);
+                        Texture2D asset = game.Content.Load<Texture2D>(name + "_" + number);
                         loaded.Add(asset);
                     }
                     catch (ContentLoadException) { break; }

@@ -90,7 +90,7 @@ namespace Honeymoon
                     Panel = new SpriteAnimationSwitcher("score_" + type, new String[] { "score_000", "score_001", "score_002", "score_003", "score_004", "score_005" }),
                     Coconut = new SpriteAnimationSwitcher(type, new String[] { "coconut", "explosion" }),
                     Planet = new SpriteAnimationSwitcher(type, new String[] { "planet" }),
-                    Tree = new SpriteAnimationSwitcher(type, new String[] { "palm" })
+                    Tree = new SpriteAnimationSwitcher("palme_" + type, new String[] { "palme" })
                 };
             }
 
