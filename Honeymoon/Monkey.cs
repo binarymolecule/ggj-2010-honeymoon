@@ -67,7 +67,11 @@ namespace Honeymoon
                         planet.RotationSpeed += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
                         VelocityOnPlanet.X -= gamePadState.ThumbSticks.Left.X * RunStrength;
                     }
-                }else VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
+                    else
+                        VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
+                }
+                else
+                    VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
 
             }
 
