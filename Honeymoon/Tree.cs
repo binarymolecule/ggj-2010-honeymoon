@@ -61,7 +61,7 @@ namespace Honeymoon
                 else
                 {
                     // Coconut has been produced
-                    CoconutOrbit coconut = new CoconutOrbit(planet, PositionOnPlanet.X, PositionOnPlanet.Y + 1.5f * Sprite.Height - CoconutOffsetFromTop);
+                    CoconutOrbit coconut = new CoconutOrbit(planet, PositionOnPlanet.X + planet.Rotation, PositionOnPlanet.Y + 1.5f * Sprite.Height - CoconutOffsetFromTop);
                     GameHM.Components.Add(coconut);
                 }
             }
@@ -69,12 +69,12 @@ namespace Honeymoon
             {
                 // Tree is still growing
                 float offsetY = growth * Sprite.Height;
-                Position = planet.GetPositionOnPlanet(PositionOnPlanet.X, PositionOnPlanet.Y + offsetY);
+                Position = planet.GetPositionOnPlanetGround(PositionOnPlanet.X, PositionOnPlanet.Y + offsetY);
             }
             else
             {
-                Position = planet.GetPositionOnPlanet(PositionOnPlanet.X, PositionOnPlanet.Y + Sprite.Height);
-                CoconutPosition = planet.GetPositionOnPlanet(PositionOnPlanet.X, PositionOnPlanet.Y + 1.5f * Sprite.Height - CoconutOffsetFromTop);
+                Position = planet.GetPositionOnPlanetGround(PositionOnPlanet.X, PositionOnPlanet.Y + Sprite.Height);
+                CoconutPosition = planet.GetPositionOnPlanetGround(PositionOnPlanet.X, PositionOnPlanet.Y + 1.5f * Sprite.Height - CoconutOffsetFromTop);
             }
         }
 

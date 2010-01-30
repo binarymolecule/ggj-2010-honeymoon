@@ -87,11 +87,17 @@ namespace Honeymoon
 
         }
 
-        public Vector2 GetPositionOnPlanet(float RotationRelativeToPlanet, float HeightAbovePlanetGround)
+        public Vector2 GetPositionOnPlanetGround(float RotationRelativeToPlanet, float HeightAbovePlanetGround)
         {
             float rot = Rotation + RotationRelativeToPlanet;
             float abs = PlanetRadius + HeightAbovePlanetGround;
             return Position + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot)) * abs;
+        }
+
+        public Vector2 GetPositionInPlanetOrbit(float Rotation, float HeightAbovePlanetGround)
+        {
+            float abs = PlanetRadius + HeightAbovePlanetGround;
+            return Position + new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation)) * abs;
         }
 
     }
