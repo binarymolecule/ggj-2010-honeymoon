@@ -10,6 +10,8 @@ namespace Honeymoon
 {
     public class Monkey : CollidableGameComponent
     {
+        public PlayerIndex PlayerNumber;
+
         public Texture2D Sprite;
         public Vector2 SpriteCenter;
         public Planet planet;
@@ -32,8 +34,9 @@ namespace Honeymoon
         public TimeSpan CrashJumpPenaltyUntil = TimeSpan.Zero;
 
 
-        public Monkey(Planet planet)
+        public Monkey(Planet planet, PlayerIndex PlayerNumber)
         {
+            this.PlayerNumber = PlayerNumber;
             this.planet = planet;
             this.DrawOrder = 1;
         }
@@ -50,7 +53,7 @@ namespace Honeymoon
 
             if (gameTime.TotalGameTime > CrashJumpPenaltyUntil)
             {
-                GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
+                GamePadState gamePadState = GamePad.GetState(PlayerNumber);
                 VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
                 if (gamePadState.IsButtonDown(Buttons.A) && PositionOnPlanet.Y < MaxHeightForJump) VelocityOnPlanet.Y = JumpStrength;
                 if (gamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0)) DoingCrashJump = true;
