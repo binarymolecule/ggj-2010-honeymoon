@@ -96,6 +96,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="ScreenWall.cs" />
     <Compile Include="SpriteAnimation.cs" />
+    <Compile Include="SpriteAnimationSwitcher.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Tree.cs" />
   </ItemGroup>

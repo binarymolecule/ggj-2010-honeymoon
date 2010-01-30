@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace Honeymoon
 {
@@ -13,53 +14,41 @@ namespace Honeymoon
 
         public Texture2D[] Sprites;
         public Vector2 SpriteCenter;
+        public float AnimationFPS = 1.0f;
+        public int NumberOfFrames { get { return Sprites.Length; } }
 
         public SpriteAnimation(String name)
         {
             game = HoneymoonGame.Instance;
-            Texture2D asset = game.Content.Load<Texture2D>(name);
-            if (asset != null)
+
+            try
             {
+                Texture2D asset = game.Content.Load<Texture2D>(name);
                 Sprites = new Texture2D[] { asset };
+                return;
             }
-            else
+            catch (ContentLoadException) { }
+
+            List<Texture2D> loaded = new List<Texture2D>();
+            while (true)
             {
-                List<Texture2D> loaded = new List<Texture2D>();
-                while (true)
+                String number = String.Format("{0:000}", loaded.Count);
+                try
                 {
-                    String number = String.Format("###", loaded.Count);
-                    asset = game.Content.Load<Texture2D>(name + number);
-                    if (asset == null) break;
+                    Texture2D asset = game.Content.Load<Texture2D>(name + number);
                     loaded.Add(asset);
                 }
-                Sprites = loaded.ToArray();
+                catch (ContentLoadException) { break; }
             }
+            Sprites = loaded.ToArray();
+
         }
 
-        public float CurrentFrame;
-        public int CurrentIntegerFrame { get { return (int)Math.Floor(CurrentFrame); } }
-        public float AnimationFPS = 1.0f;
-        public int NumberOfFrames { get { return Sprites.Length; } }
-
-
-        public delegate void AnimationFinishedHandler(SpriteAnimation animation);
-        public event AnimationFinishedHandler AnimationFinished;
-
-        public void Update(GameTime gameTime)
-        {
-            CurrentFrame += (float)gameTime.ElapsedGameTime.TotalSeconds * AnimationFPS;
-            int frame = CurrentIntegerFrame;
-            if (frame >= NumberOfFrames)
-            {
-                AnimationFinished.Invoke(this);
-                CurrentFrame = 0;
-            }
-        }
-
-        public void Draw(Vector2 Position, Color color, float Rotation, float Scale)
+        public void Draw(int Frame, Vector2 Position, Color Color, float Rotation, float Scale)
         {
             game.spriteBatch.Begin();
-            game.spriteBatch.Draw(Sprites[CurrentIntegerFrame], Position, null, color, Rotation, SpriteCenter, Scale, SpriteEffects.None, 0);
+            game.spriteBatch.Draw(Sprites[Frame], Position, null, Color, Rotation, SpriteCenter, Scale, SpriteEffects.None, 0);
+            game.spriteBatch.End();
         }
     }
 }
