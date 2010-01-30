@@ -55,11 +55,17 @@ namespace Honeymoon
 
             Planet prop = new Planet(PlayerIndex.One);
             prop.Position = new Vector2(200, 400);
-            new Monkey(prop, PlayerIndex.One);
+            Monkey monkey1 = new Monkey(prop, PlayerIndex.One);
 
             Planet prop2 = new Planet(PlayerIndex.Two);
             prop2.Position = new Vector2(1000, 400);
-            new Monkey(prop2, PlayerIndex.Two);
+            Monkey monkey2 = new Monkey(prop2, PlayerIndex.Two);
+
+            PlayerPanel panel1 = new PlayerPanel(monkey1);
+            PlayerPanel panel2 = new PlayerPanel(monkey2);
+            panel1.Position = new Vector2(125, 80);
+            panel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 125, 80);
+            
             base.Initialize();
         }
 

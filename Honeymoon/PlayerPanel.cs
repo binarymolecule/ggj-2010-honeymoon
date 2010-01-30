@@ -36,7 +36,8 @@ namespace Honeymoon
 
         public override void Draw(GameTime gameTime)
         {
-            GameHM.CurrentTheme.Panel.Draw(Player.HitPoints % 5, Position, Color.White, 0.0f, 1.0f);
+            GameHM.CurrentTheme.Panel.Draw(this, gameTime, "score_" + String.Format("{0:000}", Math.Min(5, 5-Player.HitPoints)), 
+                                           Position, Color.White, 0.0f, 1.0f);
         }
     }
 }
