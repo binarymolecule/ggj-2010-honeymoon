@@ -26,6 +26,7 @@ namespace Honeymoon
         public Random Randomizer;
         public Theme[] Themes = new Theme[2];
         public Theme CurrentTheme = null;
+        public Matrix CameraMatrix;
 
         public HoneymoonGame()
         {
@@ -41,6 +42,8 @@ namespace Honeymoon
             graphics.IsFullScreen = false;
 
             Content.RootDirectory = "Content";
+
+            CameraMatrix = Matrix.Identity;
         }
 
         /// <summary>
@@ -119,6 +122,7 @@ namespace Honeymoon
                 this.Exit();
             }
 
+            // Check for collisions
             CollidableGameComponent[] collide = collidableObjects.ToArray();
             for (int i = 0; i < collide.Length; i++)
             {
@@ -138,6 +142,9 @@ namespace Honeymoon
                 }
             }
 
+            // Update camera matrix
+
+
             base.Update(gameTime);
         }
 
@@ -148,10 +155,10 @@ namespace Honeymoon
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin();
-            spriteBatch.Draw(CurrentTheme.Background, Vector2.Zero, Color.White);
-            spriteBatch.End();
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, CameraMatrix);
+            spriteBatch.Draw(CurrentTheme.Background, Vector2.Zero, Color.White);            
             base.Draw(gameTime);
+            spriteBatch.End();
         }
     }
 }

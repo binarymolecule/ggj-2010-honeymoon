@@ -49,9 +49,9 @@ namespace Honeymoon
 
         public void Draw(int Frame, Vector2 Position, Color Color, float Rotation, float Scale)
         {
-            game.spriteBatch.Begin();
+            //game.spriteBatch.Begin();
             game.spriteBatch.Draw(Sprites[Frame], Position, null, Color, Rotation, SpriteCenter, Scale, SpriteEffects.None, 0);
-            game.spriteBatch.End();
+            //game.spriteBatch.End();
         }
     }
 }
