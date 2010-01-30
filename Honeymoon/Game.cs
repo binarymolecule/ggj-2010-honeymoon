@@ -124,6 +124,7 @@ namespace Honeymoon
                     Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlightandshadow" }),
                     Tree = new SpriteAnimationSwitcher("palme_" + type, new String[] { "palme" })
                 };
+                Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
             }
 
             CurrentTheme = Themes[0];

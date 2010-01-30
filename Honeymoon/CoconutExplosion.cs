@@ -17,14 +17,14 @@ namespace Honeymoon
         public static float CoconutExplosionTime = 1.0f;
         private bool disableCollisionInUpdate;
 
-        public CoconutExplosion(Vector2 pos, PlayerIndex PlayerNumber, Monkey onMonkey)
+        public CoconutExplosion(Vector2 pos, PlayerIndex PlayerNumber, Monkey onMonkey, bool CauseDamage)
             : base(PlayerNumber)
         {
             this.onMonkey = onMonkey;
             this.DrawOrder = 4;
-            this.CollisionEnabled = onMonkey == null;
+            this.CollisionEnabled = CauseDamage;
             this.Position = pos;
-            this.timer = CollisionEnabled ? 0 : -CoconutExplosionTime;
+            this.timer = onMonkey == null ? 0 : -CoconutExplosionTime;
             this.scale = (float)random.NextDouble() * 0.1f + 1.0f;
             this.CollisionRadius = 100.0f * scale;
             GameHM.Components.Add(this);
