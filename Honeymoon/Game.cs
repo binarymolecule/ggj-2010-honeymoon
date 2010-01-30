@@ -80,6 +80,13 @@ namespace Honeymoon
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            resolvedBackbuffer = new ResolveTexture2D(GraphicsDevice,
+                1280, 720,
+                1, GraphicsDevice.DisplayMode.Format);
+
+            twitchNoise = Content.Load<Texture2D>("Textures/Helpers/twitch_noise");
+            twitchEffect = Content.Load<Effect>("Effects/twitch");
+            twitchRenderTarget = new RenderTarget2D(GraphicsDevice, 128, 128, 1, GraphicsDevice.DisplayMode.Format, RenderTargetUsage.PreserveContents);
 
             for (int i = 0; i < Themes.Length; i++)
             {
@@ -158,6 +165,71 @@ namespace Honeymoon
             spriteBatch.Draw(CurrentTheme.Background, Vector2.Zero, Color.White);            
             base.Draw(gameTime);
             spriteBatch.End();
+
+            PerformTwitchEffect(gameTime);
+        }
+
+        ResolveTexture2D resolvedBackbuffer;
+        Effect twitchEffect;
+        RenderTarget2D twitchRenderTarget;
+        Texture2D twitchNoise;
+
+        private void PerformTwitchEffect(GameTime gameTime)
+        {
+            float fTime0_X = (float)gameTime.TotalRealTime.TotalSeconds;
+
+            twitchEffect.Parameters["fTime0_X"].SetValue(fTime0_X);
+            twitchEffect.Parameters["Screen_AlignedQuad_AfterTwitch_Pixel_Shader_fTime0_X"].SetValue(fTime0_X);
+            twitchEffect.Parameters["scene_Tex"].SetValue(resolvedBackbuffer);
+            twitchEffect.Parameters["noise_tex_Tex"].SetValue(twitchNoise);
+
+            EffectTechnique t = twitchEffect.Techniques["Screen_AlignedQuad"];
+            GraphicsDevice.ResolveBackBuffer(resolvedBackbuffer);
+            
+
+            // Pass 1
+            spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.SaveState);
+            twitchEffect.Begin(SaveStateMode.SaveState);
+            t.Passes["Twitch"].Begin();
+            spriteBatch.Draw(resolvedBackbuffer, FullscreenRectangle(), Color.White);
+            spriteBatch.End();
+            t.Passes["Twitch"].End();
+            twitchEffect.End();
+
+            // Pass 2
+            GraphicsDevice.ResolveBackBuffer(resolvedBackbuffer);
+            RenderTarget2D tempTarget = twitchRenderTarget;
+            GraphicsDevice.SetRenderTarget(0, tempTarget);
+
+            twitchEffect.Parameters["p0_result_Tex"].SetValue(resolvedBackbuffer);
+
+            spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.SaveState);
+            twitchEffect.Begin(SaveStateMode.SaveState);
+            t.Passes["ScaleDown"].Begin();
+            spriteBatch.Draw(resolvedBackbuffer, new Rectangle(0, 0, 128, 128), Color.White);
+            spriteBatch.End();            
+            t.Passes["ScaleDown"].End();
+            twitchEffect.End();
+
+            GraphicsDevice.SetRenderTarget(0, null);
+
+            // Pass 3
+
+            twitchEffect.Parameters["p0_blurry_Tex"].SetValue(tempTarget.GetTexture());
+
+            spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.SaveState);
+            twitchEffect.Begin(SaveStateMode.SaveState);
+            t.Passes["AfterTwitch"].Begin();
+            spriteBatch.Draw(resolvedBackbuffer, FullscreenRectangle(), Color.White);
+            spriteBatch.End();
+            t.Passes["AfterTwitch"].End();
+            twitchEffect.End();
+        }
+
+        Rectangle FullscreenRectangle()
+        {
+            Viewport viewport = graphics.GraphicsDevice.Viewport;
+            return new Rectangle(0, 0, viewport.Width, viewport.Height);
         }
     }
 }
