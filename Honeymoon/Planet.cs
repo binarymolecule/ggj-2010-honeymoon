@@ -22,6 +22,7 @@ namespace Honeymoon
             CollisionEnabled = true;
             GameHM.collidableObjects.Add(this);
             CollisionRadius = 64.0f+64.0f;
+            this.DrawOrder = 2;
         }
 
         protected override void LoadContent()
