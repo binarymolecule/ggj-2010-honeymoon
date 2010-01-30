@@ -43,6 +43,7 @@ namespace Honeymoon
         {
             if (collisionEnabled)
                 GameHM.collidableObjects.Remove(this);
+            GameHM.Components.Remove(this);
             base.Dispose(disposing);
         }
 
