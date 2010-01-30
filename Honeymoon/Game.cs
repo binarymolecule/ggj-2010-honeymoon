@@ -26,7 +26,7 @@ namespace Honeymoon
         public Random Randomizer;
         public Theme[] Themes = new Theme[2];
         public Theme CurrentTheme = null;
-        public Matrix CameraMatrix;
+        public DriftingCamera Camera; 
 
         public HoneymoonGame()
         {
@@ -42,8 +42,6 @@ namespace Honeymoon
             graphics.IsFullScreen = false;
 
             Content.RootDirectory = "Content";
-
-            CameraMatrix = Matrix.Identity;
         }
 
         /// <summary>
@@ -53,12 +51,10 @@ namespace Honeymoon
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize()
-        {
-            SunlightDir = new Vector2(0.0f, -1.0f);
-
-            Planet prop = new Planet(PlayerIndex.One);
-            prop.Position = new Vector2(200, 400);
-            Monkey monkey1 = new Monkey(prop, PlayerIndex.One);
+        {        
+            Planet prop1 = new Planet(PlayerIndex.One);
+            prop1.Position = new Vector2(200, 400);
+            Monkey monkey1 = new Monkey(prop1, PlayerIndex.One);
 
             Planet prop2 = new Planet(PlayerIndex.Two);
             prop2.Position = new Vector2(1000, 400);
@@ -68,7 +64,10 @@ namespace Honeymoon
             PlayerPanel panel2 = new PlayerPanel(monkey2);
             panel1.Position = new Vector2(125, 80);
             panel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
-            
+
+            SunlightDir = new Vector2(0.0f, -1.0f);
+            Camera = new DriftingCamera(prop1, prop2);
+   
             base.Initialize();
         }
 
@@ -143,7 +142,7 @@ namespace Honeymoon
             }
 
             // Update camera matrix
-
+            Camera.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             base.Update(gameTime);
         }
@@ -155,7 +154,7 @@ namespace Honeymoon
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, CameraMatrix);
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, Camera.TransformMatrix);
             spriteBatch.Draw(CurrentTheme.Background, Vector2.Zero, Color.White);            
             base.Draw(gameTime);
             spriteBatch.End();
