@@ -42,7 +42,9 @@ namespace Honeymoon
         {
             if (FadePercent < 0.0001) return;
 
-            animations.Draw(this, gameTime, screen, monkey.planet.Position, new Color(Color.White, FadePercent), monkey.planet.Rotation + monkey.PositionOnPlanet.X + (float)Math.PI / 2.0f, 1.0f);
+            float rot = monkey.planet.Rotation + monkey.PositionOnPlanet.X + (float)Math.PI / 2.0f;
+            rot = 0;
+            animations.Draw(this, gameTime, screen, monkey.planet.Position, new Color(Color.White, FadePercent), rot, 1.0f);
         }
     }
 }

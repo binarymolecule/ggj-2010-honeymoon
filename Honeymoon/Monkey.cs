@@ -135,18 +135,27 @@ namespace Honeymoon
             }
             else if (otherObject is CoconutExplosion)
             {
-                HelpSystem.GloballyEnabled = false;
+                IGotHit(offsetMeToOther);
+            }
+            else if (otherObject is Planet && (otherObject as Planet).PlayerNumber != PlayerNumber)
+            {
+                IGotHit(offsetMeToOther);
+            }
+        }
 
-                // Player is hurt
-                HitPoints--;
+        private void IGotHit(Vector2 offsetMeToOther)
+        {
+            HelpSystem.GloballyEnabled = false;
 
-                if (offsetMeToOther.LengthSquared() > 5)
-                    new CoconutExplosion(Position, PlayerNumber, this);
+            // Player is hurt
+            HitPoints--;
 
-                if (HitPoints == 0)
-                {
-                    // End game
-                }
+            if (offsetMeToOther.LengthSquared() > 5)
+                new CoconutExplosion(Position, PlayerNumber, this);
+
+            if (HitPoints == 0)
+            {
+                // End game
             }
         }
     }

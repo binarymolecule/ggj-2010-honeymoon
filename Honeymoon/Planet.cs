@@ -54,7 +54,8 @@ namespace Honeymoon
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
         {
-            if (!(otherObject is Planet) && !(otherObject is ScreenWall)) return;
+            if (!(otherObject is Planet) && !(otherObject is ScreenWall) && !(otherObject is Monkey)) return;
+            if (otherObject is Monkey && (otherObject as Monkey).PlayerNumber == PlayerNumber) return;
 
             offsetMeToOther.Normalize();
             float dot = Vector2.Dot(Velocity, offsetMeToOther);
