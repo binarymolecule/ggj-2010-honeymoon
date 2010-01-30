@@ -8,9 +8,12 @@ namespace Honeymoon
 {
     public class CollidableGameComponent : DrawableGameComponent
     {
-        public CollidableGameComponent(Game game)
-            : base(game)
+        public HoneymoonGame GameHM;
+
+        public CollidableGameComponent()
+            : base(HoneymoonGame.Instance)
         {
+            GameHM = HoneymoonGame.Instance;
         }
 
         public bool CollisionEnabled;
