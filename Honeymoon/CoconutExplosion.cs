@@ -26,7 +26,7 @@ namespace Honeymoon
             this.Position = pos;
             this.timer = onMonkey == null ? 0 : -CoconutExplosionTime;
             this.scale = (float)random.NextDouble() * 0.1f + 1.0f;
-            this.CollisionRadius = 100.0f * scale;
+            this.CollisionRadius = 75.0f * scale;
             GameHM.Components.Add(this);
         }
 
