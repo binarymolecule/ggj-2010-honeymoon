@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace Honeymoon
 {
@@ -60,6 +61,8 @@ namespace Honeymoon
 
         public void Update(float seconds)
         {
+            float vibration = 0;
+
             if (isShaking)
             {
                 shakeTimer -= seconds;
@@ -86,9 +89,13 @@ namespace Honeymoon
                         Translation.Y = backupTranslation.Y + offsetY;
                     }
                 }
+
+                vibration = 0.6f;
             }
             else if (isMoving)
             {
+                GamePad.SetVibration(PlayerIndex.One, 0, 0);
+
                 motionVelocity *= CameraMotionFriction;
                 if (motionVelocity < 1.0f)
                 {
@@ -102,6 +109,8 @@ namespace Honeymoon
                     Translation.Y = Math.Min(MaxOffset.Y, Math.Max(-MaxOffset.Y, Translation.Y + mot.Y));
                 }
             }
+
+            GamePad.SetVibration(PlayerIndex.One, vibration, vibration);
         }
     }
 }

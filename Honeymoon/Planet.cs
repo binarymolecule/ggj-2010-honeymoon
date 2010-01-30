@@ -19,6 +19,9 @@ namespace Honeymoon
         public static float PlanetRadius = 64.0f;
         public static float RotationSpeedScaleOnCollide = 0.01f;
 
+        public TimeSpan AttackMoveUntil = TimeSpan.Zero;
+        public bool IsAttackMove;
+
         public Planet(PlayerIndex PlayerNumber)
             : base(PlayerNumber)
         {
@@ -31,6 +34,8 @@ namespace Honeymoon
 
         public override void Update(GameTime gameTime)
         {
+            IsAttackMove = gameTime.TotalGameTime < AttackMoveUntil;
+
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Position += Velocity * seconds;
             Rotation += RotationSpeed * seconds;
@@ -51,7 +56,7 @@ namespace Honeymoon
             
             GameHM.spriteBatch.End();
             GameHM.spriteBatchAdditiveStart();
-            GameHM.CurrentTheme.Planet.Draw(this, gameTime, "highlightandshadow", Position, Color.White, 0, 1);
+            GameHM.CurrentTheme.Planet.Draw(Velocity, gameTime, "highlightandshadow", Position, Color.White, 0, 1);
             GameHM.spriteBatch.End();
             GameHM.spriteBatchStart(); 
         }

@@ -22,6 +22,7 @@ namespace Honeymoon
         public static float JumpStrength = 300.0f;
         public static float CrashJumpDownspeed = 300.0f;
         public static float CrashJumpPlanetSpeed = 5.0f;
+        public static TimeSpan CrashJumpPlanetAttack = TimeSpan.FromSeconds(0.5);
         public static TimeSpan CrashJumpPenalty = TimeSpan.FromSeconds(0.5);
         public static float SineStrength = 0.2f;
         public static float SineResolution = 10.2f;
@@ -137,6 +138,7 @@ namespace Honeymoon
                 if (DoingCrashJump)
                 {
                     planet.Velocity -= (planet.GetPositionOnPlanetGround(PositionOnPlanet.X, 0.0f) - planet.Position) * CrashJumpPlanetSpeed;
+                    planet.AttackMoveUntil = gameTime.TotalGameTime.Add(CrashJumpPlanetAttack);
                     DoingCrashJump = false;
                     CrashJumpPenaltyUntil = gameTime.TotalGameTime.Add(CrashJumpPenalty);
                 }
@@ -170,15 +172,22 @@ namespace Honeymoon
             if (otherObject is CoconutOrbit)
             {
                 // Do some animation stuff?
+                VelocityOnPlanet.Y = 0;
             }
             else if (otherObject is CoconutExplosion)
             {
                 IGotHit(offsetMeToOther);
             }
-            else if (otherObject is Planet && (otherObject as Planet).PlayerNumber != PlayerNumber)
+            else if (otherObject is Planet)
             {
-                IGotHit(Vector2.Zero);
-                new CoconutExplosion(Position, PlayerNumber, null);
+                Planet otherPlanet = otherObject as Planet;
+                if (otherPlanet.PlayerNumber != PlayerNumber && otherPlanet.IsAttackMove)
+                {
+                    otherPlanet.AttackMoveUntil = TimeSpan.Zero;
+                    otherPlanet.IsAttackMove = false;
+                    IGotHit(Vector2.Zero);
+                    new CoconutExplosion(Position, PlayerNumber, null, false);
+                }
             }
         }
 
@@ -198,7 +207,7 @@ namespace Honeymoon
             }
 
             if (offsetMeToOther.LengthSquared() > 5)
-                new CoconutExplosion(Position, PlayerNumber, this);
+                new CoconutExplosion(Position, PlayerNumber, this, false);
 
             if (HitPoints == 0)
             {
