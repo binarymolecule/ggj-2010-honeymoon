@@ -179,6 +179,7 @@ namespace Honeymoon
         {
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, Camera.TransformMatrix);
         }
+
         public void spriteBatchAdditiveStart()
         {
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, Camera.TransformMatrix);
