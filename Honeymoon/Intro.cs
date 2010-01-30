@@ -16,6 +16,9 @@ namespace Honeymoon
     public class Intro : DrawableGameComponent
     {
         public HoneymoonGame GameHM;
+        public Texture2D Screen;
+        Vector2 Position;
+        float fadingTimer, maxFadingTime;
         GamePadState currentGamePadState;
         GamePadState oldGamePadState;
         bool leavingIntro;
@@ -24,6 +27,7 @@ namespace Honeymoon
             : base(HoneymoonGame.Instance)
         {
             GameHM = HoneymoonGame.Instance;
+            this.Position = Vector2.Zero;
             this.DrawOrder = 8;
             this.leavingIntro = false;
         }
@@ -35,6 +39,8 @@ namespace Honeymoon
 
             if (leavingIntro)
             {
+                fadingTimer -= seconds;
+                if (fadingTimer <= 0.0f) fadingTimer = 0.0f;
                 if (!GameHM.Camera.IsShaking)
                 {
                     GameHM.GameState = HoneymoonGame.GameStates.Game;
@@ -47,6 +53,8 @@ namespace Honeymoon
                     KeyJustPressed(Buttons.Start))
                 {
                     GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime, DriftingCamera.CameraShakingFrequency, DriftingCamera.CameraShakingAmplitude);
+                    maxFadingTime = DriftingCamera.CameraShakingTime * 0.5f;
+                    fadingTimer = maxFadingTime;
                     leavingIntro = true;
                 }
             }
@@ -56,6 +64,8 @@ namespace Honeymoon
 
         public override void Draw(GameTime gameTime)
         {
+            Color color = new Color(Color.White, leavingIntro ? fadingTimer / maxFadingTime : 1.0f);
+            GameHM.spriteBatch.Draw(Screen, Position, color);
         }
 
         private bool KeyJustPressed(Buttons button)

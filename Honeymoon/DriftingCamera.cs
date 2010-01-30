@@ -90,7 +90,7 @@ namespace Honeymoon
                     }
                 }
 
-                vibration = 0.6f;
+                vibration = 0.5f;
             }
             else if (isMoving)
             {

@@ -19,8 +19,7 @@ namespace Honeymoon
     public class HoneymoonGame : Microsoft.Xna.Framework.Game
     {
         public enum GameStates { Intro, Game };
-        GameStates gameState;
-        public GameStates GameState { get { return gameState; } }
+        public GameStates GameState;
 
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
@@ -34,6 +33,7 @@ namespace Honeymoon
         float themeTransition = 0.0f;
         int targetTheme = 0;
         public int CurrentThemeID { get { return themeTransition > 0.5f ? 1 : 0; } }
+        public Intro IntroController;
 
         public Theme CurrentTheme
         {
@@ -85,10 +85,8 @@ namespace Honeymoon
             SunlightDir = new Vector2(0.0f, -1.0f);
             Camera = new DriftingCamera();            
 
-            // Create intro game component as active component
-            new Intro();
-
-            InitGameState(GameStates.Game);
+            IntroController = new Intro();
+            GameState = GameStates.Game;
 
             base.Initialize();
         }
@@ -109,6 +107,8 @@ namespace Honeymoon
             twitchNoise = Content.Load<Texture2D>("Textures/Helpers/twitch_noise");
             twitchEffect = Content.Load<Effect>("Effects/twitch");
             twitchRenderTarget = new RenderTarget2D(GraphicsDevice, 128, 128, 1, GraphicsDevice.DisplayMode.Format, RenderTargetUsage.PreserveContents);
+
+            IntroController.Screen = Content.Load<Texture2D>("Textures/Backgrounds/title");
 
             for (int i = 0; i < Themes.Length; i++)
             {
@@ -163,7 +163,7 @@ namespace Honeymoon
                 themeTransition = (float)Math.Min(themeTransition + worldTransitionDiff, targetTheme);
             }
 
-            if (gameState == GameStates.Game)
+            if (GameState == GameStates.Game)
             {
                 // Check for collisions
                 CollidableGameComponent[] collide = collidableObjects.ToArray();
@@ -186,7 +186,10 @@ namespace Honeymoon
             // Update camera matrix
             Camera.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            base.Update(gameTime);
+            if (GameState == GameStates.Game)
+                base.Update(gameTime);
+            else
+                IntroController.Update(gameTime);
         }
 
         public void spriteBatchStart()
@@ -213,10 +216,13 @@ namespace Honeymoon
             Vector2 camTranslation = new Vector2(-Camera.Translation.X, -Camera.Translation.Y);
             spriteBatch.Draw(CurrentTheme.Background, camTranslation * 0.9f, Color.White);
             spriteBatch.Draw(CurrentTheme.Parallax, camTranslation * 0.7f, Color.White);
-            base.Draw(gameTime);
+            if (GameState == GameStates.Game)
+                base.Draw(gameTime);
+            else
+                IntroController.Draw(gameTime);
             spriteBatch.End();
 
-            if (gameState == GameStates.Game)
+            if (GameState == GameStates.Game)
             {
                 spriteBatch.Begin();
                 PlayerPanel1.DrawPanelFixed(gameTime);
@@ -293,33 +299,6 @@ namespace Honeymoon
         {
             Viewport viewport = graphics.GraphicsDevice.Viewport;
             return new Rectangle(0, 0, viewport.Width, viewport.Height);
-        }
-
-        void InitGameState(GameStates state)
-        {            
-            this.gameState = state;
-
-            // Disable all unwanted game components
-            bool introFlag = (gameState == GameStates.Intro);
-            for (int i = 0; i < Components.Count; i++)
-            {
-                if (Components.ElementAt<IGameComponent>(i) is Intro)
-                {
-                    ((Intro)Components.ElementAt<IGameComponent>(i)).Visible = introFlag;
-                    ((Intro)Components.ElementAt<IGameComponent>(i)).Enabled = introFlag;
-                }
-                else
-                {
-                    if (Components.ElementAt<IGameComponent>(i) is DrawableGameComponent)
-                    {
-                        ((DrawableGameComponent)Components.ElementAt<IGameComponent>(i)).Visible = !introFlag;
-                    }
-                    if (Components.ElementAt<IGameComponent>(i) is GameComponent)
-                    {
-                        ((GameComponent)Components.ElementAt<IGameComponent>(i)).Enabled = !introFlag;
-                    }
-                }
-            }
         }
     }
 }

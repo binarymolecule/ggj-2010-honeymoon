@@ -46,6 +46,7 @@ namespace Honeymoon
             HelpMovement.DisplayHelp = true;
             this.CollisionEnabled = true;
             this.CollisionRadius = 30;
+            this.CurrentAnimation = "left";
             Game.Components.Add(this);
         }
 
