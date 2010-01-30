@@ -23,12 +23,18 @@ namespace Honeymoon
         public List<CollidableGameComponent> collidableObjects = new List<CollidableGameComponent>();
         public Vector2 SunlightDir; // direction of sunlight
         public static HoneymoonGame Instance;
+        public Random Randomizer;
         public Theme[] Themes = new Theme[2];
         public Theme CurrentTheme = null;
 
         public HoneymoonGame()
         {
             Instance = this;
+#if(DEBUG)
+            Randomizer = new Random();
+#else
+            Randomizer = new Random(); // seed?
+#endif
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;

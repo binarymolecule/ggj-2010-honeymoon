@@ -67,8 +67,10 @@ namespace Honeymoon
 
         public override void Draw(GameTime gameTime)
         {
+            Color color = (fadingOut ? new Color(Color.White, (float)Math.Max(0.0f, fadeOutDuration / CoconutMissileFadeoutDuration)) : Color.White);
+            float scale = (fadingOut ? (float)Math.Max(0.0f, fadeOutDuration / CoconutMissileFadeoutDuration) : 1.0f);
             GameHM.spriteBatch.Begin();
-            GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, Angle, SpriteCenter, 1.0f, SpriteEffects.None, 0);
+            GameHM.spriteBatch.Draw(Sprite, Position, null, color, Angle, SpriteCenter, scale, SpriteEffects.None, 0);
             GameHM.spriteBatch.End();
         }
 
@@ -89,13 +91,22 @@ namespace Honeymoon
             {
                 // Create explosion
                 float angle = (float)(Math.Atan2(Velocity.Y, Velocity.X) - Math.PI/2);
-                CoconutExplosion explosion = new CoconutExplosion(Position, angle, 1.0f, PlayerNumber);
+                float scale = (otherObject is Planet ? 2.0f : 1.0f);
+                CoconutExplosion explosion = new CoconutExplosion(Position, angle, scale, PlayerNumber);
                 GameHM.Components.Add(explosion);
 
                 // Bounce from planet surface
                 if (otherObject is Planet)
                 {
                     Vector2 dir = -1.0f * offsetMeToOther;
+
+                    // rotate by small random amount
+                    float dx = dir.X, dy = dir.Y;
+                    float randomAngle = (float)(GameHM.Randomizer.NextDouble() * 2.0 - 1.0);
+                    float sin = (float)Math.Sin(randomAngle), cos = (float)Math.Cos(randomAngle);
+                    dir.X = cos * dx + sin * dy;
+                    dir.Y = cos * dy - sin * dx;
+
                     dir.Normalize();
                     Velocity = CoconutMissileBounceVelocity * dir;
                     this.fadeOutDuration = CoconutMissileFadeoutDuration;
