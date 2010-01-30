@@ -49,19 +49,19 @@ namespace Honeymoon
         }
 
         String CurrentAnimation;
-        int nextTheme;
+        int nextTheme = 0;
 
         GamePadState currentGamePadState;
         GamePadState oldGamePadState;
 
         public override void Update(GameTime gameTime)
         {
+            currentGamePadState = GamePad.GetState(PlayerNumber);
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             bool standingOnTheGround = PositionOnPlanet.Y < MaxHeightForJump;
             if (gameTime.TotalGameTime > CrashJumpPenaltyUntil)
             {
-                currentGamePadState = GamePad.GetState(PlayerNumber);
 
 #if(DEBUG)
                 // Some debugging controls...
@@ -111,7 +111,10 @@ namespace Honeymoon
                 if (DoingCrashJump) CurrentAnimation = "crash";
                 else CurrentAnimation = VelocityOnPlanet.X > 0 ? "right" : "left";
             }
-            else CurrentAnimation = "penalty";
+            else
+            {
+                CurrentAnimation = "penalty";
+            }
 
 
             if (VelocityOnPlanet.LengthSquared() > 11.0f)
@@ -119,6 +122,7 @@ namespace Honeymoon
 
             VelocityOnPlanet.Y -= GravityStrength * seconds;
             VelocityOnPlanet *= (float)Math.Pow(1.0f - (standingOnTheGround ? Friction : FrictionAir), seconds);
+
             if (DoingCrashJump)
             {
                 VelocityOnPlanet.X = 0;
@@ -151,7 +155,10 @@ namespace Honeymoon
                 return false;
             }
 
-            return oldGamePadState.IsButtonUp(button) && currentGamePadState.IsButtonDown(button);
+            bool wasDown = oldGamePadState.IsButtonDown(button);
+            bool isDown = currentGamePadState.IsButtonDown(button);
+
+            return !wasDown && isDown;
         }
 
         public override void Draw(GameTime gameTime)
