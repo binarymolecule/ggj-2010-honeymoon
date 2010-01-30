@@ -77,17 +77,18 @@ namespace Honeymoon
         {
             if (otherObject is Planet)
             {
+                // Create explosion
+                float angle = (float)(Math.Atan2(Velocity.Y, Velocity.X) - Math.PI/2);
+                CoconutExplosion explosion = new CoconutExplosion(Position, angle);
+                GameHM.Components.Add(explosion);
+
                 // Bounce from planet surface
                 Vector2 dir = -1.0f * offsetMeToOther;
                 dir.Normalize();
                 Velocity = CoconutMissileBounceVelocity * dir;
                 this.fadeOutDuration = CoconutMissileFadeoutDuration;
                 this.fadingOut = true;
-                CollisionEnabled = false; // remove from game's collidable object list
-
-                // Create explosion
-                CoconutExplosion explosion = new CoconutExplosion(Position);
-                GameHM.Components.Add(explosion);
+                CollisionEnabled = false; // remove from game's collidable object list                
             }
         }
     }

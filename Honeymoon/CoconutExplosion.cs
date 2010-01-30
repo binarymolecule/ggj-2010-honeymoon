@@ -13,15 +13,17 @@ namespace Honeymoon
         public Texture2D Sprite;
         public Vector2 SpriteCenter;
         public float timer;
+        public float angle;
         public static float CoconutExplosionTime = 1.0f;
 
-        public CoconutExplosion(Vector2 pos)
+        public CoconutExplosion(Vector2 pos, float angle)
         {
             this.DrawOrder = 4;
             this.CollisionEnabled = true;
             this.CollisionRadius = 32;            
             this.Position = pos;
             this.timer = CoconutExplosionTime;
+            this.angle = angle;
         }
 
         protected override void LoadContent()
@@ -45,7 +47,7 @@ namespace Honeymoon
             float alpha = Math.Max(0.0f, timer / CoconutExplosionTime);
             Color color = new Color(1.0f, 1.0f, 1.0f, alpha);
             GameHM.spriteBatch.Begin();
-            GameHM.spriteBatch.Draw(Sprite, Position, null, color, 0.0f, SpriteCenter, 1.0f, SpriteEffects.None, 1);
+            GameHM.spriteBatch.Draw(Sprite, Position, null, color, angle, SpriteCenter, 1.0f, SpriteEffects.None, 1);
             GameHM.spriteBatch.End();
         }
     }

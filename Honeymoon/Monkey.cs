@@ -65,6 +65,22 @@ namespace Honeymoon
             {
                 GamePadState gamePadState = GamePad.GetState(PlayerNumber);
 
+#if(DEBUG)
+                if (gamePadState.IsButtonDown(Buttons.LeftTrigger))
+                {
+                    if (gamePadState.IsButtonDown(Buttons.DPadLeft)) planet.Rotation -= 0.1f;
+                    else if (gamePadState.IsButtonDown(Buttons.DPadRight)) planet.Rotation += 0.1f;
+                }
+                else
+                {
+                    if (gamePadState.IsButtonDown(Buttons.DPadLeft)) planet.Position.X -= 10.0f;
+                    else if (gamePadState.IsButtonDown(Buttons.DPadRight)) planet.Position.X += 10.0f;
+                    if (gamePadState.IsButtonDown(Buttons.DPadUp)) planet.Position.Y -= 10.0f;
+                    else if (gamePadState.IsButtonDown(Buttons.DPadDown)) planet.Position.Y += 10.0f;
+                }
+#endif
+
+
                 if (gamePadState.IsButtonDown(Buttons.A) && PositionOnPlanet.Y < MaxHeightForJump) VelocityOnPlanet.Y = JumpStrength;
                 if (gamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0)) DoingCrashJump = true;
                 if (!gamePadState.IsButtonDown(Buttons.LeftTrigger) && PositionOnPlanet.Y < MaxHeightForJump)
@@ -72,8 +88,8 @@ namespace Honeymoon
                     planet.RotationSpeed += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
                     VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
                 }
-                else VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
-
+                else
+                    VelocityOnPlanet.X += gamePadState.ThumbSticks.Left.X * RunStrength;
             }
 
             if (VelocityOnPlanet.LengthSquared() > 20.0f) HelpMovement.DisplayHelp = false;
