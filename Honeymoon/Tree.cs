@@ -22,7 +22,9 @@ namespace Honeymoon
         public Texture2D CoconutSprite;
         public Vector2 CoconutCenter;
         public Vector2 CoconutPosition;
+        public int CoconutCount;
         public static float CoconutOffsetFromTop = 16.0f;
+        public static int MaxNumberOfCoconuts = 5;
 
         public Tree(Planet planet)
             : base(planet.PlayerNumber)
@@ -32,6 +34,7 @@ namespace Honeymoon
             this.isMature = false;
             this.PositionOnPlanet = Vector2.Zero;
             this.DrawOrder = 0;
+            this.CoconutCount = 0;
             Game.Components.Add(this);
         }
 
@@ -52,18 +55,23 @@ namespace Honeymoon
             Vector2 direction = new Vector2(-(float)Math.Cos(planet.Rotation + PositionOnPlanet.X),
                                             -(float)Math.Sin(planet.Rotation + PositionOnPlanet.X));
             sunlightFactor = Math.Max(0.0f, Vector2.Dot(GameHM.SunlightDir, direction));
-            growth += seconds * sunlightFactor * GrowthPerSecond;
-            if (growth >= 1.0f) {
-                growth = 0.0f;
-                if (!isMature) {
-                    isMature = true;
-                    // Tree has grown to maturity
-                }
-                else
+            if (CoconutCount < MaxNumberOfCoconuts)
+            {
+                growth += seconds * sunlightFactor * GrowthPerSecond;
+                if (growth >= 1.0f)
                 {
-                    // Coconut has been produced
-                    CoconutOrbit coconut = new CoconutOrbit(planet, PositionOnPlanet.X + planet.Rotation, PositionOnPlanet.Y + 1.5f * Sprite.Height - CoconutOffsetFromTop);
-                    GameHM.Components.Add(coconut);
+                    growth = 0.0f;
+                    if (!isMature)
+                    {
+                        isMature = true;
+                        // Tree has grown to maturity
+                    }
+                    else //if (CoconutCount < MaxNumberOfCoconuts)
+                    {
+                        // Coconut has been produced
+                        CoconutOrbit coconut = new CoconutOrbit(planet, this, PositionOnPlanet.X + planet.Rotation, PositionOnPlanet.Y + 1.5f * Sprite.Height - CoconutOffsetFromTop);
+                        GameHM.Components.Add(coconut);
+                    }
                 }
             }
             if (!isMature)

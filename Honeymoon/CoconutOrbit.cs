@@ -13,21 +13,30 @@ namespace Honeymoon
         public Texture2D Sprite;
         public Vector2 SpriteCenter;
         public Planet planet;
+        public Tree tree;
         public float height;
         public static float CoconutOrbitHeight = 128.0f;
         public static float CoconutOrbitVelocity = 1.0f;
 
         public Vector2 PositionOnPlanet;
 
-        public CoconutOrbit(Planet planet, float angle, float height)
+        public CoconutOrbit(Planet planet, Tree tree, float angle, float height)
             : base(planet.PlayerNumber)
         {
             this.planet = planet;
+            this.tree = tree;
             this.height = height; //CoconutOrbitHeight;
             this.DrawOrder = 3;
             this.CollisionEnabled = true;
             this.PositionOnPlanet = new Vector2(angle, height);
             this.Position = planet.GetPositionInPlanetOrbit(angle, height);
+            this.tree.CoconutCount++;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            this.tree.CoconutCount--;
+            base.Dispose(disposing);
         }
 
         protected override void LoadContent()
