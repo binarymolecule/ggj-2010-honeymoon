@@ -51,6 +51,9 @@ namespace Speedhack
             gravitySun = new GravityController(physicsSimulator, sunBody, 8000.0f, 10000.0f);
             gravitySun.GravityType = GravityType.Linear;
 
+            Planet prop = new Planet();
+            
+
             base.Initialize();
         }
 

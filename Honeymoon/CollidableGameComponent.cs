@@ -16,7 +16,7 @@ namespace Honeymoon
             GameHM = HoneymoonGame.Instance;
         }
 
-        public bool CollisionEnabled;
+        public bool CollisionEnabled = true;
         public Vector2 Position;
         public float Radius;
         public float RadiusSq { get { return Radius * Radius; } }

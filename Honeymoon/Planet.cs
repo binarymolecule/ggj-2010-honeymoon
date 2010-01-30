@@ -13,6 +13,14 @@ namespace Honeymoon
         public Vector2 SpriteCenter;
         public float Rotation;
         public Vector2 Velocity;
+        public static float BounceFactor = 0.9f;
+        public static float Friction = 0.1f;
+
+        public Planet()
+        {
+            GameHM.collidableObjects.Add(this);
+            Radius = 64.0f;
+        }
 
         protected override void LoadContent()
         {
@@ -22,7 +30,10 @@ namespace Honeymoon
 
         public override void Update(GameTime gameTime)
         {
-            
+            float  seconds = (float) gameTime.ElapsedGameTime.TotalSeconds;
+            Position += Velocity * seconds;
+            Rotation += 1.0f * seconds;
+            Velocity *= (float)Math.Pow(1.0f - Friction, seconds);
         }
 
         public override void Draw(GameTime gameTime)
@@ -30,6 +41,14 @@ namespace Honeymoon
             GameHM.spriteBatch.Begin();
             GameHM.spriteBatch.Draw(Sprite, Position, null, Color.White, Rotation, SpriteCenter, 1.0f, SpriteEffects.None, 0);
             GameHM.spriteBatch.End();
+        }
+
+        public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
+        {
+            offsetMeToOther.Normalize();
+            float dot = Vector2.Dot(Velocity, offsetMeToOther);
+            if (dot < 0) return;
+            Velocity -= offsetMeToOther* dot * (1.0f + BounceFactor);
         }
     }
 }

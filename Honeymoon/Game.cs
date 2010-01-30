@@ -39,7 +39,14 @@ namespace Honeymoon
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            Planet prop = new Planet();
+            Components.Add(prop);
+            Planet prop2 = new Planet();
+            Components.Add(prop2);
+            prop.Position = new Vector2(100, 100);
+            prop2.Position = new Vector2(500, 120);
+            prop.Velocity = new Vector2(100, 0);
+            prop2.Velocity = new Vector2(-100, 0);
 
             base.Initialize();
         }
