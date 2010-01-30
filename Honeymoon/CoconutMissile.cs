@@ -83,7 +83,7 @@ namespace Honeymoon
 
                 // Create explosion 
                 Vector2 exploPos = (otherObject is Monkey) ? otherObject.Position : Position;
-                new CoconutExplosion(exploPos, PlayerNumber, null);
+                new CoconutExplosion(exploPos, PlayerNumber, null, true);
 
                 // Bounce from planet surface
                 if (otherObject is Planet)
