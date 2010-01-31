@@ -10,6 +10,7 @@ namespace Honeymoon
 {
     public class Theme
     {
+        public Honeymoon.SpriteAnimationSwitcher SunTutorial;
         public Song BackgroundMusic;
         public List<Texture2D> Parallax = new List<Texture2D>();
         public Texture2D Background;
@@ -22,6 +23,7 @@ namespace Honeymoon
         public SoundEffect SoundJump;
         public SoundEffect SoundStomp;
         public SoundEffect SoundExplode;
+        public SoundEffect SoundMissile;
         public SpriteAnimationSwitcher Beleuchtung;
     }
 }
