@@ -171,12 +171,12 @@ namespace Honeymoon
             MediaPlayer.Volume = bgMusicVolume;
 
             Planet prop1 = new Planet(PlayerIndex.One);
-            prop1.Position = new Vector2(200, 400);
+            prop1.Position = new Vector2(200, 350);
             Monkey monkey1 = new Monkey(prop1);
             Planets.Add(prop1);
 
             Planet prop2 = new Planet(PlayerIndex.Two);
-            prop2.Position = new Vector2(1000, 400);
+            prop2.Position = new Vector2(1000, 350);
             Monkey monkey2 = new Monkey(prop2);
             Planets.Add(prop2);
 
