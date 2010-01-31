@@ -23,6 +23,8 @@ namespace Honeymoon
         public GameStates GameState;
 
         public GraphicsDeviceManager graphics;
+        private Interpolator MovementTutorialInterpolator;
+        private List<Planet> Planets = new List<Planet>();
         public SpriteBatch spriteBatch;
         public List<CollidableGameComponent> collidableObjects = new List<CollidableGameComponent>();
         public Vector2 SunlightDir; // direction of sunlight
@@ -169,15 +171,20 @@ namespace Honeymoon
             Planet prop1 = new Planet(PlayerIndex.One);
             prop1.Position = new Vector2(200, 400);
             Monkey monkey1 = new Monkey(prop1);
+            Planets.Add(prop1);
 
             Planet prop2 = new Planet(PlayerIndex.Two);
             prop2.Position = new Vector2(1000, 400);
             Monkey monkey2 = new Monkey(prop2);
+            Planets.Add(prop2);
 
             PlayerPanel1 = new PlayerPanel(monkey1);
             PlayerPanel2 = new PlayerPanel(monkey2);
-            PlayerPanel1.Position = new Vector2(125, 80);
-            PlayerPanel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
+
+            float panelY = 650f;
+            float panelX = 120f;
+            PlayerPanel1.Position = new Vector2(panelX, panelY);
+            PlayerPanel2.Position = new Vector2(GraphicsDevice.Viewport.Width - PlayerPanel.Offset.X - panelX, panelY);
 
             SunlightDir = new Vector2(0.0f, -1.0f);
             Camera = new DriftingCamera();
@@ -191,6 +198,26 @@ namespace Honeymoon
         /// </summary>
         protected override void UnloadContent()
         {
+        }
+
+        void OnHideMovementTutorial(bool fast)
+        {
+            if (MovementTutorialInterpolator == null)
+            {
+                MovementTutorialInterpolator = interpolators.Create(1f, 0f, (fast ? 0.3f : 1f), i => sunTutorialAlpha = i.Value, null);
+            }
+        }
+
+        void CheckHideTutorialConditions(GameTime gameTime)
+        {
+            foreach(Planet p in Planets)
+            {
+                if(MovementTutorialInterpolator == null) {
+                    if(Math.Abs(p.Position.X - ScreenCenter.X) < 200f) {
+                        OnHideMovementTutorial(true);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -349,6 +376,8 @@ namespace Honeymoon
                         B.OnCollide(A, -aToB);
                     }
                 }
+
+                CheckHideTutorialConditions(gameTime);
             }
 
             // Update camera matrix
@@ -387,8 +416,37 @@ namespace Honeymoon
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
+
             spriteBatchStart();
-            Vector2 camTranslation = new Vector2(-Camera.Translation.X, -Camera.Translation.Y);
+            DrawBackgrounds();
+
+            if (GameState == GameStates.Intro)
+            {
+                IntroController.Draw(gameTime);
+            }
+            else
+            {
+                PlayerPanel1.DrawPanelFixed(gameTime);
+                PlayerPanel2.DrawPanelFixed(gameTime);
+                base.Draw(gameTime);
+            }
+
+            spriteBatch.End();
+
+            if (GameState != GameStates.Intro)
+            {
+                spriteBatch.Begin();
+                CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
+                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, new Color(CurrentTheme.TutorialColor, sunTutorialAlpha), 0, 1);
+                spriteBatch.End();
+            }
+
+            PerformTwitchEffect(gameTime);
+        }
+
+        private void DrawBackgrounds()
+        {
+            Vector2 camTranslation = Camera.Inverse2DTranslation;
             spriteBatch.Draw(CurrentTheme.Background, camTranslation * 0.9f, Color.White);
 
             float distance = 0.8f;
@@ -397,24 +455,6 @@ namespace Honeymoon
                 spriteBatch.Draw(t2d, camTranslation * distance, Color.White);
                 distance -= 0.1f;
             }
-
-            if (GameState == GameStates.Intro)
-                IntroController.Draw(gameTime);
-            else
-                base.Draw(gameTime);
-            spriteBatch.End();
-
-            if (GameState != GameStates.Intro)
-            {
-                spriteBatch.Begin();
-                CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
-                PlayerPanel1.DrawPanelFixed(gameTime);
-                PlayerPanel2.DrawPanelFixed(gameTime);
-                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, new Color(CurrentTheme.TutorialColor, sunTutorialAlpha), 0, 1);
-                spriteBatch.End();
-            }
-
-            PerformTwitchEffect(gameTime);
         }
 
         ResolveTexture2D resolvedBackbuffer;
@@ -500,10 +540,7 @@ namespace Honeymoon
 
         public void OnGameStarted()
         {
-            timers.Create(6f, false, timer =>
-            {
-                interpolators.Create(1f, 0f, i => sunTutorialAlpha = i.Value, null);
-            });
+            timers.Create(6f, false, timer => OnHideMovementTutorial(false));
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Honeymoon
         public static float Friction = 0.9f;
         public static float FrictionAir = 0.99f;
         public static float MaxHeightForJump = 5.0f;
-        public static float MinHeightForCrashJump = 30.0f;
+        public static float MinHeightForCrashJump = 10.0f;
         public static float RunStrength = 0.2f;
         public static float RunStrengthPlanet = 0.01f;
         public static float JumpStrength = 350.0f;
@@ -92,12 +92,14 @@ namespace Honeymoon
                 if (KeyJustPressed(Buttons.Start)) GameHM.CurrentTheme = GameHM.Themes[(GameHM.CurrentThemeID+1) % 2];
 #endif
 
-                if (currentGamePadState.IsButtonDown(Buttons.A) && standingOnTheGround)
+                if (KeyJustPressed(Buttons.A) && standingOnTheGround)
                 {
                     VelocityOnPlanet.Y = JumpStrength;
                     //GameHM.CurrentTheme.SoundJump.Play();
                 }
-                if (!DoingCrashJump && currentGamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0))
+
+                bool CouldCrashJump = VelocityOnPlanet.Y < 0 || (VelocityOnPlanet.Y >= 0 && (PositionOnPlanet.Y > MinHeightForCrashJump));
+                if (!DoingCrashJump && !standingOnTheGround && KeyJustPressed(Buttons.RightTrigger) && CouldCrashJump)
                 {
                     DoingCrashJump = true;
                     GameHM.CurrentTheme.SoundStomp.Play();
