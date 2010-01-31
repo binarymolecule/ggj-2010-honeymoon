@@ -118,8 +118,8 @@ namespace Honeymoon
                         Content.Load<Texture2D>("Textures/Backgrounds/stars2"),
                         Content.Load<Texture2D>("Textures/Backgrounds/stars3")
                     },
-                    MonkeyM = new SpriteAnimationSwitcher("monkey_m", new String[] { "left", "right", "crash", "penalty" }),
-                    MonkeyF = new SpriteAnimationSwitcher("monkey_f", new String[] { "left", "right", "crash", "penalty" }),
+                    MonkeyM = new SpriteAnimationSwitcher("monkey_m", new String[] { "left", "right", "crash", "penalty", "stomp" }),
+                    MonkeyF = new SpriteAnimationSwitcher("monkey_f", new String[] { "left", "right", "crash", "penalty", "stomp" }),
                     Panel = new SpriteAnimationSwitcher("score_" + type, new String[] { "score_000", "score_001", "score_002", "score_003", "score_004", "score_005" }),
                     Coconut = new SpriteAnimationSwitcher(type, new String[] { "coconut", "explosion" }),
                     Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlightandshadow" }),
