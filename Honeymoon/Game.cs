@@ -37,7 +37,9 @@ namespace Honeymoon
         int targetTheme = 0;
         public int CurrentThemeID { get { return themeTransition > 0.5f ? 1 : 0; } }
         public Intro IntroController;
+        
         public SoundEffect WalkingSound;
+        public Song GameOverMusic;
 
         public Theme CurrentTheme
         {
@@ -113,6 +115,7 @@ namespace Honeymoon
             twitchRenderTarget = new RenderTarget2D(GraphicsDevice, 128, 128, 1, GraphicsDevice.DisplayMode.Format, RenderTargetUsage.PreserveContents);
 
             WalkingSound = Content.Load<SoundEffect>("Sounds/footsteps");
+            GameOverMusic = Content.Load<Song>("Music/gameover");
 
             IntroController.Screen = Content.Load<Texture2D>("Textures/Backgrounds/title");
 
@@ -183,10 +186,13 @@ namespace Honeymoon
             // Change to game over state some time after one player died
             if (gameOverCounter > 0.0f)
             {
+                MediaPlayer.Volume = gameOverCounter;
                 gameOverCounter -= seconds;
                 if (gameOverCounter <= 0.0f)
                 {
                     GameState = HoneymoonGame.GameStates.GameOver;
+                    MediaPlayer.Stop();
+                    MediaPlayer.Volume = 1.0f;
                 }
             }            
 
@@ -253,7 +259,10 @@ namespace Honeymoon
                 IntroController.Update(gameTime);
             if (MediaPlayer.State != MediaState.Playing)
             {
-                MediaPlayer.Play(CurrentTheme.BackgroundMusic);
+                if (GameState == GameStates.GameOver)
+                    MediaPlayer.Play(GameOverMusic);
+                else
+                    MediaPlayer.Play(CurrentTheme.BackgroundMusic);
             }
         }
 
@@ -386,7 +395,7 @@ namespace Honeymoon
             }
 
             // Start game over counter (game will not end immediately)
-            gameOverCounter = 1.0f;
+            gameOverCounter = 1.0f;            
         }
     }
 }
