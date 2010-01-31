@@ -37,8 +37,10 @@ namespace Honeymoon
         int targetTheme = 0;
         public int CurrentThemeID { get { return themeTransition > 0.5f ? 1 : 0; } }
         public Intro IntroController;
-        
+
+        public SoundEffect SelectionSound;
         public SoundEffect WalkingSound;
+        public SoundEffectInstance NoiseSound;
         public Song GameOverMusic;
 
         public Theme CurrentTheme
@@ -114,7 +116,10 @@ namespace Honeymoon
             twitchEffect = Content.Load<Effect>("Effects/twitch");
             twitchRenderTarget = new RenderTarget2D(GraphicsDevice, 128, 128, 1, GraphicsDevice.DisplayMode.Format, RenderTargetUsage.PreserveContents);
 
+            SelectionSound = Content.Load<SoundEffect>("Sounds/select");
             WalkingSound = Content.Load<SoundEffect>("Sounds/footsteps");
+            NoiseSound = Content.Load<SoundEffect>("Sounds/noise0").CreateInstance();
+            NoiseSound.IsLooped = true;
             GameOverMusic = Content.Load<Song>("Music/gameover");
 
             IntroController.Screen = Content.Load<Texture2D>("Textures/Backgrounds/title");
@@ -149,6 +154,8 @@ namespace Honeymoon
 
                 Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
                 Themes[i].Beleuchtung.Animations["beleuchtung"].AnimationFPS = 10.0f;
+                Themes[i].Monkey.Animations["left"].AnimationFPS = 30.0f;
+                Themes[i].Monkey.Animations["right"].AnimationFPS = 30.0f;
                 Themes[i].SunTutorial.Animations["sun"].AnimationFPS = 6.0f;
 
                 if (i == 1)
@@ -203,11 +210,29 @@ namespace Honeymoon
             {
                 themeTransition = (float)Math.Max(themeTransition - worldTransitionDiff, targetTheme);
                 twitchValue = themeTransition + 0.5f;
+                if (GameState == GameStates.Game)
+                {
+                    MediaPlayer.Volume = 1.0f - 0.75f * themeTransition;
+                    NoiseSound.Volume = 0.67f * themeTransition;
+                    if (NoiseSound.State == SoundState.Paused)
+                        NoiseSound.Resume();
+                    else if (NoiseSound.State == SoundState.Stopped)
+                        NoiseSound.Play();
+                }
             }
             else if(targetTheme > themeTransition)
             {
                 themeTransition = (float)Math.Min(themeTransition + worldTransitionDiff, targetTheme);
                 twitchValue = themeTransition + 0.5f;
+                if (GameState == GameStates.Game)
+                {
+                    MediaPlayer.Volume = 1.0f - 0.75f * themeTransition;
+                    NoiseSound.Volume = 0.67f * themeTransition;
+                    if (NoiseSound.State == SoundState.Paused)
+                        NoiseSound.Resume();
+                    else if (NoiseSound.State == SoundState.Stopped)
+                        NoiseSound.Play();
+                }
             }
             else if (GameState == GameStates.GameOver)
             {
@@ -229,6 +254,10 @@ namespace Honeymoon
                         changeTwitchValueGameOver = 0;
                     }
                 }
+            }
+            else if (themeTransition == 0.0f && NoiseSound.State == SoundState.Playing)
+            {
+                NoiseSound.Pause();
             }
 
             if (GameState == GameStates.Game)
@@ -339,8 +368,7 @@ namespace Honeymoon
             twitchEffect.Parameters["noise_tex_Tex"].SetValue(twitchNoise);
 
             EffectTechnique t = twitchEffect.Techniques["Screen_AlignedQuad"];
-            GraphicsDevice.ResolveBackBuffer(resolvedBackbuffer);
-            
+            GraphicsDevice.ResolveBackBuffer(resolvedBackbuffer);            
 
             // Pass 1
             spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.SaveState);
