@@ -203,6 +203,7 @@ namespace Honeymoon
 
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                GamePad.GetState(PlayerIndex.Two).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 this.Exit();
