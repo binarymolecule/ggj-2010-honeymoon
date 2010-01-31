@@ -148,8 +148,8 @@ namespace Honeymoon
 
                 Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
                 Themes[i].Beleuchtung.Animations["beleuchtung"].AnimationFPS = 10.0f;
-                Themes[i].Monkey.Animations["left"].AnimationFPS = 15.0f;
-                Themes[i].Monkey.Animations["right"].AnimationFPS = 15.0f;
+                Themes[i].Monkey.Animations["left"].AnimationFPS = 30.0f;
+                Themes[i].Monkey.Animations["right"].AnimationFPS = 30.0f;
                 Themes[i].SunTutorial.Animations["sun"].AnimationFPS = 6.0f;
 
                 if (i == 1)
