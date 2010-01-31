@@ -19,7 +19,7 @@ namespace Honeymoon
         public static float CoconutMissileFadeoutDuration = 1.0f;
         public static float CoconutMissileBounceVelocity = 75.0f;
 
-        public static bool SPLASH_DAMAGE = false;
+        public static bool SPLASH_DAMAGE = true;
 
         public CoconutMissile(Vector2 pos, Vector2 dir, PlayerIndex PlayerNumber)
             : base(PlayerNumber)
