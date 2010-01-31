@@ -29,16 +29,15 @@ namespace Honeymoon
             CollisionRadius = 64.0f;
             this.DrawOrder = 2;
             Game.Components.Add(this);
+            GameHM.Themes[0].Planet.JumpTo(this, "planet", (float)random.NextDouble());
+            GameHM.Themes[1].Planet.JumpTo(this, "planet", (float)random.NextDouble());
 
             new Tree(this);
         }
 
-        protected override void LoadContent()
-        {
-            GameHM.Themes[0].Planet.JumpTo(this, "planet", (float)new Random().NextDouble());
-            GameHM.Themes[1].Planet.JumpTo(this, "planet", (float)new Random().NextDouble());
-            base.LoadContent();
-        }
+        private Random random = new Random();
+            
+        
 
         public override void Update(GameTime gameTime)
         {
