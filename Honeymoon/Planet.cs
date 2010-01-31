@@ -76,6 +76,7 @@ namespace Honeymoon
                 Planet otherPlanet = otherObject as Planet;
                 Velocity -= forceTowardsOther * 1.5f;
                 otherPlanet.Velocity += forceTowardsOther * 0.5f;
+                GameHM.CurrentTheme.SoundCollide.Play();
             }
             else
             {

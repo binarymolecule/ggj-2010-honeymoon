@@ -149,6 +149,7 @@ namespace Honeymoon
                     SoundStomp = Content.Load<SoundEffect>("Sounds/stomp"),
                     SoundExplode = Content.Load<SoundEffect>(i == 0 ? "Sounds/heart" : "Sounds/explosion"),
                     SoundMissile = Content.Load<SoundEffect>(i == 0 ? "Sounds/plop" : "Sounds/missile"),
+                    SoundCollide = Content.Load<SoundEffect>("Sounds/collide_" + type),
                     Beleuchtung = new SpriteAnimationSwitcher("beleuchtung_" + type, new String[] { "beleuchtung" }),
                 };
 
