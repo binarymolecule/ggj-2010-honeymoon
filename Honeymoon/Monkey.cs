@@ -212,7 +212,10 @@ namespace Honeymoon
             }
             else if (otherObject is CoconutExplosion)
             {
-                IGotHit(offsetMeToOther);
+                if (CoconutMissile.SPLASH_DAMAGE)
+                {
+                    IGotHit(offsetMeToOther);
+                }
             }
             else if (otherObject is Planet)
             {
