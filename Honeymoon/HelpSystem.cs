@@ -17,6 +17,7 @@ namespace Honeymoon
         public String screen;
         public bool DisplayHelp = false;
         public float FadePercent = 1.0f;
+        public float Angle = -0.3f;
 
         public HelpSystem(ObjectOnPlanet monkey, String screen)
             : base(HoneymoonGame.Instance)
@@ -33,6 +34,7 @@ namespace Honeymoon
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             FadePercent += seconds * ((DisplayHelp && GloballyEnabled) ? 1.0f : -1.0f);
+            Angle += seconds * 0.03f;
             if (FadePercent > 1) FadePercent = 1;
             else if (FadePercent < 0) FadePercent = 0;
         }
@@ -43,8 +45,7 @@ namespace Honeymoon
             if (FadePercent < 0.0001) return;
 
             float rot = monkey.planet.Rotation + monkey.PositionOnPlanet.X + (float)Math.PI / 2.0f;
-            rot = 0;
-            animations.Draw(this, gameTime, screen, monkey.planet.Position, new Color(Color.White, FadePercent), rot, 1.0f);
+            animations.Draw(this, gameTime, screen, monkey.planet.Position, new Color(Color.White, FadePercent), Angle, 1.0f);
         }
     }
 }
