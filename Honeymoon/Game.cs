@@ -356,8 +356,37 @@ namespace Honeymoon
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
+
             spriteBatchStart();
-            Vector2 camTranslation = new Vector2(-Camera.Translation.X, -Camera.Translation.Y);
+            DrawBackgrounds();
+
+            if (GameState == GameStates.Intro)
+            {
+                IntroController.Draw(gameTime);
+            }
+            else
+            {
+                PlayerPanel1.DrawPanelFixed(gameTime);
+                PlayerPanel2.DrawPanelFixed(gameTime);
+                base.Draw(gameTime);
+            }
+
+            spriteBatch.End();
+
+            if (GameState != GameStates.Intro)
+            {
+                spriteBatch.Begin();
+                CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
+                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, new Color(CurrentTheme.TutorialColor, sunTutorialAlpha), 0, 1);
+                spriteBatch.End();
+            }
+
+            PerformTwitchEffect(gameTime);
+        }
+
+        private void DrawBackgrounds()
+        {
+            Vector2 camTranslation = Camera.Inverse2DTranslation;
             spriteBatch.Draw(CurrentTheme.Background, camTranslation * 0.9f, Color.White);
 
             float distance = 0.8f;
@@ -366,24 +395,6 @@ namespace Honeymoon
                 spriteBatch.Draw(t2d, camTranslation * distance, Color.White);
                 distance -= 0.1f;
             }
-
-            if (GameState == GameStates.Intro)
-                IntroController.Draw(gameTime);
-            else
-                base.Draw(gameTime);
-            spriteBatch.End();
-
-            if (GameState != GameStates.Intro)
-            {
-                spriteBatch.Begin();
-                CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
-                PlayerPanel1.DrawPanelFixed(gameTime);
-                PlayerPanel2.DrawPanelFixed(gameTime);
-                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, new Color(CurrentTheme.TutorialColor, sunTutorialAlpha), 0, 1);
-                spriteBatch.End();
-            }
-
-            PerformTwitchEffect(gameTime);
         }
 
         ResolveTexture2D resolvedBackbuffer;

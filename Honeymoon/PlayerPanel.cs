@@ -42,9 +42,9 @@ namespace Honeymoon
         public void DrawPanelFixed(GameTime gameTime)
         {
             GameHM.CurrentTheme.Panel.Draw(this, gameTime, "score_" + String.Format("{0:000}", Math.Max(0, Math.Min(5, 10 - Player.HitPoints))), 
-                                           Position, Color.White, 0.0f, 1.0f);
+                                           Position + GameHM.Camera.Inverse2DTranslation * 0.5f, Color.White, 0.0f, 1.0f);
             GameHM.CurrentTheme.Panel.Draw(this, gameTime, "score_" + String.Format("{0:000}", Math.Max(0, Math.Min(5, 5 - Player.HitPoints))),
-                                           Position + Offset, Color.White, 0.0f, 1.0f);
+                                           Position + GameHM.Camera.Inverse2DTranslation * 0.5f + Offset, Color.White, 0.0f, 1.0f);
         }
     }
 }
