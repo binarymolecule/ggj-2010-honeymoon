@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -30,6 +31,7 @@ namespace Honeymoon
         public Vector2 VelocityOnPlanet;
         public bool DoingCrashJump;
         public TimeSpan CrashJumpPenaltyUntil = TimeSpan.Zero;
+        public SoundEffectInstance WalkingSound;
 
         public HelpSystem HelpMovement;
 
@@ -59,6 +61,7 @@ namespace Honeymoon
             currentGamePadState = GamePad.GetState(PlayerNumber);
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            bool isWalking = false;
             bool standingOnTheGround = PositionOnPlanet.Y < MaxHeightForJump;
             if (gameTime.TotalGameTime > CrashJumpPenaltyUntil)
             {
@@ -105,8 +108,13 @@ namespace Honeymoon
                 {
                     planet.RotationSpeed -= currentGamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
                     VelocityOnPlanet.X += currentGamePadState.ThumbSticks.Left.X * RunStrength;
+                    isWalking = (currentGamePadState.ThumbSticks.Left.X != 0.0f);
                 }
-                else VelocityOnPlanet.X += currentGamePadState.ThumbSticks.Left.X * RunStrength;
+                else
+                {
+                    VelocityOnPlanet.X += currentGamePadState.ThumbSticks.Left.X * RunStrength;
+                    isWalking = (currentGamePadState.ThumbSticks.Left.X != 0.0f);
+                }
 
                 if (DoingCrashJump) CurrentAnimation = "crash";
                 else CurrentAnimation = VelocityOnPlanet.X > 0 ? "right" : "left";
@@ -140,6 +148,26 @@ namespace Honeymoon
                     planet.AttackMoveUntil = gameTime.TotalGameTime.Add(CrashJumpPlanetAttack);
                     DoingCrashJump = false;
                     CrashJumpPenaltyUntil = gameTime.TotalGameTime.Add(CrashJumpPenalty);
+                }
+            }
+
+            if (isWalking)
+            {
+                if (WalkingSound == null)
+                {
+                    WalkingSound = GameHM.WalkingSound.CreateInstance();
+                    WalkingSound.IsLooped = true;
+                }
+                else if (WalkingSound.State == SoundState.Stopped)
+                {
+                    WalkingSound.Play();
+                }
+            }
+            else
+            {
+                if (WalkingSound != null && WalkingSound.State != SoundState.Stopped)
+                {
+                    WalkingSound.Stop();
                 }
             }
 

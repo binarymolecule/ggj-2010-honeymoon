@@ -37,6 +37,7 @@ namespace Honeymoon
         int targetTheme = 0;
         public int CurrentThemeID { get { return themeTransition > 0.5f ? 1 : 0; } }
         public Intro IntroController;
+        public SoundEffect WalkingSound;
 
         public Theme CurrentTheme
         {
@@ -110,6 +111,8 @@ namespace Honeymoon
             twitchNoise = Content.Load<Texture2D>("Textures/Helpers/twitch_noise");
             twitchEffect = Content.Load<Effect>("Effects/twitch");
             twitchRenderTarget = new RenderTarget2D(GraphicsDevice, 128, 128, 1, GraphicsDevice.DisplayMode.Format, RenderTargetUsage.PreserveContents);
+
+            WalkingSound = Content.Load<SoundEffect>("Sounds/footsteps");
 
             IntroController.Screen = Content.Load<Texture2D>("Textures/Backgrounds/title");
 
