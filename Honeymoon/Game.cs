@@ -38,7 +38,7 @@ namespace Honeymoon
         float sunTutorialAlpha = 1f;
 
         float gameOverCounter = 0.0f;
-        float evilDuration = 0.0f;
+        float themeDuration = 0.0f;
         float twitchValue = 0.5f;
         int changeTwitchValueGameOver = 0; // -1 to decrease, +1 to increase, 0 for no effect
         float themeTransition = 0.0f;
@@ -46,8 +46,10 @@ namespace Honeymoon
         public int CurrentThemeID { get { return themeTransition > 0.5f ? 1 : 0; } }
         public Intro IntroController;
 
-        float[] ChangeToEvilProbabilities = { 0.05f, 0.1f, 0.12f, 0.15f, 0.15f, 0.2f, 0.2f, 0.225f, 0.25f, 1.0f };
-        float[] ChangeToEvilDurations = { 0.01f, 0.01f, 0.05f, 0.1f, 1.0f, 3.0f, 10.0f, 15.0f, 30.0f, 300.0f };
+        //float[] ChangeThemeProbabilities = { 0.05f, 0.1f, 0.12f, 0.15f, 0.15f, 0.2f, 0.2f, 0.225f, 0.25f, 1.0f };
+        //float[] ChangeThemeDurations = { 0.01f, 0.01f, 0.05f, 0.1f, 1.0f, 3.0f, 10.0f, 15.0f, 30.0f, 300.0f };
+        float[] ChangeThemeProbabilities = { 0.05f, 0.1f, 0.2f, 0.225f, 0.125f, 0.15f, 0.2f, 0.3f, 0.4f, 0.5f };
+        float[] ChangeThemeDurations = { 0.01f, 0.01f, 0.05f, 0.1f, 1.0f, 1.5f, 3.0f, 2.0f, 0.05f, 0.01f };
 
         public SoundEffect SelectionSound;
         public SoundEffect WalkingSound;
@@ -277,25 +279,51 @@ namespace Honeymoon
             }
             else if (GameState == GameStates.Game)
             {
-                // Switch to evil world randomly
-                if (CurrentThemeID == 0)
+                if (themeDuration > 0.0f)
+                {
+                    themeDuration -= seconds;
+                    if (themeDuration <= 0.0f)
+                    {
+                        themeDuration = 0.0f;
+                        CurrentTheme = Themes[(CurrentThemeID+1)%2];
+                    }
+                }
+                else
                 {
                     int index = 10 - Math.Min(PlayerPanel1.Player.HitPoints, PlayerPanel2.Player.HitPoints);
                     if (index < 0) index = 0;
-                    else if (index > 10) index = 10;
-                    if (Randomizer.NextDouble() < ChangeToEvilProbabilities[index] * seconds)
+                    else if (index > 9) index = 9;
+                    if (index < 6)
                     {
-                        CurrentTheme = Themes[1];
-                        evilDuration = ChangeToEvilDurations[index];
+                        // Switch to evil world randomly
+                        if (CurrentThemeID == 0)
+                        {
+                            if (Randomizer.NextDouble() < ChangeThemeProbabilities[index] * seconds)
+                            {
+                                CurrentTheme = Themes[1];
+                                themeDuration = ChangeThemeDurations[index];
+                            }
+                        }
+                        else if (Randomizer.NextDouble() >= ChangeThemeProbabilities[index] * seconds)
+                        {
+                            CurrentTheme = Themes[0];
+                        }
                     }
-                }
-                else if (evilDuration > 0.0f)
-                {
-                    evilDuration -= seconds;
-                    if (evilDuration <= 0.0f)
+                    else
                     {
-                        evilDuration = 0.0f;
-                        CurrentTheme = Themes[0];
+                        // Switch to good world randomly
+                        if (CurrentThemeID == 1)
+                        {
+                            if (Randomizer.NextDouble() < ChangeThemeProbabilities[index] * seconds)
+                            {
+                                CurrentTheme = Themes[0];
+                                themeDuration = ChangeThemeDurations[index];
+                            }
+                        }
+                        else if (Randomizer.NextDouble() >= ChangeThemeProbabilities[index] * seconds)
+                        {
+                            CurrentTheme = Themes[1];
+                        }
                     }
                 }
             }
