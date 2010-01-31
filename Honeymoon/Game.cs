@@ -136,6 +136,7 @@ namespace Honeymoon
                     Coconut = new SpriteAnimationSwitcher(type, new String[] { "coconut", "explosion" }),
                     Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlightandshadow" }),
                     Tree = new SpriteAnimationSwitcher("palme_" + type, new String[] { "palme" }),
+                    SunTutorial = new SpriteAnimationSwitcher("SunTutorial", new String[] { "sun" }),
                     BackgroundMusic = Content.Load<Song>("Music/space"),
                     SoundCreateCoconut = Content.Load<SoundEffect>(i == 0 ? "Sounds/plop" : "Sounds/missile"),
                     SoundJump = Content.Load<SoundEffect>("Sounds/jump"),
@@ -144,8 +145,10 @@ namespace Honeymoon
                     SoundMissile = Content.Load<SoundEffect>(i == 0 ? "Sounds/plop" : "Sounds/missile"),
                     Beleuchtung = new SpriteAnimationSwitcher("beleuchtung_" + type, new String[] { "beleuchtung" }),
                 };
+
                 Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
                 Themes[i].Beleuchtung.Animations["beleuchtung"].AnimationFPS = 10.0f;
+                Themes[i].SunTutorial.Animations["sun"].AnimationFPS = 6.0f;
 
                 if (i == 1)
                 {
@@ -293,6 +296,7 @@ namespace Honeymoon
                 spriteBatch.Draw(t2d, camTranslation * distance, Color.White);
                 distance -= 0.1f;
             }
+
             if (GameState == GameStates.Intro)
                 IntroController.Draw(gameTime);
             else
@@ -302,9 +306,10 @@ namespace Honeymoon
             if (GameState != GameStates.Intro)
             {
                 spriteBatch.Begin();
-                CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", new Vector2(1280 / 2, 720 / 2), Color.White, 0, 2);
+                CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
                 PlayerPanel1.DrawPanelFixed(gameTime);
                 PlayerPanel2.DrawPanelFixed(gameTime);
+                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, Color.White, 0, 1);
                 spriteBatch.End();
             }
 
@@ -315,6 +320,8 @@ namespace Honeymoon
         Effect twitchEffect;
         RenderTarget2D twitchRenderTarget;
         Texture2D twitchNoise;
+
+        Vector2 ScreenCenter = new Vector2(1280 / 2, 720 / 2);
 
         private void PerformTwitchEffect(GameTime gameTime)
         {
