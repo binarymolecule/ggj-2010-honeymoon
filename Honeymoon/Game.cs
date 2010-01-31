@@ -23,6 +23,8 @@ namespace Honeymoon
         public GameStates GameState;
 
         public GraphicsDeviceManager graphics;
+        private Interpolator MovementTutorialInterpolator;
+        private List<Planet> Planets = new List<Planet>();
         public SpriteBatch spriteBatch;
         public List<CollidableGameComponent> collidableObjects = new List<CollidableGameComponent>();
         public Vector2 SunlightDir; // direction of sunlight
@@ -165,10 +167,12 @@ namespace Honeymoon
             Planet prop1 = new Planet(PlayerIndex.One);
             prop1.Position = new Vector2(200, 400);
             Monkey monkey1 = new Monkey(prop1);
+            Planets.Add(prop1);
 
             Planet prop2 = new Planet(PlayerIndex.Two);
             prop2.Position = new Vector2(1000, 400);
             Monkey monkey2 = new Monkey(prop2);
+            Planets.Add(prop2);
 
             PlayerPanel1 = new PlayerPanel(monkey1);
             PlayerPanel2 = new PlayerPanel(monkey2);
@@ -190,6 +194,26 @@ namespace Honeymoon
         /// </summary>
         protected override void UnloadContent()
         {
+        }
+
+        void OnHideMovementTutorial(bool fast)
+        {
+            if (MovementTutorialInterpolator == null)
+            {
+                MovementTutorialInterpolator = interpolators.Create(1f, 0f, (fast ? 0.3f : 1f), i => sunTutorialAlpha = i.Value, null);
+            }
+        }
+
+        void CheckHideTutorialConditions(GameTime gameTime)
+        {
+            foreach(Planet p in Planets)
+            {
+                if(MovementTutorialInterpolator == null) {
+                    if(Math.Abs(p.Position.X - ScreenCenter.X) < 200f) {
+                        OnHideMovementTutorial(true);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -321,6 +345,8 @@ namespace Honeymoon
                         B.OnCollide(A, -aToB);
                     }
                 }
+
+                CheckHideTutorialConditions(gameTime);
             }
 
             // Update camera matrix
@@ -483,10 +509,7 @@ namespace Honeymoon
 
         public void OnGameStarted()
         {
-            timers.Create(6f, false, timer =>
-            {
-                interpolators.Create(1f, 0f, i => sunTutorialAlpha = i.Value, null);
-            });
+            timers.Create(6f, false, timer => OnHideMovementTutorial(false));
         }
     }
 }
