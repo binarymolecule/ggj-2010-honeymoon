@@ -100,6 +100,7 @@ namespace Honeymoon
                 if (!DoingCrashJump && currentGamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0))
                 {
                     DoingCrashJump = true;
+                    GameHM.CurrentTheme.SoundStomp.Play();
                     if (!GameHM.Camera.IsShaking)
                     {
                         // rotate by small random amount
