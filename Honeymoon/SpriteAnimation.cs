@@ -53,5 +53,6 @@ namespace Honeymoon
             game.spriteBatch.Draw(Sprites[Frame], Position, null, Color, Rotation, SpriteCenter, Scale, SpriteEffects.None, 0);
             //game.spriteBatch.End();
         }
+
     }
 }

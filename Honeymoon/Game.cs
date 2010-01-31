@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using Utility;
 
 namespace Honeymoon
 {
@@ -30,6 +31,12 @@ namespace Honeymoon
         public Theme[] Themes = new Theme[2];
         public PlayerPanel PlayerPanel1, PlayerPanel2;
         public DriftingCamera Camera;
+
+        TimerCollection timers = new TimerCollection();
+        InterpolatorCollection interpolators = new InterpolatorCollection();
+
+        float sunTutorialAlpha = 1f;
+
         float gameOverCounter = 0.0f;
         float evilDuration = 0.0f;
         float twitchValue = 0.5f;
@@ -82,25 +89,6 @@ namespace Honeymoon
         /// </summary>
         protected override void Initialize()
         {
-            Planet prop1 = new Planet(PlayerIndex.One);
-            prop1.Position = new Vector2(200, 400);
-            Monkey monkey1 = new Monkey(prop1);
-
-            Planet prop2 = new Planet(PlayerIndex.Two);
-            prop2.Position = new Vector2(1000, 400);
-            Monkey monkey2 = new Monkey(prop2);
-
-            PlayerPanel1 = new PlayerPanel(monkey1);
-            PlayerPanel2 = new PlayerPanel(monkey2);
-            PlayerPanel1.Position = new Vector2(125, 80);
-            PlayerPanel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
-
-            SunlightDir = new Vector2(0.0f, -1.0f);
-            Camera = new DriftingCamera();            
-
-            IntroController = new Intro();
-            GameState = GameStates.Intro;
-
             base.Initialize();
         }
 
@@ -127,6 +115,7 @@ namespace Honeymoon
             NoiseSound.IsLooped = true;
             GameOverMusic = Content.Load<Song>("Music/gameover");
 
+            IntroController = new Intro();
             IntroController.Screen = Content.Load<Texture2D>("Textures/Backgrounds/title");
 
             for (int i = 0; i < Themes.Length; i++)
@@ -141,7 +130,8 @@ namespace Honeymoon
                         Content.Load<Texture2D>("Textures/Backgrounds/stars2"),
                         Content.Load<Texture2D>("Textures/Backgrounds/stars3")
                     },
-                    Monkey = new SpriteAnimationSwitcher("monkey_" + type, new String[] { "left", "right", "crash", "penalty" }),
+                    MonkeyM = new SpriteAnimationSwitcher("monkey_m", new String[] { "left", "right", "crash", "penalty" }),
+                    MonkeyF = new SpriteAnimationSwitcher("monkey_f", new String[] { "left", "right", "crash", "penalty" }),
                     Panel = new SpriteAnimationSwitcher("score_" + type, new String[] { "score_000", "score_001", "score_002", "score_003", "score_004", "score_005" }),
                     Coconut = new SpriteAnimationSwitcher(type, new String[] { "coconut", "explosion" }),
                     Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlightandshadow" }),
@@ -160,8 +150,6 @@ namespace Honeymoon
 
                 Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
                 Themes[i].Beleuchtung.Animations["beleuchtung"].AnimationFPS = 10.0f;
-                Themes[i].Monkey.Animations["left"].AnimationFPS = 30.0f;
-                Themes[i].Monkey.Animations["right"].AnimationFPS = 30.0f;
                 Themes[i].SunTutorial.Animations["sun"].AnimationFPS = 6.0f;
 
                 if (i == 1)
@@ -171,7 +159,26 @@ namespace Honeymoon
             }
 
             CurrentTheme = Themes[0];
+
             MediaPlayer.Volume = bgMusicVolume;
+
+            Planet prop1 = new Planet(PlayerIndex.One);
+            prop1.Position = new Vector2(200, 400);
+            Monkey monkey1 = new Monkey(prop1);
+
+            Planet prop2 = new Planet(PlayerIndex.Two);
+            prop2.Position = new Vector2(1000, 400);
+            Monkey monkey2 = new Monkey(prop2);
+
+            PlayerPanel1 = new PlayerPanel(monkey1);
+            PlayerPanel2 = new PlayerPanel(monkey2);
+            PlayerPanel1.Position = new Vector2(125, 80);
+            PlayerPanel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
+
+            SunlightDir = new Vector2(0.0f, -1.0f);
+            Camera = new DriftingCamera();
+
+            GameState = GameStates.Intro;
         }
 
         /// <summary>
@@ -189,6 +196,9 @@ namespace Honeymoon
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            timers.Update(gameTime);
+            interpolators.Update(gameTime);
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -369,7 +379,7 @@ namespace Honeymoon
                 CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
                 PlayerPanel1.DrawPanelFixed(gameTime);
                 PlayerPanel2.DrawPanelFixed(gameTime);
-                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, CurrentTheme.TutorialColor, 0, 1);
+                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, new Color(CurrentTheme.TutorialColor, sunTutorialAlpha), 0, 1);
                 spriteBatch.End();
             }
 
@@ -455,6 +465,14 @@ namespace Honeymoon
 
             // Start game over counter (game will not end immediately)
             gameOverCounter = 1.0f;            
+        }
+
+        public void OnGameStarted()
+        {
+            timers.Create(6f, false, timer =>
+            {
+                interpolators.Create(1f, 0f, i => sunTutorialAlpha = i.Value, null);
+            });
         }
     }
 }
