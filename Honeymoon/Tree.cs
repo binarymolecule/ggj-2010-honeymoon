@@ -66,7 +66,7 @@ namespace Honeymoon
                 }
             }
 
-            Position = planet.GetPositionOnPlanetGround(PositionOnPlanet.X, PositionOnPlanet.Y);
+            Position = planet.GetPositionOnPlanetGround(PositionOnPlanet.X, PositionOnPlanet.Y + 4f);
             CoconutPosition = planet.GetPositionOnPlanetGround(PositionOnPlanet.X, PositionOnPlanet.Y + 0.5f * spriteHeight - CoconutOffsetFromTop);
         }
 
