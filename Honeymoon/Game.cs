@@ -136,6 +136,11 @@ namespace Honeymoon
                 };
                 Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
                 Themes[i].Beleuchtung.Animations["beleuchtung"].AnimationFPS = 10.0f;
+
+                if (i == 1)
+                {
+                    Themes[i].Parallax.Insert(2, Content.Load<Texture2D>("Textures/Backgrounds/skull"));
+                }
             }
 
             CurrentTheme = Themes[0];
