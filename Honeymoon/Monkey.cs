@@ -96,7 +96,7 @@ namespace Honeymoon
                 if (currentGamePadState.IsButtonDown(Buttons.A) && standingOnTheGround)
                 {
                     VelocityOnPlanet.Y = JumpStrength;
-                    GameHM.CurrentTheme.SoundJump.Play();
+                    //GameHM.CurrentTheme.SoundJump.Play();
                 }
                 if (!DoingCrashJump && currentGamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0))
                 {
@@ -232,6 +232,10 @@ namespace Honeymoon
 
             // Player is hurt
             HitPoints--;
+
+            // Hide helpers when hit
+            if (HelpMovement.DisplayHelp)
+                HelpMovement.DisplayHelp = false;
 
             // Shake screen (only in evil mode)
             if (GameHM.CurrentThemeID == 1)
