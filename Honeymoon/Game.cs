@@ -135,8 +135,11 @@ namespace Honeymoon
                     Tree = new SpriteAnimationSwitcher("palme_" + type, new String[] { "palme" }),
                     SunTutorial = new SpriteAnimationSwitcher("SunTutorial", new String[] { "sun" }),
                     BackgroundMusic = Content.Load<Song>("Music/space"),
-                    SoundCreateCoconut = Content.Load<SoundEffect>("Sounds/plop"),
+                    SoundCreateCoconut = Content.Load<SoundEffect>(i == 0 ? "Sounds/plop" : "Sounds/missile"),
                     SoundJump = Content.Load<SoundEffect>("Sounds/jump"),
+                    SoundStomp = Content.Load<SoundEffect>("Sounds/stomp"),
+                    SoundExplode = Content.Load<SoundEffect>(i == 0 ? "Sounds/heart" : "Sounds/explosion"),
+                    SoundMissile = Content.Load<SoundEffect>(i == 0 ? "Sounds/plop" : "Sounds/missile"),
                     Beleuchtung = new SpriteAnimationSwitcher("beleuchtung_" + type, new String[] { "beleuchtung" }),
                 };
 
