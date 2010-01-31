@@ -93,7 +93,10 @@ namespace Honeymoon
 
 
                 if (currentGamePadState.IsButtonDown(Buttons.A) && standingOnTheGround)
+                {
                     VelocityOnPlanet.Y = JumpStrength;
+                    GameHM.CurrentTheme.SoundJump.Play();
+                }
                 if (!DoingCrashJump && currentGamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0))
                 {
                     DoingCrashJump = true;
