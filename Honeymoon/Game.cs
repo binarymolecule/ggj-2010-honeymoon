@@ -37,7 +37,8 @@ namespace Honeymoon
         int targetTheme = 0;
         public int CurrentThemeID { get { return themeTransition > 0.5f ? 1 : 0; } }
         public Intro IntroController;
-        
+
+        public SoundEffect SelectionSound;
         public SoundEffect WalkingSound;
         public SoundEffectInstance NoiseSound;
         public Song GameOverMusic;
@@ -115,6 +116,7 @@ namespace Honeymoon
             twitchEffect = Content.Load<Effect>("Effects/twitch");
             twitchRenderTarget = new RenderTarget2D(GraphicsDevice, 128, 128, 1, GraphicsDevice.DisplayMode.Format, RenderTargetUsage.PreserveContents);
 
+            SelectionSound = Content.Load<SoundEffect>("Sounds/select");
             WalkingSound = Content.Load<SoundEffect>("Sounds/footsteps");
             NoiseSound = Content.Load<SoundEffect>("Sounds/noise0").CreateInstance();
             NoiseSound.IsLooped = true;

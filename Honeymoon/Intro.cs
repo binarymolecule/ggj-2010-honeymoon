@@ -52,6 +52,7 @@ namespace Honeymoon
                 if (KeyJustPressed(Buttons.A) || KeyJustPressed(Buttons.X) ||
                     KeyJustPressed(Buttons.Start))
                 {
+                    GameHM.SelectionSound.Play();
                     GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime, DriftingCamera.CameraShakingFrequency, DriftingCamera.CameraShakingAmplitude);
                     maxFadingTime = DriftingCamera.CameraShakingTime * 0.5f;
                     fadingTimer = maxFadingTime;

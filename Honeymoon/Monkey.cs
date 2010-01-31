@@ -232,6 +232,10 @@ namespace Honeymoon
             // Player is hurt
             HitPoints--;
 
+            // Hide helpers when hit
+            if (HelpMovement.DisplayHelp)
+                HelpMovement.DisplayHelp = false;
+
             // Shake screen (only in evil mode)
             if (GameHM.CurrentThemeID == 1)
             {
