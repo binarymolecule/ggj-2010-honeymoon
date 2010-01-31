@@ -30,6 +30,7 @@ namespace Honeymoon
         public Theme[] Themes = new Theme[2];
         public PlayerPanel PlayerPanel1, PlayerPanel2;
         public DriftingCamera Camera;
+        float gameOverCounter = 0.0f;
         float twitchValue = 0.5f;
         int changeTwitchValueGameOver = 0; // -1 to decrease, +1 to increase, 0 for no effect
         float themeTransition = 0.0f;
@@ -156,7 +157,19 @@ namespace Honeymoon
                 this.Exit();
             }
 
-            float worldTransitionDiff = (float)gameTime.ElapsedGameTime.TotalSeconds * 3f;
+            float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            // Change to game over state some time after one player died
+            if (gameOverCounter > 0.0f)
+            {
+                gameOverCounter -= seconds;
+                if (gameOverCounter <= 0.0f)
+                {
+                    GameState = HoneymoonGame.GameStates.GameOver;
+                }
+            }            
+
+            float worldTransitionDiff = seconds * 3f;
 
             if (targetTheme < themeTransition)
             {
@@ -211,7 +224,7 @@ namespace Honeymoon
             }
 
             // Update camera matrix
-            Camera.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            Camera.Update(seconds);
 
             if (GameState == GameStates.Game)
                 base.Update(gameTime);
@@ -334,12 +347,14 @@ namespace Honeymoon
 
         public void GameOver()
         {
-            GameState = HoneymoonGame.GameStates.GameOver;
             // Switch to evil mode if not already
             if (CurrentThemeID != 1)
             {
                 CurrentTheme = Themes[1];
             }
+
+            // Start game over counter (game will not end immediately)
+            gameOverCounter = 1.0f;
         }
     }
 }
