@@ -54,6 +54,8 @@ namespace Honeymoon
         {
             if (otherObject is Monkey)
             {
+                GameHM.CurrentTheme.SoundMissile.Play();
+
                 // Coconut is converted into a missile when hit
                 Vector2 dir = -1.0f * offsetMeToOther;
                 dir.Normalize();

@@ -134,10 +134,11 @@ namespace Honeymoon
                     Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlightandshadow" }),
                     Tree = new SpriteAnimationSwitcher("palme_" + type, new String[] { "palme" }),
                     BackgroundMusic = Content.Load<Song>("Music/space"),
-                    SoundCreateCoconut = Content.Load<SoundEffect>("Sounds/plop"),
+                    SoundCreateCoconut = Content.Load<SoundEffect>(i == 0 ? "Sounds/plop" : "Sounds/missile"),
                     SoundJump = Content.Load<SoundEffect>("Sounds/jump"),
                     SoundStomp = Content.Load<SoundEffect>("Sounds/stomp"),
                     SoundExplode = Content.Load<SoundEffect>(i == 0 ? "Sounds/heart" : "Sounds/explosion"),
+                    SoundMissile = Content.Load<SoundEffect>(i == 0 ? "Sounds/plop" : "Sounds/missile"),
                     Beleuchtung = new SpriteAnimationSwitcher("beleuchtung_" + type, new String[] { "beleuchtung" }),
                 };
                 Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
