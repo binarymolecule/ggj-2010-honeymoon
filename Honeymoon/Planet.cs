@@ -111,13 +111,13 @@ namespace Honeymoon
         public Color GetShadingForPlanetGround(float RotationRelativeToPlanet)
         {
             float b = Vector2.Dot(GameHM.SunlightDir, rot2vec(Rotation + RotationRelativeToPlanet));
-            b = Math.Max(0.2f, b);
+            b = Math.Max(0.5f, b);
             return new Color(b, b, b, 1);
         }
         public Color GetShadingForPlanetOrbit(float Rotation)
         {
             float b = Vector2.Dot(GameHM.SunlightDir, rot2vec(Rotation));
-            b = Math.Max(0.2f, b);
+            b = Math.Max(0.5f, b);
             return new Color(b, b, b, 1);
         }
     }

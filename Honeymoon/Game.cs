@@ -132,6 +132,8 @@ namespace Honeymoon
                 };
                 Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
                 Themes[i].Beleuchtung.Animations["beleuchtung"].AnimationFPS = 10.0f;
+                Themes[i].Monkey.Animations["left"].AnimationFPS = 15.0f;
+                Themes[i].Monkey.Animations["right"].AnimationFPS = 15.0f;
             }
 
             CurrentTheme = Themes[0];
