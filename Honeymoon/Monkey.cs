@@ -231,6 +231,7 @@ namespace Honeymoon
 
             // Player is hurt
             HitPoints--;
+            GameHM.CurrentTheme.SoundMonkeyHit.Play();
 
             // Hide helpers when hit
             if (HelpMovement.DisplayHelp)
