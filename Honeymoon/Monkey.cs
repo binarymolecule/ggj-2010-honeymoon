@@ -92,7 +92,6 @@ namespace Honeymoon
                 if (KeyJustPressed(Buttons.Start)) GameHM.CurrentTheme = GameHM.Themes[(GameHM.CurrentThemeID+1) % 2];
 #endif
 
-
                 if (currentGamePadState.IsButtonDown(Buttons.A) && standingOnTheGround)
                 {
                     VelocityOnPlanet.Y = JumpStrength;
