@@ -19,8 +19,8 @@ namespace Honeymoon
         public Texture2D Screen;
         Vector2 Position;
         float fadingTimer, maxFadingTime;
-        GamePadState currentGamePadState;
-        GamePadState oldGamePadState;
+        GamePadState[] currentGamePadState = new GamePadState[2];
+        GamePadState[] oldGamePadState = new GamePadState[2];
         bool leavingIntro;
 
         public Intro()
@@ -34,9 +34,9 @@ namespace Honeymoon
 
         public override void Update(GameTime gameTime)
         {
-            currentGamePadState = GamePad.GetState(PlayerIndex.One);
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
+            currentGamePadState[0] = GamePad.GetState(PlayerIndex.One);
+            currentGamePadState[1] = GamePad.GetState(PlayerIndex.Two);
             if (leavingIntro)
             {
                 fadingTimer -= seconds;
@@ -50,8 +50,9 @@ namespace Honeymoon
             }
             else
             {
-                if (KeyJustPressed(Buttons.A) || KeyJustPressed(Buttons.X) ||
-                    KeyJustPressed(Buttons.Start))
+                if (KeyJustPressed(0, Buttons.A) || KeyJustPressed(1, Buttons.A) ||
+                    KeyJustPressed(0, Buttons.X) || KeyJustPressed(1, Buttons.X) ||
+                    KeyJustPressed(0, Buttons.Start) || KeyJustPressed(1, Buttons.Start))
                 {
                     GameHM.SelectionSound.Play();
                     GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime, DriftingCamera.CameraShakingFrequency, DriftingCamera.CameraShakingAmplitude);
@@ -60,8 +61,8 @@ namespace Honeymoon
                     leavingIntro = true;
                 }
             }
-
-            oldGamePadState = currentGamePadState;
+            oldGamePadState[0] = currentGamePadState[0];
+            oldGamePadState[1] = currentGamePadState[1];
         }
 
         public override void Draw(GameTime gameTime)
@@ -70,15 +71,16 @@ namespace Honeymoon
             GameHM.spriteBatch.Draw(Screen, Position, color);
         }
 
-        private bool KeyJustPressed(Buttons button)
+        private bool KeyJustPressed(int index, Buttons button)
         {
-            if (oldGamePadState == null || currentGamePadState == null)
+            if (index < 0 || index > 1 ||
+                oldGamePadState[index] == null || currentGamePadState[index] == null)
             {
                 return false;
             }
 
-            bool wasDown = oldGamePadState.IsButtonDown(button);
-            bool isDown = currentGamePadState.IsButtonDown(button);
+            bool wasDown = oldGamePadState[index].IsButtonDown(button);
+            bool isDown = currentGamePadState[index].IsButtonDown(button);
 
             return !wasDown && isDown;
         }
