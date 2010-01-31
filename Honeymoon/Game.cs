@@ -75,25 +75,6 @@ namespace Honeymoon
         /// </summary>
         protected override void Initialize()
         {
-            Planet prop1 = new Planet(PlayerIndex.One);
-            prop1.Position = new Vector2(200, 400);
-            Monkey monkey1 = new Monkey(prop1);
-
-            Planet prop2 = new Planet(PlayerIndex.Two);
-            prop2.Position = new Vector2(1000, 400);
-            Monkey monkey2 = new Monkey(prop2);
-
-            PlayerPanel1 = new PlayerPanel(monkey1);
-            PlayerPanel2 = new PlayerPanel(monkey2);
-            PlayerPanel1.Position = new Vector2(125, 80);
-            PlayerPanel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
-
-            SunlightDir = new Vector2(0.0f, -1.0f);
-            Camera = new DriftingCamera();            
-
-            IntroController = new Intro();
-            GameState = GameStates.Intro;
-
             base.Initialize();
         }
 
@@ -117,6 +98,7 @@ namespace Honeymoon
             WalkingSound = Content.Load<SoundEffect>("Sounds/footsteps");
             GameOverMusic = Content.Load<Song>("Music/gameover");
 
+            IntroController = new Intro();
             IntroController.Screen = Content.Load<Texture2D>("Textures/Backgrounds/title");
 
             for (int i = 0; i < Themes.Length; i++)
@@ -131,7 +113,8 @@ namespace Honeymoon
                         Content.Load<Texture2D>("Textures/Backgrounds/stars2"),
                         Content.Load<Texture2D>("Textures/Backgrounds/stars3")
                     },
-                    Monkey = new SpriteAnimationSwitcher("monkey_" + type, new String[] { "left", "right", "crash", "penalty" }),
+                    MonkeyM = new SpriteAnimationSwitcher("monkey_m", new String[] { "left", "right", "crash", "penalty" }),
+                    MonkeyF = new SpriteAnimationSwitcher("monkey_f", new String[] { "left", "right", "crash", "penalty" }),
                     Panel = new SpriteAnimationSwitcher("score_" + type, new String[] { "score_000", "score_001", "score_002", "score_003", "score_004", "score_005" }),
                     Coconut = new SpriteAnimationSwitcher(type, new String[] { "coconut", "explosion" }),
                     Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlightandshadow" }),
@@ -148,8 +131,6 @@ namespace Honeymoon
 
                 Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
                 Themes[i].Beleuchtung.Animations["beleuchtung"].AnimationFPS = 10.0f;
-                Themes[i].Monkey.Animations["left"].AnimationFPS = 30.0f;
-                Themes[i].Monkey.Animations["right"].AnimationFPS = 30.0f;
                 Themes[i].SunTutorial.Animations["sun"].AnimationFPS = 6.0f;
 
                 if (i == 1)
@@ -159,6 +140,25 @@ namespace Honeymoon
             }
 
             CurrentTheme = Themes[0];
+
+
+            Planet prop1 = new Planet(PlayerIndex.One);
+            prop1.Position = new Vector2(200, 400);
+            Monkey monkey1 = new Monkey(prop1);
+
+            Planet prop2 = new Planet(PlayerIndex.Two);
+            prop2.Position = new Vector2(1000, 400);
+            Monkey monkey2 = new Monkey(prop2);
+
+            PlayerPanel1 = new PlayerPanel(monkey1);
+            PlayerPanel2 = new PlayerPanel(monkey2);
+            PlayerPanel1.Position = new Vector2(125, 80);
+            PlayerPanel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
+
+            SunlightDir = new Vector2(0.0f, -1.0f);
+            Camera = new DriftingCamera();
+
+            GameState = GameStates.Intro;
         }
 
         /// <summary>

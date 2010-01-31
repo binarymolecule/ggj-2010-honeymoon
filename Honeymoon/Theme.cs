@@ -14,7 +14,7 @@ namespace Honeymoon
         public Song BackgroundMusic;
         public List<Texture2D> Parallax = new List<Texture2D>();
         public Texture2D Background;
-        public SpriteAnimationSwitcher Monkey;
+        public SpriteAnimationSwitcher MonkeyM, MonkeyF;
         public SpriteAnimationSwitcher Panel;
         public SpriteAnimationSwitcher Coconut;
         public SpriteAnimationSwitcher Planet;
