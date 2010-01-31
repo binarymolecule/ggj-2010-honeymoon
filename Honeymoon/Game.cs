@@ -37,6 +37,8 @@ namespace Honeymoon
         TimerCollection timers = new TimerCollection();
         InterpolatorCollection interpolators = new InterpolatorCollection();
 
+        SpriteAnimationSwitcher GameOverSprites;
+
         float sunTutorialAlpha = 1f;
 
         float gameOverCounter = 0.0f;
@@ -163,7 +165,7 @@ namespace Honeymoon
                     Themes[i].Parallax.Insert(2, Content.Load<Texture2D>("Textures/Backgrounds/skull"));
                 }
             }
-
+            GameOverSprites = new SpriteAnimationSwitcher("game_over", new String[] { "game_over_m", "game_over_f" });
             CurrentTheme = Themes[0];
 
             MediaPlayer.Volume = bgMusicVolume;
@@ -442,6 +444,15 @@ namespace Honeymoon
             }
 
             PerformTwitchEffect(gameTime);
+
+            if (GameState == GameStates.GameOver)
+            {
+                spriteBatch.Begin();
+                bool m = PlayerPanel1.Player.HitPoints <= 0;
+                GameOverSprites.Draw(this, gameTime, m ? "game_over_m" : "game_over_f", new Vector2(1280 / 2, 720 / 2), Color.White, 0, 1);
+                spriteBatch.End();
+            }
+
         }
 
         private void DrawBackgrounds()
