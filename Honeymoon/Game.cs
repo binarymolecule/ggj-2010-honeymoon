@@ -18,7 +18,7 @@ namespace Honeymoon
     /// </summary>
     public class HoneymoonGame : Microsoft.Xna.Framework.Game
     {
-        public enum GameStates { Intro, Game };
+        public enum GameStates { Intro, Game, GameOver };
         public GameStates GameState;
 
         public GraphicsDeviceManager graphics;
@@ -30,6 +30,9 @@ namespace Honeymoon
         public Theme[] Themes = new Theme[2];
         public PlayerPanel PlayerPanel1, PlayerPanel2;
         public DriftingCamera Camera;
+        float gameOverCounter = 0.0f;
+        float twitchValue = 0.5f;
+        int changeTwitchValueGameOver = 0; // -1 to decrease, +1 to increase, 0 for no effect
         float themeTransition = 0.0f;
         int targetTheme = 0;
         public int CurrentThemeID { get { return themeTransition > 0.5f ? 1 : 0; } }
@@ -86,7 +89,7 @@ namespace Honeymoon
             Camera = new DriftingCamera();            
 
             IntroController = new Intro();
-            GameState = GameStates.Game;
+            GameState = GameStates.Intro;
 
             base.Initialize();
         }
@@ -156,15 +159,50 @@ namespace Honeymoon
                 this.Exit();
             }
 
-            float worldTransitionDiff = (float)gameTime.ElapsedGameTime.TotalSeconds * 3f;
+            float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            // Change to game over state some time after one player died
+            if (gameOverCounter > 0.0f)
+            {
+                gameOverCounter -= seconds;
+                if (gameOverCounter <= 0.0f)
+                {
+                    GameState = HoneymoonGame.GameStates.GameOver;
+                }
+            }            
+
+            float worldTransitionDiff = seconds * 3f;
 
             if (targetTheme < themeTransition)
             {
                 themeTransition = (float)Math.Max(themeTransition - worldTransitionDiff, targetTheme);
+                twitchValue = themeTransition + 0.5f;
             }
             else if(targetTheme > themeTransition)
             {
                 themeTransition = (float)Math.Min(themeTransition + worldTransitionDiff, targetTheme);
+                twitchValue = themeTransition + 0.5f;
+            }
+            else if (GameState == GameStates.GameOver)
+            {
+                if (changeTwitchValueGameOver == 0 && Randomizer.NextDouble() < 0.01f)
+                {
+                    changeTwitchValueGameOver = (twitchValue > 1.0f ? -1 : 1);
+                }
+                if (changeTwitchValueGameOver != 0)
+                {
+                    twitchValue += changeTwitchValueGameOver * worldTransitionDiff;
+                    if (twitchValue <= 0.5f)
+                    {
+                        twitchValue = 0.5f;
+                        changeTwitchValueGameOver = 0;
+                    }
+                    else if (twitchValue >= 1.5f)
+                    {
+                        twitchValue = 1.5f;
+                        changeTwitchValueGameOver = 0;
+                    }
+                }
             }
 
             if (GameState == GameStates.Game)
@@ -188,11 +226,11 @@ namespace Honeymoon
             }
 
             // Update camera matrix
-            Camera.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            Camera.Update(seconds);
 
             if (GameState == GameStates.Game)
                 base.Update(gameTime);
-            else
+            else if (GameState == GameStates.Intro)
                 IntroController.Update(gameTime);
             if (MediaPlayer.State != MediaState.Playing)
             {
@@ -224,15 +262,13 @@ namespace Honeymoon
             Vector2 camTranslation = new Vector2(-Camera.Translation.X, -Camera.Translation.Y);
             spriteBatch.Draw(CurrentTheme.Background, camTranslation * 0.9f, Color.White);
             spriteBatch.Draw(CurrentTheme.Parallax, camTranslation * 0.7f, Color.White);
-            if (GameState == GameStates.Game)
-            {
-                base.Draw(gameTime);
-            } 
-            else
+            if (GameState == GameStates.Intro)
                 IntroController.Draw(gameTime);
+            else
+                base.Draw(gameTime);
             spriteBatch.End();
 
-            if (GameState == GameStates.Game)
+            if (GameState != GameStates.Intro)
             {
                 spriteBatch.Begin();
                 CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", new Vector2(1280 / 2, 720 / 2), Color.White, 0, 2);
@@ -251,14 +287,14 @@ namespace Honeymoon
 
         private void PerformTwitchEffect(GameTime gameTime)
         {
-            if (themeTransition <= 0 || themeTransition >= 1)
+            if (GameState != GameStates.GameOver &&
+                (themeTransition <= 0 || themeTransition >= 1))
             {
                 return;
             }
 
             float fTime0_X = (float)gameTime.TotalRealTime.TotalSeconds;
-
-            twitchEffect.Parameters["fTime0_X"].SetValue(themeTransition + 0.5f);
+            twitchEffect.Parameters["fTime0_X"].SetValue(twitchValue);
             twitchEffect.Parameters["Screen_AlignedQuad_AfterTwitch_Pixel_Shader_fTime0_X"].SetValue(fTime0_X);
             twitchEffect.Parameters["scene_Tex"].SetValue(resolvedBackbuffer);
             twitchEffect.Parameters["noise_tex_Tex"].SetValue(twitchNoise);
@@ -310,6 +346,18 @@ namespace Honeymoon
         {
             Viewport viewport = graphics.GraphicsDevice.Viewport;
             return new Rectangle(0, 0, viewport.Width, viewport.Height);
+        }
+
+        public void GameOver()
+        {
+            // Switch to evil mode if not already
+            if (CurrentThemeID != 1)
+            {
+                CurrentTheme = Themes[1];
+            }
+
+            // Start game over counter (game will not end immediately)
+            gameOverCounter = 1.0f;
         }
     }
 }
