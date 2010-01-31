@@ -528,13 +528,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\palme_evil\palme.png">
-      <Name>palme</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\help\help_move_000.png">
       <Name>help_move_000</Name>
       <Importer>TextureImporter</Importer>
@@ -1897,6 +1890,9 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Textures\palme_evil\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
