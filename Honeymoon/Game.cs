@@ -123,7 +123,11 @@ namespace Honeymoon
                 Themes[i] = new Theme
                 {
                     Background = Content.Load<Texture2D>("Textures/Backgrounds/" + type),
-                    Parallax = Content.Load<Texture2D>("Textures/Backgrounds/stars"),
+                    Parallax = { 
+                        Content.Load<Texture2D>("Textures/Backgrounds/stars1"),
+                        Content.Load<Texture2D>("Textures/Backgrounds/stars2"),
+                        Content.Load<Texture2D>("Textures/Backgrounds/stars3")
+                    },
                     Monkey = new SpriteAnimationSwitcher("monkey_" + type, new String[] { "left", "right", "crash", "penalty" }),
                     Panel = new SpriteAnimationSwitcher("score_" + type, new String[] { "score_000", "score_001", "score_002", "score_003", "score_004", "score_005" }),
                     Coconut = new SpriteAnimationSwitcher(type, new String[] { "coconut", "explosion" }),
@@ -135,6 +139,11 @@ namespace Honeymoon
                 };
                 Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
                 Themes[i].Beleuchtung.Animations["beleuchtung"].AnimationFPS = 10.0f;
+
+                if (i == 1)
+                {
+                    Themes[i].Parallax.Insert(2, Content.Load<Texture2D>("Textures/Backgrounds/skull"));
+                }
             }
 
             CurrentTheme = Themes[0];
@@ -264,7 +273,13 @@ namespace Honeymoon
             spriteBatchStart();
             Vector2 camTranslation = new Vector2(-Camera.Translation.X, -Camera.Translation.Y);
             spriteBatch.Draw(CurrentTheme.Background, camTranslation * 0.9f, Color.White);
-            spriteBatch.Draw(CurrentTheme.Parallax, camTranslation * 0.7f, Color.White);
+
+            float distance = 0.8f;
+            foreach (Texture2D t2d in CurrentTheme.Parallax)
+            {
+                spriteBatch.Draw(t2d, camTranslation * distance, Color.White);
+                distance -= 0.1f;
+            }
             if (GameState == GameStates.Intro)
                 IntroController.Draw(gameTime);
             else

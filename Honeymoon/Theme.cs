@@ -11,7 +11,7 @@ namespace Honeymoon
     public class Theme
     {
         public Song BackgroundMusic;
-        public Texture2D Parallax;
+        public List<Texture2D> Parallax = new List<Texture2D>();
         public Texture2D Background;
         public SpriteAnimationSwitcher Monkey;
         public SpriteAnimationSwitcher Panel;
