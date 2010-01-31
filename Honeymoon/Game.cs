@@ -136,6 +136,7 @@ namespace Honeymoon
                     BackgroundMusic = Content.Load<Song>("Music/space"),
                     SoundCreateCoconut = Content.Load<SoundEffect>("Sounds/plop"),
                     SoundJump = Content.Load<SoundEffect>("Sounds/jump"),
+                    SoundExplode = Content.Load<SoundEffect>(i == 0 ? "Sounds/heart" : "Sounds/explosion"),
                     Beleuchtung = new SpriteAnimationSwitcher("beleuchtung_" + type, new String[] { "beleuchtung" }),
                 };
                 Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
