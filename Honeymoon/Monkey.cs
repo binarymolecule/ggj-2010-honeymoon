@@ -11,7 +11,7 @@ namespace Honeymoon
 {
     public class Monkey : ObjectOnPlanet
     {
-        public static float MonkeyWalkingHeight = 28.0f;
+        public static float MonkeyWalkingHeight = 22.0f;
         public static float GravityStrength = 1000.0f;
         public static float BounceFactor = 0.2f;
         public static float Friction = 0.9f;
@@ -20,13 +20,14 @@ namespace Honeymoon
         public static float MinHeightForCrashJump = 30.0f;
         public static float RunStrength = 0.2f;
         public static float RunStrengthPlanet = 0.01f;
-        public static float JumpStrength = 300.0f;
+        public static float JumpStrength = 350.0f;
         public static float CrashJumpDownspeed = 300.0f;
         public static float CrashJumpPlanetSpeed = 5.0f;
         public static TimeSpan CrashJumpPlanetAttack = TimeSpan.FromSeconds(0.5);
         public static TimeSpan CrashJumpPenalty = TimeSpan.FromSeconds(0.5);
         public static float SineStrength = 0.2f;
         public static float SineResolution = 10.2f;
+        public static float AnimationFpsScale = 10.0f;
 
         public Vector2 VelocityOnPlanet;
         public bool DoingCrashJump;
@@ -195,6 +196,8 @@ namespace Honeymoon
 
         public override void Draw(GameTime gameTime)
         {
+            if (CurrentAnimation == "left" || CurrentAnimation == "right")
+                GameHM.CurrentTheme.Monkey.Animations[CurrentAnimation].AnimationFPS = AnimationFpsScale * Math.Abs(VelocityOnPlanet.X);
             GameHM.CurrentTheme.Monkey.Draw(this, gameTime, CurrentAnimation, Position, planet.GetShadingForPlanetGround(PositionOnPlanet.X), planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 1.0f);
         }
 
