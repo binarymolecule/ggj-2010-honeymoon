@@ -137,6 +137,7 @@ namespace Honeymoon
                     Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlightandshadow" }),
                     Tree = new SpriteAnimationSwitcher("palme_" + type, new String[] { "palme" }),
                     SunTutorial = new SpriteAnimationSwitcher("SunTutorial", new String[] { "sun" }),
+                    TutorialColor = (i == 0) ? Color.White : Color.Red,
                     BackgroundMusic = Content.Load<Song>("Music/space"),
                     SoundCreateCoconut = Content.Load<SoundEffect>(i == 0 ? "Sounds/plop" : "Sounds/missile"),
                     SoundJump = Content.Load<SoundEffect>("Sounds/jump"),
@@ -309,7 +310,7 @@ namespace Honeymoon
                 CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
                 PlayerPanel1.DrawPanelFixed(gameTime);
                 PlayerPanel2.DrawPanelFixed(gameTime);
-                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, Color.White, 0, 1);
+                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, CurrentTheme.TutorialColor, 0, 1);
                 spriteBatch.End();
             }
 
