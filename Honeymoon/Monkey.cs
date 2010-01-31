@@ -89,7 +89,7 @@ namespace Honeymoon
                 }
 
 
-                if (KeyJustPressed(Buttons.Start)) GameHM.CurrentTheme = GameHM.Themes[(GameHM.CurrentThemeID+1) % 2];
+                if (KeyJustPressed(Buttons.Start)) GameHM.CurrentTheme = GameHM.Themes[(GameHM.CurrentThemeID + 1) % 2];
 #endif
 
                 if (KeyJustPressed(Buttons.A) && standingOnTheGround)
@@ -154,6 +154,7 @@ namespace Honeymoon
                     planet.AttackMoveUntil = gameTime.TotalGameTime.Add(CrashJumpPlanetAttack);
                     DoingCrashJump = false;
                     CrashJumpPenaltyUntil = gameTime.TotalGameTime.Add(CrashJumpPenalty);
+
                 }
             }
 
@@ -201,6 +202,13 @@ namespace Honeymoon
             if (CurrentAnimation == "left" || CurrentAnimation == "right")
                 sprite.Animations[CurrentAnimation].AnimationFPS = AnimationFpsScale * Math.Abs(VelocityOnPlanet.X);
             sprite.Draw(this, gameTime, CurrentAnimation, Position, planet.GetShadingForPlanetGround(PositionOnPlanet.X), planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 1.0f);
+
+            if (CrashJumpPenaltyUntil > gameTime.TotalGameTime)
+            {
+                Vector2 pos = planet.GetPositionOnPlanetGround(PositionOnPlanet.X, 0);
+                float smokePerc = 1.0f - (float)(CrashJumpPenaltyUntil.Subtract(gameTime.TotalGameTime).TotalSeconds / CrashJumpPenalty.TotalSeconds);
+                sprite.DrawPercentage(this, "stomp", smokePerc, pos, planet.GetShadingForPlanetGround(PositionOnPlanet.X), planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 0.5f);
+            }
         }
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
@@ -212,7 +220,10 @@ namespace Honeymoon
             }
             else if (otherObject is CoconutExplosion)
             {
-                IGotHit(offsetMeToOther);
+                if (CoconutMissile.SPLASH_DAMAGE)
+                {
+                    IGotHit(offsetMeToOther);
+                }
             }
             else if (otherObject is Planet)
             {

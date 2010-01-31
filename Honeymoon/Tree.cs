@@ -36,6 +36,7 @@ namespace Honeymoon
             PositionOnPlanet.X = (float) Math.PI / 2;
             PositionOnPlanet.Y = spriteHeight / 2.0f;
             HelpCoconut = new HelpSystem(this, "help_coconut");
+            HelpCoconut.FadePercent = 0.0f;
         }
 
         public override void Update(GameTime gameTime)
@@ -50,6 +51,7 @@ namespace Honeymoon
                     growth = 0.0f;
                     if (!isMature)
                     {
+                        HelpCoconut.Angle = -0.3f;
                         HelpCoconut.DisplayHelp = true;
                         isMature = true;
                         // Tree has grown to maturity
