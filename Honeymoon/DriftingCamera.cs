@@ -38,6 +38,13 @@ namespace Honeymoon
             this.Translation = Vector3.Zero;
         }
 
+        public Vector2 Inverse2DTranslation
+        {
+            get
+            {
+                return new Vector2(-Translation.X, -Translation.Y);
+            }
+        }
         public void ShakeCamera(float seconds, float frequency, float amplitude)
         {
             if (!isShaking)

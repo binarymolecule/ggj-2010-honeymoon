@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using Utility;
 
 namespace Honeymoon
 {
@@ -22,6 +23,8 @@ namespace Honeymoon
         public GameStates GameState;
 
         public GraphicsDeviceManager graphics;
+        private Interpolator MovementTutorialInterpolator;
+        private List<Planet> Planets = new List<Planet>();
         public SpriteBatch spriteBatch;
         public List<CollidableGameComponent> collidableObjects = new List<CollidableGameComponent>();
         public Vector2 SunlightDir; // direction of sunlight
@@ -30,7 +33,14 @@ namespace Honeymoon
         public Theme[] Themes = new Theme[2];
         public PlayerPanel PlayerPanel1, PlayerPanel2;
         public DriftingCamera Camera;
+
+        TimerCollection timers = new TimerCollection();
+        InterpolatorCollection interpolators = new InterpolatorCollection();
+
+        float sunTutorialAlpha = 1f;
+
         float gameOverCounter = 0.0f;
+        float themeDuration = 0.0f;
         float twitchValue = 0.5f;
         int changeTwitchValueGameOver = 0; // -1 to decrease, +1 to increase, 0 for no effect
         float themeTransition = 0.0f;
@@ -38,10 +48,16 @@ namespace Honeymoon
         public int CurrentThemeID { get { return themeTransition > 0.5f ? 1 : 0; } }
         public Intro IntroController;
 
+        //float[] ChangeThemeProbabilities = { 0.05f, 0.1f, 0.12f, 0.15f, 0.15f, 0.2f, 0.2f, 0.225f, 0.25f, 1.0f };
+        //float[] ChangeThemeDurations = { 0.01f, 0.01f, 0.05f, 0.1f, 1.0f, 3.0f, 10.0f, 15.0f, 30.0f, 300.0f };
+        float[] ChangeThemeProbabilities = { 0.05f, 0.1f, 0.2f, 0.225f, 0.125f, 0.15f, 0.2f, 0.3f, 0.4f, 0.5f };
+        float[] ChangeThemeDurations = { 0.01f, 0.01f, 0.05f, 0.1f, 1.0f, 1.5f, 3.0f, 2.0f, 0.05f, 0.01f };
+
         public SoundEffect SelectionSound;
         public SoundEffect WalkingSound;
         public SoundEffectInstance NoiseSound;
         public Song GameOverMusic;
+        public float bgMusicVolume = 0.5f;
 
         public Theme CurrentTheme
         {
@@ -133,6 +149,8 @@ namespace Honeymoon
                     SoundExplode = Content.Load<SoundEffect>(i == 0 ? "Sounds/heart" : "Sounds/explosion"),
                     SoundMissile = Content.Load<SoundEffect>(i == 0 ? "Sounds/plop" : "Sounds/missile"),
                     SoundCollide = Content.Load<SoundEffect>("Sounds/collide_" + type),
+                    //SoundMonkeyHit = Content.Load<SoundEffect>("Sounds/monkey"),
+                    SoundMonkeyHit = Content.Load<SoundEffect>("Sounds/monkey_" + type),
                     Beleuchtung = new SpriteAnimationSwitcher("beleuchtung_" + type, new String[] { "beleuchtung" }),
                 };
 
@@ -148,19 +166,25 @@ namespace Honeymoon
 
             CurrentTheme = Themes[0];
 
+            MediaPlayer.Volume = bgMusicVolume;
 
             Planet prop1 = new Planet(PlayerIndex.One);
             prop1.Position = new Vector2(200, 400);
             Monkey monkey1 = new Monkey(prop1);
+            Planets.Add(prop1);
 
             Planet prop2 = new Planet(PlayerIndex.Two);
             prop2.Position = new Vector2(1000, 400);
             Monkey monkey2 = new Monkey(prop2);
+            Planets.Add(prop2);
 
             PlayerPanel1 = new PlayerPanel(monkey1);
             PlayerPanel2 = new PlayerPanel(monkey2);
-            PlayerPanel1.Position = new Vector2(125, 80);
-            PlayerPanel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
+
+            float panelY = 650f;
+            float panelX = 120f;
+            PlayerPanel1.Position = new Vector2(panelX, panelY);
+            PlayerPanel2.Position = new Vector2(GraphicsDevice.Viewport.Width - PlayerPanel.Offset.X - panelX, panelY);
 
             SunlightDir = new Vector2(0.0f, -1.0f);
             Camera = new DriftingCamera();
@@ -176,6 +200,26 @@ namespace Honeymoon
         {
         }
 
+        void OnHideMovementTutorial(bool fast)
+        {
+            if (MovementTutorialInterpolator == null)
+            {
+                MovementTutorialInterpolator = interpolators.Create(1f, 0f, (fast ? 0.3f : 1f), i => sunTutorialAlpha = i.Value, null);
+            }
+        }
+
+        void CheckHideTutorialConditions(GameTime gameTime)
+        {
+            foreach(Planet p in Planets)
+            {
+                if(MovementTutorialInterpolator == null) {
+                    if(Math.Abs(p.Position.X - ScreenCenter.X) < 200f) {
+                        OnHideMovementTutorial(true);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -183,8 +227,12 @@ namespace Honeymoon
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            timers.Update(gameTime);
+            interpolators.Update(gameTime);
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                GamePad.GetState(PlayerIndex.Two).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 this.Exit();
@@ -195,40 +243,39 @@ namespace Honeymoon
             // Change to game over state some time after one player died
             if (gameOverCounter > 0.0f)
             {
-                MediaPlayer.Volume = gameOverCounter;
+                MediaPlayer.Volume = bgMusicVolume * gameOverCounter;
                 gameOverCounter -= seconds;
                 if (gameOverCounter <= 0.0f)
                 {
                     GameState = HoneymoonGame.GameStates.GameOver;
                     MediaPlayer.Stop();
-                    MediaPlayer.Volume = 1.0f;
+                    MediaPlayer.Volume = bgMusicVolume;
                 }
             }            
 
             float worldTransitionDiff = seconds * 3f;
-
             if (targetTheme < themeTransition)
             {
                 themeTransition = (float)Math.Max(themeTransition - worldTransitionDiff, targetTheme);
                 twitchValue = themeTransition + 0.5f;
                 if (GameState == GameStates.Game)
                 {
-                    MediaPlayer.Volume = 1.0f - 0.75f * themeTransition;
-                    NoiseSound.Volume = 0.67f * themeTransition;
+                    MediaPlayer.Volume = bgMusicVolume * (1.0f - 0.75f * themeTransition);
+                    NoiseSound.Volume = bgMusicVolume * (0.67f * themeTransition);
                     if (NoiseSound.State == SoundState.Paused)
                         NoiseSound.Resume();
                     else if (NoiseSound.State == SoundState.Stopped)
                         NoiseSound.Play();
                 }
             }
-            else if(targetTheme > themeTransition)
+            else if (targetTheme > themeTransition)
             {
                 themeTransition = (float)Math.Min(themeTransition + worldTransitionDiff, targetTheme);
                 twitchValue = themeTransition + 0.5f;
                 if (GameState == GameStates.Game)
                 {
-                    MediaPlayer.Volume = 1.0f - 0.75f * themeTransition;
-                    NoiseSound.Volume = 0.67f * themeTransition;
+                    MediaPlayer.Volume = bgMusicVolume * (1.0f - 0.75f * themeTransition);
+                    NoiseSound.Volume = bgMusicVolume * (0.67f * themeTransition);
                     if (NoiseSound.State == SoundState.Paused)
                         NoiseSound.Resume();
                     else if (NoiseSound.State == SoundState.Stopped)
@@ -260,6 +307,56 @@ namespace Honeymoon
             {
                 NoiseSound.Pause();
             }
+            else if (GameState == GameStates.Game)
+            {
+                if (themeDuration > 0.0f)
+                {
+                    themeDuration -= seconds;
+                    if (themeDuration <= 0.0f)
+                    {
+                        themeDuration = 0.0f;
+                        CurrentTheme = Themes[(CurrentThemeID+1)%2];
+                    }
+                }
+                else
+                {
+                    int index = 10 - Math.Min(PlayerPanel1.Player.HitPoints, PlayerPanel2.Player.HitPoints);
+                    if (index < 0) index = 0;
+                    else if (index > 9) index = 9;
+                    if (index < 6)
+                    {
+                        // Switch to evil world randomly
+                        if (CurrentThemeID == 0)
+                        {
+                            if (Randomizer.NextDouble() < ChangeThemeProbabilities[index] * seconds)
+                            {
+                                CurrentTheme = Themes[1];
+                                themeDuration = ChangeThemeDurations[index];
+                            }
+                        }
+                        else if (Randomizer.NextDouble() >= ChangeThemeProbabilities[index] * seconds)
+                        {
+                            CurrentTheme = Themes[0];
+                        }
+                    }
+                    else
+                    {
+                        // Switch to good world randomly
+                        if (CurrentThemeID == 1)
+                        {
+                            if (Randomizer.NextDouble() < ChangeThemeProbabilities[index] * seconds)
+                            {
+                                CurrentTheme = Themes[0];
+                                themeDuration = ChangeThemeDurations[index];
+                            }
+                        }
+                        else if (Randomizer.NextDouble() >= ChangeThemeProbabilities[index] * seconds)
+                        {
+                            CurrentTheme = Themes[1];
+                        }
+                    }
+                }
+            }
 
             if (GameState == GameStates.Game)
             {
@@ -279,6 +376,8 @@ namespace Honeymoon
                         B.OnCollide(A, -aToB);
                     }
                 }
+
+                CheckHideTutorialConditions(gameTime);
             }
 
             // Update camera matrix
@@ -317,8 +416,37 @@ namespace Honeymoon
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
+
             spriteBatchStart();
-            Vector2 camTranslation = new Vector2(-Camera.Translation.X, -Camera.Translation.Y);
+            DrawBackgrounds();
+
+            if (GameState == GameStates.Intro)
+            {
+                IntroController.Draw(gameTime);
+            }
+            else
+            {
+                PlayerPanel1.DrawPanelFixed(gameTime);
+                PlayerPanel2.DrawPanelFixed(gameTime);
+                base.Draw(gameTime);
+            }
+
+            spriteBatch.End();
+
+            if (GameState != GameStates.Intro)
+            {
+                spriteBatch.Begin();
+                CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
+                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, new Color(CurrentTheme.TutorialColor, sunTutorialAlpha), 0, 1);
+                spriteBatch.End();
+            }
+
+            PerformTwitchEffect(gameTime);
+        }
+
+        private void DrawBackgrounds()
+        {
+            Vector2 camTranslation = Camera.Inverse2DTranslation;
             spriteBatch.Draw(CurrentTheme.Background, camTranslation * 0.9f, Color.White);
 
             float distance = 0.8f;
@@ -327,24 +455,6 @@ namespace Honeymoon
                 spriteBatch.Draw(t2d, camTranslation * distance, Color.White);
                 distance -= 0.1f;
             }
-
-            if (GameState == GameStates.Intro)
-                IntroController.Draw(gameTime);
-            else
-                base.Draw(gameTime);
-            spriteBatch.End();
-
-            if (GameState != GameStates.Intro)
-            {
-                spriteBatch.Begin();
-                CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
-                PlayerPanel1.DrawPanelFixed(gameTime);
-                PlayerPanel2.DrawPanelFixed(gameTime);
-                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, CurrentTheme.TutorialColor, 0, 1);
-                spriteBatch.End();
-            }
-
-            PerformTwitchEffect(gameTime);
         }
 
         ResolveTexture2D resolvedBackbuffer;
@@ -426,6 +536,11 @@ namespace Honeymoon
 
             // Start game over counter (game will not end immediately)
             gameOverCounter = 1.0f;            
+        }
+
+        public void OnGameStarted()
+        {
+            timers.Create(6f, false, timer => OnHideMovementTutorial(false));
         }
     }
 }

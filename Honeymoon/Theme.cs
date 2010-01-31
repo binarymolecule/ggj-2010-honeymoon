@@ -26,6 +26,7 @@ namespace Honeymoon
         public SoundEffect SoundExplode;
         public SoundEffect SoundMissile;
         public SoundEffect SoundCollide;
+        public SoundEffect SoundMonkeyHit;
         public SpriteAnimationSwitcher Beleuchtung;
     }
 }

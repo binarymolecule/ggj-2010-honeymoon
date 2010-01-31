@@ -103,6 +103,12 @@
     <Compile Include="SpriteAnimationSwitcher.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Tree.cs" />
+    <Compile Include="Utility\Interpolator.cs" />
+    <Compile Include="Utility\InterpolatorCollection.cs" />
+    <Compile Include="Utility\InterpolatorScales.cs" />
+    <Compile Include="Utility\Pool.cs" />
+    <Compile Include="Utility\Timer.cs" />
+    <Compile Include="Utility\TimerCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
