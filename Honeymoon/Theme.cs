@@ -19,5 +19,6 @@ namespace Honeymoon
         public SpriteAnimationSwitcher Planet;
         public SpriteAnimationSwitcher Tree;
         public SoundEffect SoundCreateCoconut;
+        public SpriteAnimationSwitcher Beleuchtung;
     }
 }

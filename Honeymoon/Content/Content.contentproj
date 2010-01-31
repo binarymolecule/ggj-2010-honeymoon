@@ -1194,6 +1194,383 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_000.png">
+      <Name>beleuchtung_000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_001.png">
+      <Name>beleuchtung_001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_002.png">
+      <Name>beleuchtung_002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_003.png">
+      <Name>beleuchtung_003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_004.png">
+      <Name>beleuchtung_004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_005.png">
+      <Name>beleuchtung_005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_006.png">
+      <Name>beleuchtung_006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_007.png">
+      <Name>beleuchtung_007</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_008.png">
+      <Name>beleuchtung_008</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_009.png">
+      <Name>beleuchtung_009</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_010.png">
+      <Name>beleuchtung_010</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_011.png">
+      <Name>beleuchtung_011</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_012.png">
+      <Name>beleuchtung_012</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_013.png">
+      <Name>beleuchtung_013</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_014.png">
+      <Name>beleuchtung_014</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_015.png">
+      <Name>beleuchtung_015</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_016.png">
+      <Name>beleuchtung_016</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_017.png">
+      <Name>beleuchtung_017</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_018.png">
+      <Name>beleuchtung_018</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_019.png">
+      <Name>beleuchtung_019</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_020.png">
+      <Name>beleuchtung_020</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_021.png">
+      <Name>beleuchtung_021</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_022.png">
+      <Name>beleuchtung_022</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_023.png">
+      <Name>beleuchtung_023</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_024.png">
+      <Name>beleuchtung_024</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_025.png">
+      <Name>beleuchtung_025</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_026.png">
+      <Name>beleuchtung_026</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_027.png">
+      <Name>beleuchtung_027</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_028.png">
+      <Name>beleuchtung_028</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_029.png">
+      <Name>beleuchtung_029</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_030.png">
+      <Name>beleuchtung_030</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_031.png">
+      <Name>beleuchtung_031</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_032.png">
+      <Name>beleuchtung_032</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_033.png">
+      <Name>beleuchtung_033</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_034.png">
+      <Name>beleuchtung_034</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_035.png">
+      <Name>beleuchtung_035</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_036.png">
+      <Name>beleuchtung_036</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_037.png">
+      <Name>beleuchtung_037</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_038.png">
+      <Name>beleuchtung_038</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_039.png">
+      <Name>beleuchtung_039</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_040.png">
+      <Name>beleuchtung_040</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_041.png">
+      <Name>beleuchtung_041</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_042.png">
+      <Name>beleuchtung_042</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_043.png">
+      <Name>beleuchtung_043</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_044.png">
+      <Name>beleuchtung_044</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_045.png">
+      <Name>beleuchtung_045</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_046.png">
+      <Name>beleuchtung_046</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_047.png">
+      <Name>beleuchtung_047</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_048.png">
+      <Name>beleuchtung_048</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_good\beleuchtung_049.png">
+      <Name>beleuchtung_049</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_000.png">
+      <Name>beleuchtung_000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_001.png">
+      <Name>beleuchtung_001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_002.png">
+      <Name>beleuchtung_002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_003.png">
+      <Name>beleuchtung_003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_004.png">
+      <Name>beleuchtung_004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_005.png">
+      <Name>beleuchtung_005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_006.png">
+      <Name>beleuchtung_006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_007.png">
+      <Name>beleuchtung_007</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_008.png">
+      <Name>beleuchtung_008</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_009.png">
+      <Name>beleuchtung_009</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_010.png">
+      <Name>beleuchtung_010</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_011.png">
+      <Name>beleuchtung_011</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_012.png">
+      <Name>beleuchtung_012</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_013.png">
+      <Name>beleuchtung_013</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_014.png">
+      <Name>beleuchtung_014</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_015.png">
+      <Name>beleuchtung_015</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_016.png">
+      <Name>beleuchtung_016</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_017.png">
+      <Name>beleuchtung_017</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_018.png">
+      <Name>beleuchtung_018</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_019.png">
+      <Name>beleuchtung_019</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_020.png">
+      <Name>beleuchtung_020</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_021.png">
+      <Name>beleuchtung_021</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_022.png">
+      <Name>beleuchtung_022</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_023.png">
+      <Name>beleuchtung_023</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\beleuchtung_evil\beleuchtung_024.png">
+      <Name>beleuchtung_024</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -127,9 +127,11 @@ namespace Honeymoon
                     Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlightandshadow" }),
                     Tree = new SpriteAnimationSwitcher("palme_" + type, new String[] { "palme" }),
                     BackgroundMusic = Content.Load<Song>("Music/space"),
-                    SoundCreateCoconut = Content.Load<SoundEffect>("Sounds/plop")
+                    SoundCreateCoconut = Content.Load<SoundEffect>("Sounds/plop"),
+                    Beleuchtung = new SpriteAnimationSwitcher("beleuchtung_" + type, new String[] { "beleuchtung" }),
                 };
                 Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
+                Themes[i].Beleuchtung.Animations["beleuchtung"].AnimationFPS = 10.0f;
             }
 
             CurrentTheme = Themes[0];
@@ -269,6 +271,7 @@ namespace Honeymoon
             if (GameState != GameStates.Intro)
             {
                 spriteBatch.Begin();
+                CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", new Vector2(1280 / 2, 720 / 2), Color.White, 0, 2);
                 PlayerPanel1.DrawPanelFixed(gameTime);
                 PlayerPanel2.DrawPanelFixed(gameTime);
                 spriteBatch.End();
