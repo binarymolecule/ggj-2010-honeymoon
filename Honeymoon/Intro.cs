@@ -44,6 +44,7 @@ namespace Honeymoon
                 if (!GameHM.Camera.IsShaking)
                 {
                     GameHM.GameState = HoneymoonGame.GameStates.Game;
+                    GameHM.OnGameStarted();
                     leavingIntro = false;
                 }
             }

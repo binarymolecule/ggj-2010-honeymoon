@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using Utility;
 
 namespace Honeymoon
 {
@@ -30,6 +31,12 @@ namespace Honeymoon
         public Theme[] Themes = new Theme[2];
         public PlayerPanel PlayerPanel1, PlayerPanel2;
         public DriftingCamera Camera;
+
+        TimerCollection timers = new TimerCollection();
+        InterpolatorCollection interpolators = new InterpolatorCollection();
+
+        float sunTutorialAlpha = 1f;
+
         float gameOverCounter = 0.0f;
         float twitchValue = 0.5f;
         int changeTwitchValueGameOver = 0; // -1 to decrease, +1 to increase, 0 for no effect
@@ -183,6 +190,9 @@ namespace Honeymoon
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            timers.Update(gameTime);
+            interpolators.Update(gameTime);
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -340,7 +350,7 @@ namespace Honeymoon
                 CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
                 PlayerPanel1.DrawPanelFixed(gameTime);
                 PlayerPanel2.DrawPanelFixed(gameTime);
-                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, CurrentTheme.TutorialColor, 0, 1);
+                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, new Color(CurrentTheme.TutorialColor, sunTutorialAlpha), 0, 1);
                 spriteBatch.End();
             }
 
@@ -426,6 +436,14 @@ namespace Honeymoon
 
             // Start game over counter (game will not end immediately)
             gameOverCounter = 1.0f;            
+        }
+
+        public void OnGameStarted()
+        {
+            timers.Create(6f, false, timer =>
+            {
+                interpolators.Create(1f, 0f, i => sunTutorialAlpha = i.Value, null);
+            });
         }
     }
 }
