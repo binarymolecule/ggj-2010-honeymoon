@@ -37,6 +37,8 @@ namespace Honeymoon
         TimerCollection timers = new TimerCollection();
         InterpolatorCollection interpolators = new InterpolatorCollection();
 
+        SpriteAnimationSwitcher GameOverSprites;
+
         float sunTutorialAlpha = 1f;
 
         float gameOverCounter = 0.0f;
@@ -134,8 +136,8 @@ namespace Honeymoon
                         Content.Load<Texture2D>("Textures/Backgrounds/stars2"),
                         Content.Load<Texture2D>("Textures/Backgrounds/stars3")
                     },
-                    MonkeyM = new SpriteAnimationSwitcher("monkey_m", new String[] { "left", "right", "crash", "penalty" }),
-                    MonkeyF = new SpriteAnimationSwitcher("monkey_f", new String[] { "left", "right", "crash", "penalty" }),
+                    MonkeyM = new SpriteAnimationSwitcher("monkey_m", new String[] { "left", "right", "crash", "penalty", "stomp" }),
+                    MonkeyF = new SpriteAnimationSwitcher("monkey_f", new String[] { "left", "right", "crash", "penalty", "stomp" }),
                     Panel = new SpriteAnimationSwitcher("score_" + type, new String[] { "score_000", "score_001", "score_002", "score_003", "score_004", "score_005" }),
                     Coconut = new SpriteAnimationSwitcher(type, new String[] { "coconut", "explosion" }),
                     Planet = new SpriteAnimationSwitcher(type, new String[] { "planet", "highlightandshadow" }),
@@ -163,7 +165,7 @@ namespace Honeymoon
                     Themes[i].Parallax.Insert(2, Content.Load<Texture2D>("Textures/Backgrounds/skull"));
                 }
             }
-
+            GameOverSprites = new SpriteAnimationSwitcher("game_over", new String[] { "game_over_m", "game_over_f" });
             CurrentTheme = Themes[0];
 
             MediaPlayer.Volume = bgMusicVolume;
@@ -442,6 +444,15 @@ namespace Honeymoon
             }
 
             PerformTwitchEffect(gameTime);
+
+            if (GameState == GameStates.GameOver)
+            {
+                spriteBatch.Begin();
+                bool m = PlayerPanel1.Player.HitPoints <= 0;
+                GameOverSprites.Draw(this, gameTime, m ? "game_over_m" : "game_over_f", new Vector2(1280 / 2, 720 / 2), Color.White, 0, 1);
+                spriteBatch.End();
+            }
+
         }
 
         private void DrawBackgrounds()
