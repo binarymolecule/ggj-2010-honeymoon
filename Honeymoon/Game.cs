@@ -172,8 +172,11 @@ namespace Honeymoon
 
             PlayerPanel1 = new PlayerPanel(monkey1);
             PlayerPanel2 = new PlayerPanel(monkey2);
-            PlayerPanel1.Position = new Vector2(125, 80);
-            PlayerPanel2.Position = new Vector2(GraphicsDevice.Viewport.Width - 375, 80);
+
+            float panelY = 650f;
+            float panelX = 120f;
+            PlayerPanel1.Position = new Vector2(panelX, panelY);
+            PlayerPanel2.Position = new Vector2(GraphicsDevice.Viewport.Width - PlayerPanel.Offset.X - panelX, panelY);
 
             SunlightDir = new Vector2(0.0f, -1.0f);
             Camera = new DriftingCamera();

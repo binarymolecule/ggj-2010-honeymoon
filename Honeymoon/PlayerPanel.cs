@@ -19,7 +19,7 @@ namespace Honeymoon
         public Monkey Player;
         public HoneymoonGame GameHM;
         public Vector2 Position;
-        public static Vector2 Offset = new Vector2(250.0f, 0.0f);
+        public static Vector2 Offset = new Vector2(130.0f, 0.0f);
 
         public PlayerPanel(Monkey player)
             : base(HoneymoonGame.Instance)
