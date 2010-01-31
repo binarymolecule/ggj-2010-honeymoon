@@ -63,5 +63,13 @@ namespace Honeymoon
             if (frame >= drawMe.NumberOfFrames) frame = drawMe.NumberOfFrames - 1;
             drawMe.Draw(frame, Position, Color, Rotation, Scale);
         }
+
+        public void JumpTo(object GameObject, String Animation, float Position)
+        {
+            CurrentAnimation[GameObject] = Animation;
+            CurrentFrame[GameObject] = Position * Animations[Animation].NumberOfFrames;
+            lastUpdateTime[GameObject] = TimeSpan.Zero;
+        }
+
     }
 }

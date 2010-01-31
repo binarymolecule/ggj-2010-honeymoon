@@ -47,6 +47,13 @@ namespace Honeymoon
 
         public override void Draw(GameTime gameTime)
         {
+/*
+            // Draw trail
+            Vector2 tmpPos = planet.GetPositionInPlanetOrbit(PositionOnPlanet.X - 0.08f, height);
+            GameHM.CurrentTheme.Coconut.Draw(this, gameTime, "coconut", tmpPos, new Color(Color.White, 0.3f), planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 0.8f);
+            tmpPos = planet.GetPositionInPlanetOrbit(PositionOnPlanet.X - 0.04f, height);
+            GameHM.CurrentTheme.Coconut.Draw(this, gameTime, "coconut", tmpPos, new Color(Color.White, 0.5f), planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 0.9f);
+*/
             GameHM.CurrentTheme.Coconut.Draw(this, gameTime, "coconut", Position, Color.White, planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 1.0f);
         }
 

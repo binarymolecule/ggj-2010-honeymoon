@@ -96,7 +96,7 @@ namespace Honeymoon
                 if (currentGamePadState.IsButtonDown(Buttons.A) && standingOnTheGround)
                 {
                     VelocityOnPlanet.Y = JumpStrength;
-                    GameHM.CurrentTheme.SoundJump.Play();
+                    //GameHM.CurrentTheme.SoundJump.Play();
                 }
                 if (!DoingCrashJump && currentGamePadState.IsButtonDown(Buttons.RightTrigger) && (PositionOnPlanet.Y > MinHeightForCrashJump || VelocityOnPlanet.Y < 0))
                 {
@@ -196,9 +196,10 @@ namespace Honeymoon
 
         public override void Draw(GameTime gameTime)
         {
+            SpriteAnimationSwitcher sprite = PlayerNumber != PlayerIndex.One ? GameHM.CurrentTheme.MonkeyM : GameHM.CurrentTheme.MonkeyF;
             if (CurrentAnimation == "left" || CurrentAnimation == "right")
-                GameHM.CurrentTheme.Monkey.Animations[CurrentAnimation].AnimationFPS = AnimationFpsScale * Math.Abs(VelocityOnPlanet.X);
-            GameHM.CurrentTheme.Monkey.Draw(this, gameTime, CurrentAnimation, Position, planet.GetShadingForPlanetGround(PositionOnPlanet.X), planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 1.0f);
+                sprite.Animations[CurrentAnimation].AnimationFPS = AnimationFpsScale * Math.Abs(VelocityOnPlanet.X);
+            sprite.Draw(this, gameTime, CurrentAnimation, Position, planet.GetShadingForPlanetGround(PositionOnPlanet.X), planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 1.0f);
         }
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
