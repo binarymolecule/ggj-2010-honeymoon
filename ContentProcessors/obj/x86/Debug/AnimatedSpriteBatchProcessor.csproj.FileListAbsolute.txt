@@ -1,7 +1,0 @@
-C:\Users\Marcel\Documents\Visual Studio 2008\Projects\AnimatedSpriteBatchProcessor\AnimatedSpriteBatchProcessor\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Marcel\Documents\Visual Studio 2008\Projects\AnimatedSpriteBatchProcessor\AnimatedSpriteBatchProcessor\bin\x86\Debug\AnimatedSpriteBatchProcessor.dll
-C:\Users\Marcel\Documents\Visual Studio 2008\Projects\AnimatedSpriteBatchProcessor\AnimatedSpriteBatchProcessor\bin\x86\Debug\AnimatedSpriteBatchProcessor.pdb
-C:\Users\Marcel\Documents\Visual Studio 2008\Projects\AnimatedSpriteBatchProcessor\AnimatedSpriteBatchProcessor\obj\x86\Debug\AnimatedSpriteBatchProcessor.dll
-C:\Users\Marcel\Documents\Visual Studio 2008\Projects\AnimatedSpriteBatchProcessor\AnimatedSpriteBatchProcessor\obj\x86\Debug\AnimatedSpriteBatchProcessor.pdb
-C:\Users\Marcel\Documents\Visual Studio 2008\Projects\AnimatedSpriteBatchProcessor\AnimatedSpriteBatchProcessor\bin\x86\Debug\ICSharpCode.SharpZipLib.dll
-C:\Users\Marcel\Documents\Visual Studio 2008\Projects\AnimatedSpriteBatchProcessor\AnimatedSpriteBatchProcessor\bin\x86\Debug\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll

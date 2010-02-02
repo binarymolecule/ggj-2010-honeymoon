@@ -1,8 +1,13 @@
-Honeymoon/Content/bin/
-Honeymoon/Content/obj/
-Honeymoon/bin/
-Honeymoon/obj/
+
+*/Content/bin/
+*/Content/obj/
+*/bin/
+*/obj/
+
 Honeymoon/*.cachefile
 Honeymoon/*.suo
+
+*.suo
+*.cachefile
 *.user
 *.sln
