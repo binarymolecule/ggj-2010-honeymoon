@@ -30,18 +30,7 @@ namespace Honeymoon
 
             if (Sprites == null)
             {
-                List<Texture2D> loaded = new List<Texture2D>();
-                while (true)
-                {
-                    String number = String.Format("{0:000}", loaded.Count);
-                    try
-                    {
-                        Texture2D asset = game.Content.Load<Texture2D>(name + "_" + number);
-                        loaded.Add(asset);
-                    }
-                    catch (ContentLoadException) { break; }
-                }
-                Sprites = loaded.ToArray();
+                Sprites = game.Content.Load<List<Texture2D>>(name).ToArray();
             }
             SpriteCenter = new Vector2(Sprites[0].Width, Sprites[0].Height) / 2.0f;
 

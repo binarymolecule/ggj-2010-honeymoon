@@ -1,0 +1,7 @@
+Z:\Workspace\northdocks\ngj\NGJ2010\ContentProcessors\bin\x86\Debug\AnimatedSpriteBatchProcessor.dll
+Z:\Workspace\northdocks\ngj\NGJ2010\ContentProcessors\bin\x86\Debug\AnimatedSpriteBatchProcessor.pdb
+Z:\Workspace\northdocks\ngj\NGJ2010\ContentProcessors\bin\x86\Debug\ICSharpCode.SharpZipLib.dll
+Z:\Workspace\northdocks\ngj\NGJ2010\ContentProcessors\bin\x86\Debug\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll
+Z:\Workspace\northdocks\ngj\NGJ2010\ContentProcessors\obj\x86\Debug\ResolveAssemblyReference.cache
+Z:\Workspace\northdocks\ngj\NGJ2010\ContentProcessors\obj\x86\Debug\AnimatedSpriteBatchProcessor.dll
+Z:\Workspace\northdocks\ngj\NGJ2010\ContentProcessors\obj\x86\Debug\AnimatedSpriteBatchProcessor.pdb
