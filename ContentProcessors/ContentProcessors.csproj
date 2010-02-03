@@ -117,7 +117,7 @@
     <Content Include="Libraries\ICSharpCode.SharpZipLib.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\KeplersDataTypes\KeplersDataTypes.csproj">
+    <ProjectReference Include="..\KeplersDataTypes\KeplersDataTypes.csproj">
       <Project>{ACE4C6BC-4A3C-4EB4-96B6-C2DF0FC4310A}</Project>
       <Name>KeplersDataTypes</Name>
     </ProjectReference>

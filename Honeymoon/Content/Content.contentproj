@@ -329,12 +329,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ContentProcessors\ContentProcessors.csproj">
-      <Project>{BF0A8448-C61F-4158-87D4-B1FA8498F60B}</Project>
-      <Name>ContentProcessors</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\beleuchtung_evil\beleuchtung.zip">
       <Name>beleuchtung</Name>
       <Importer>SpriteSetImporter</Importer>
@@ -459,6 +453,12 @@
       <Processor>SpriteAnimationProcessor</Processor>
       <ProcessorParameters_FPS>6</ProcessorParameters_FPS>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ContentProcessors\ContentProcessors.csproj">
+      <Project>{BF0A8448-C61F-4158-87D4-B1FA8498F60B}</Project>
+      <Name>ContentProcessors</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

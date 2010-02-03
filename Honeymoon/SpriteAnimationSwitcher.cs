@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using KeplersLibrary;
 using KeplersDataTypes;
+using KeplersLibrary;
 
 namespace Honeymoon
 {
@@ -25,7 +25,6 @@ namespace Honeymoon
                 Animations.Add(anim, SpriteAnimation.Load(game.Content, "Textures/" + theme + "/" + anim));
             }
         }
-
 
         Dictionary<object,TimeSpan> lastUpdateTime = new Dictionary<object,TimeSpan>();
 

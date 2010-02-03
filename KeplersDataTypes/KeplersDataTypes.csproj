@@ -1,20 +1,17 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
-    <ProjectGuid>{D09918EB-7BDA-4035-BAAC-A9E5E75BCF05}</ProjectGuid>
+    <ProjectGuid>{ACE4C6BC-4A3C-4EB4-96B6-C2DF0FC4310A}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Honeymoon</RootNamespace>
-    <AssemblyName>Honeymoon</AssemblyName>
+    <RootNamespace>KeplersDataTypes</RootNamespace>
+    <AssemblyName>KeplersDataTypes</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <XnaFrameworkVersion>v3.1</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaCrossPlatformGroupID>3ed17023-603e-40b9-b577-eade3eba95c7</XnaCrossPlatformGroupID>
-    <ApplicationIcon>Game.ico</ApplicationIcon>
-    <Thumbnail>GameThumbnail.png</Thumbnail>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <XnaCrossPlatformGroupID>01fa0122-e19a-4bea-b407-f7051fe185d8</XnaCrossPlatformGroupID>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -27,6 +24,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -70,7 +68,6 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -84,47 +81,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoconutExplosion.cs" />
-    <Compile Include="CoconutMissile.cs" />
-    <Compile Include="CoconutOrbit.cs" />
-    <Compile Include="CollidableGameComponent.cs" />
-    <Compile Include="DriftingCamera.cs" />
-    <Compile Include="Intro.cs" />
-    <Compile Include="ObjectOnPlanet.cs" />
-    <Compile Include="HelpSystem.cs" />
-    <Compile Include="Monkey.cs" />
-    <Compile Include="Planet.cs" />
-    <Compile Include="PlayerPanel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="ScreenWall.cs" />
-    <Compile Include="SpriteAnimationSwitcher.cs" />
-    <Compile Include="Theme.cs" />
-    <Compile Include="Tree.cs" />
-    <Compile Include="Utility\Interpolator.cs" />
-    <Compile Include="Utility\InterpolatorCollection.cs" />
-    <Compile Include="Utility\InterpolatorScales.cs" />
-    <Compile Include="Utility\Pool.cs" />
-    <Compile Include="Utility\Timer.cs" />
-    <Compile Include="Utility\TimerCollection.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Game.ico" />
-    <Content Include="GameThumbnail.png" />
+    <Compile Include="SpriteAnimation.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
-      <Project>9985f4d0-fd3b-47fa-b899-8c992d5b7c94</Project>
+      <Project>c41250bf-d325-4543-9e78-2fe7ff6eb7ce</Project>
       <Visible>False</Visible>
     </NestedContentProject>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
+    <Content Include="README.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
@@ -138,11 +107,6 @@
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
@@ -155,16 +119,6 @@
       <ProductName>Microsoft XNA Framework Redistributable 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\KeplersDataTypes\KeplersDataTypes.csproj">
-      <Project>{ACE4C6BC-4A3C-4EB4-96B6-C2DF0FC4310A}</Project>
-      <Name>KeplersDataTypes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KeplersLibrary\KeplersLibrary.csproj">
-      <Project>{721ED15F-0EB9-49AC-AC3D-70DED0017FE5}</Project>
-      <Name>KeplersLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
