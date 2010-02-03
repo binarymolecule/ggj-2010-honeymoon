@@ -44,14 +44,12 @@ namespace Honeymoon.Screens
         float themeTransition = 0.0f;
         int targetTheme = 0;
         public int CurrentThemeID { get { return themeTransition > 0.5f ? 1 : 0; } }
-        public Intro IntroController;
 
         //float[] ChangeThemeProbabilities = { 0.05f, 0.1f, 0.12f, 0.15f, 0.15f, 0.2f, 0.2f, 0.225f, 0.25f, 1.0f };
         //float[] ChangeThemeDurations = { 0.01f, 0.01f, 0.05f, 0.1f, 1.0f, 3.0f, 10.0f, 15.0f, 30.0f, 300.0f };
         float[] ChangeThemeProbabilities = { 0.05f, 0.1f, 0.2f, 0.225f, 0.125f, 0.15f, 0.2f, 0.3f, 0.4f, 0.5f };
         float[] ChangeThemeDurations = { 0.01f, 0.01f, 0.05f, 0.1f, 1.0f, 1.5f, 3.0f, 2.0f, 0.05f, 0.01f };
 
-        public SoundEffect SelectionSound;
         public SoundEffect WalkingSound;
         public SoundEffectInstance NoiseSound;
         public Song GameOverMusic;
@@ -87,14 +85,10 @@ namespace Honeymoon.Screens
             twitchEffect = Content.Load<Effect>("Effects/twitch");
             twitchRenderTarget = new RenderTarget2D(GraphicsDevice, 128, 128, 1, GraphicsDevice.DisplayMode.Format, RenderTargetUsage.PreserveContents);
 
-            SelectionSound = Content.Load<SoundEffect>("Sounds/select");
             WalkingSound = Content.Load<SoundEffect>("Sounds/footsteps");
             NoiseSound = Content.Load<SoundEffect>("Sounds/noise0").CreateInstance();
             NoiseSound.IsLooped = true;
             GameOverMusic = Content.Load<Song>("Music/gameover");
-
-            IntroController = new Intro();
-            IntroController.Screen = Content.Load<Texture2D>("Textures/Backgrounds/title");
 
             for (int i = 0; i < Themes.Length; i++)
             {
@@ -159,7 +153,7 @@ namespace Honeymoon.Screens
             SunlightDir = new Vector2(0.0f, -1.0f);
             Camera = new DriftingCamera();
 
-            GameState = GameStates.Intro;
+            GameState = GameStates.Game;
         }
 
 
@@ -342,9 +336,10 @@ namespace Honeymoon.Screens
             Camera.Update(seconds);
 
             if (GameState == GameStates.Game)
+            {
                 base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
-            else if (GameState == GameStates.Intro)
-                IntroController.Update(gameTime);
+            }
+            
             if (MediaPlayer.State != MediaState.Playing)
             {
                 if (GameState == GameStates.GameOver)
@@ -373,26 +368,16 @@ namespace Honeymoon.Screens
             spriteBatchStart();
             DrawBackgrounds();
 
-            if (GameState == GameStates.Intro)
-            {
-                IntroController.Draw(gameTime);
-            }
-            else
-            {
-                PlayerPanel1.DrawPanelFixed(gameTime);
-                PlayerPanel2.DrawPanelFixed(gameTime);
-                base.Draw(gameTime);
-            }
+            PlayerPanel1.DrawPanelFixed(gameTime);
+            PlayerPanel2.DrawPanelFixed(gameTime);
+            base.Draw(gameTime);
 
             spriteBatch.End();
 
-            if (GameState != GameStates.Intro)
-            {
-                spriteBatch.Begin();
-                CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
-                CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, new Color(CurrentTheme.TutorialColor, sunTutorialAlpha), 0, 1);
-                spriteBatch.End();
-            }
+            spriteBatch.Begin();
+            CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
+            CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, new Color(CurrentTheme.TutorialColor, sunTutorialAlpha), 0, 1);
+            spriteBatch.End();
 
             PerformTwitchEffect(gameTime);
 

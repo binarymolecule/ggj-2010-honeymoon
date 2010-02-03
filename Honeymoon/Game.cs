@@ -39,7 +39,8 @@ namespace Honeymoon
             Components.Add(screenManager);
 
             // Activate the first screens.
-            screenManager.AddScreen(new VersusScreen(), null);
+            // screenManager.AddScreen(new VersusScreen(), null);
+            screenManager.AddScreen(new IntroScreen(), null);
         }
 
         /// <summary>
