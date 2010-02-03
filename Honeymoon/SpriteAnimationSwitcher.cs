@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using KeplersLibrary;
+using KeplersDataTypes;
 
 namespace Honeymoon
 {
@@ -20,7 +22,7 @@ namespace Honeymoon
             game = HoneymoonGame.Instance;
             foreach (String anim in animations)
             {
-                Animations.Add(anim, new SpriteAnimation("Textures/" + theme + "/" + anim));
+                Animations.Add(anim, SpriteAnimation.Load(game.Content, "Textures/" + theme + "/" + anim));
             }
         }
 
@@ -54,14 +56,14 @@ namespace Honeymoon
                 frame = 0;
             }
 
-            drawMe.Draw(frame, Position, Color, Rotation, Scale);
+            game.spriteBatch.Draw(drawMe, frame, Position, Color, Rotation, Scale);
         }
         public void DrawPercentage(object GameObject, String Animation, float ZeroToOne, Vector2 Position, Color Color, float Rotation, float Scale)
         {
             SpriteAnimation drawMe = Animations[Animation];
             int frame = (int)Math.Floor(drawMe.NumberOfFrames * ZeroToOne);
             if (frame >= drawMe.NumberOfFrames) frame = drawMe.NumberOfFrames - 1;
-            drawMe.Draw(frame, Position, Color, Rotation, Scale);
+            game.spriteBatch.Draw(drawMe, frame, Position, Color, Rotation, Scale);
         }
 
         public void JumpTo(object GameObject, String Animation, float Position)

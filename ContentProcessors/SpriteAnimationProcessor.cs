@@ -8,7 +8,8 @@ using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using Microsoft.Xna.Framework.Content.Pipeline.Processors;
 
 using TInput = System.Collections.Generic.List<Microsoft.Xna.Framework.Content.Pipeline.Graphics.Texture2DContent>;
-using TOutput = System.Collections.Generic.List<Microsoft.Xna.Framework.Content.Pipeline.Graphics.Texture2DContent>;
+using TOutput = ContentProcessors.SpriteAnimationContent;
+using System.ComponentModel;
 
 namespace ContentProcessors
 {
@@ -23,12 +24,33 @@ namespace ContentProcessors
     /// TODO: change the ContentProcessor attribute to specify the correct
     /// display name for this processor.
     /// </summary>
-    [ContentProcessor(DisplayName = "SpriteSetProcessor")]
-    public class SpriteSetProcessor : ContentProcessor<TInput, TOutput>
+    [ContentProcessor(DisplayName = "SpriteAnimationProcessor")]
+    public class SpriteAnimationProcessor : ContentProcessor<TInput, TOutput>
     {
         public override TOutput Process(TInput input, ContentProcessorContext context)
         {
-            return input;
+            var res = new TOutput();
+            res.Sprites = input.ToArray();
+            res.AnimationFPS = FPS;
+            return res;
         }
+
+        [DisplayName("FPS")]
+        [Description("How many frames per second should this animation show?")]
+        [DefaultValue(25f)]
+
+        public float FPS { get; set; }
     }
+    
+    /*
+    class SpriteAnimationWriter : ContentTypeWriter<SpriteAnimation>
+    {
+
+    }
+
+    class SpriteAnimationReader : ContentTypeReader<SpriteAnimation>
+    {
+
+    }
+    */
 }

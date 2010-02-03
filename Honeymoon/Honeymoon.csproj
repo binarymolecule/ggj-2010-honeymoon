@@ -99,7 +99,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="ScreenWall.cs" />
-    <Compile Include="SpriteAnimation.cs" />
     <Compile Include="SpriteAnimationSwitcher.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Tree.cs" />
@@ -156,6 +155,16 @@
       <ProductName>Microsoft XNA Framework Redistributable 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\KeplersDataTypes\KeplersDataTypes.csproj">
+      <Project>{ACE4C6BC-4A3C-4EB4-96B6-C2DF0FC4310A}</Project>
+      <Name>KeplersDataTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\KeplersLibrary\KeplersLibrary.csproj">
+      <Project>{721ED15F-0EB9-49AC-AC3D-70DED0017FE5}</Project>
+      <Name>KeplersLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

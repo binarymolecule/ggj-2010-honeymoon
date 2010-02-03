@@ -338,122 +338,126 @@
     <Compile Include="Textures\beleuchtung_evil\beleuchtung.zip">
       <Name>beleuchtung</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
+      <ProcessorParameters_FPS>10</ProcessorParameters_FPS>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\beleuchtung_good\beleuchtung.zip">
       <Name>beleuchtung</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
+      <ProcessorParameters_FPS>10</ProcessorParameters_FPS>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\evil\explosion.zip">
       <Name>explosion</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
     <Compile Include="Textures\evil\palme.zip">
       <Name>palme</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
     <Compile Include="Textures\evil\planet.zip">
       <Name>planet</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
+      <ProcessorParameters_FPS>10</ProcessorParameters_FPS>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\game_over\game_over_f.zip">
       <Name>game_over_f</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
     <Compile Include="Textures\game_over\game_over_m.zip">
       <Name>game_over_m</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\good\explosion.zip">
       <Name>explosion</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\palme_evil\palme.zip">
       <Name>palme</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\monkey_m\left.zip">
       <Name>left</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
     <Compile Include="Textures\monkey_m\penalty.zip">
       <Name>penalty</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
     <Compile Include="Textures\monkey_m\right.zip">
       <Name>right</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
     <Compile Include="Textures\monkey_m\stomp.zip">
       <Name>stomp</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\monkey_f\left.zip">
       <Name>left</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
     <Compile Include="Textures\monkey_f\penalty.zip">
       <Name>penalty</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
     <Compile Include="Textures\monkey_f\right.zip">
       <Name>right</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
     <Compile Include="Textures\monkey_f\stomp.zip">
       <Name>stomp</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\help\help_move.zip">
       <Name>help_move</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\palme_good\palme.zip">
       <Name>palme</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\SunTutorial\sun.zip">
       <Name>sun</Name>
       <Importer>SpriteSetImporter</Importer>
-      <Processor>SpriteSetProcessor</Processor>
+      <Processor>SpriteAnimationProcessor</Processor>
+      <ProcessorParameters_FPS>6</ProcessorParameters_FPS>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

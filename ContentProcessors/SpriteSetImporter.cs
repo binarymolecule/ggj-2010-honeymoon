@@ -8,9 +8,10 @@ using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using ICSharpCode.SharpZipLib;
 
 // TODO: replace this with the type you want to import.
-using TImport = System.Collections.Generic.List<Microsoft.Xna.Framework.Content.Pipeline.Graphics.TextureContent>;
+using TImport = System.Collections.Generic.List<Microsoft.Xna.Framework.Content.Pipeline.Graphics.Texture2DContent>;
 using ICSharpCode.SharpZipLib.Zip;
 using System.IO;
+using Microsoft.Xna.Framework.Content;
 
 namespace ContentProcessors
 {
@@ -34,12 +35,12 @@ namespace ContentProcessors
             File.Delete(tmpOutName);
             var di = Directory.CreateDirectory(tmpOutName);
             fz.ExtractZip(filename, tmpOutName, null);
-            List<TextureContent> result = new List<TextureContent>();
+            List<Texture2DContent> result = new List<Texture2DContent>();
 
             foreach(FileInfo fi in di.GetFiles())
             {
                 TextureImporter ti = new TextureImporter();
-                result.Add(ti.Import(fi.FullName, context));
+                result.Add(ti.Import(fi.FullName, context) as Texture2DContent);
             }
 
             di.Delete(true);

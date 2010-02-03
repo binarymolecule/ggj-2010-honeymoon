@@ -156,10 +156,6 @@ namespace Honeymoon
                     Beleuchtung = new SpriteAnimationSwitcher("beleuchtung_" + type, new String[] { "beleuchtung" }),
                 };
 
-                Themes[i].Planet.Animations["planet"].AnimationFPS = 10.0f;
-                Themes[i].Beleuchtung.Animations["beleuchtung"].AnimationFPS = 10.0f;
-                Themes[i].SunTutorial.Animations["sun"].AnimationFPS = 6.0f;
-
                 if (i == 1)
                 {
                     Themes[i].Parallax.Insert(2, Content.Load<Texture2D>("Textures/Backgrounds/skull"));
