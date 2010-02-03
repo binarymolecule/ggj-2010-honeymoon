@@ -50,6 +50,8 @@ namespace Honeymoon.Screens
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             Camera.Update(seconds);
+            Camera.Translation.X = (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds * 0.3) * 50.0);
+            Camera.Translation.Y = (float)(Math.Cos(gameTime.TotalGameTime.TotalSeconds * 0.3) * 50.0);
 
             currentGamePadState[0] = GamePad.GetState(PlayerIndex.One);
             currentGamePadState[1] = GamePad.GetState(PlayerIndex.Two);
