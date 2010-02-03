@@ -63,7 +63,8 @@ namespace Honeymoon.Screens
                 if (!Camera.IsShaking)
                 {
                     VersusScreen versus = new VersusScreen();
-                    ScreenManager.AddScreen(versus, null);
+                    //ScreenManager.AddScreen(versus, null);
+                    LoadingScreen.Load(ScreenManager, true, null, versus);
                     versus.OnGameStarted();
                     leavingIntro = false;
                     // ExitScreen();
