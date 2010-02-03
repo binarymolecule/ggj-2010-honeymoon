@@ -10,12 +10,13 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using Honeymoon.Screens;
 
 namespace Honeymoon
 {
     public class Intro : DrawableGameComponent
     {
-        public HoneymoonGame GameHM;
+        public VersusScreen GameHM;
         public Texture2D Screen;
         Vector2 Position;
         float fadingTimer, maxFadingTime;
@@ -24,9 +25,9 @@ namespace Honeymoon
         bool leavingIntro;
 
         public Intro()
-            : base(HoneymoonGame.Instance)
+            : base(VersusScreen.Instance.Game)
         {
-            GameHM = HoneymoonGame.Instance;
+            GameHM = VersusScreen.Instance;
             this.Position = Vector2.Zero;
             this.DrawOrder = 8;
             this.leavingIntro = false;
@@ -43,7 +44,7 @@ namespace Honeymoon
                 if (fadingTimer <= 0.0f) fadingTimer = 0.0f;
                 if (!GameHM.Camera.IsShaking)
                 {
-                    GameHM.GameState = HoneymoonGame.GameStates.Game;
+                    GameHM.GameState = VersusScreen.GameStates.Game;
                     GameHM.OnGameStarted();
                     leavingIntro = false;
                 }

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Honeymoon.Screens;
 
 namespace Honeymoon
 {
@@ -20,14 +21,14 @@ namespace Honeymoon
         public float Angle = -0.3f;
 
         public HelpSystem(ObjectOnPlanet monkey, String screen)
-            : base(HoneymoonGame.Instance)
+            : base(VersusScreen.Instance.Game)
         {
             this.monkey = monkey;
             this.DrawOrder = 3;
             this.screen = screen;
             animations = new SpriteAnimationSwitcher("help", new String[] { screen });
             animations.Animations[screen].AnimationFPS = 2.0f;
-            Game.Components.Add(this);
+            VersusScreen.Instance.Components.Add(this);
         }
 
         public override void Update(GameTime gameTime)

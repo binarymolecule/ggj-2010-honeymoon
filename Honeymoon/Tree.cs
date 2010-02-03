@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Honeymoon.Screens;
 
 namespace Honeymoon
 {
@@ -32,7 +33,7 @@ namespace Honeymoon
             this.PositionOnPlanet = Vector2.Zero;
             this.DrawOrder = 0;
             this.CoconutCount = 0;
-            Game.Components.Add(this);
+            VersusScreen.Instance.Components.Add(this);
             PositionOnPlanet.X = (float) Math.PI / 2;
             PositionOnPlanet.Y = spriteHeight / 2.0f;
             HelpCoconut = new HelpSystem(this, "help_coconut");

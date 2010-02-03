@@ -10,6 +10,10 @@
 #region Using Statements
 using System;
 using Microsoft.Xna.Framework;
+using System.Linq;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
+using Apollo.Components;
 #endregion
 
 namespace KeplersLibrary
@@ -35,6 +39,32 @@ namespace KeplersLibrary
     /// </summary>
     public abstract class GameScreen
     {
+
+        public ContentManager Content
+        {
+            get
+            {
+                return Game.Content;
+            }
+        }
+
+        public GraphicsDevice GraphicsDevice
+        {
+            get
+            {
+                return Game.GraphicsDevice;
+            }
+        }
+
+        public Game Game
+        {
+            get
+            {
+                return ScreenManager.Game;
+            }
+        }
+
+
         #region Properties
 
 
@@ -53,6 +83,15 @@ namespace KeplersLibrary
 
         bool isPopup = false;
 
+        GameComponentSystem componentSystem = new GameComponentSystem();
+
+        public GameComponentCollection Components
+        {
+            get
+            {
+                return componentSystem.Components;
+            }
+        }
 
         /// <summary>
         /// Indicates how long the screen takes to
@@ -184,10 +223,18 @@ namespace KeplersLibrary
         #region Initialization
 
 
+        public virtual void Initialize()
+        {
+            componentSystem.Initialize();
+        }
+
         /// <summary>
         /// Load graphics content for the screen.
         /// </summary>
-        public virtual void LoadContent() { }
+        public virtual void LoadContent()
+        {
+            // nothing to do?
+        }
 
 
         /// <summary>
@@ -209,6 +256,8 @@ namespace KeplersLibrary
         public virtual void Update(GameTime gameTime, bool otherScreenHasFocus,
                                                       bool coveredByOtherScreen)
         {
+            componentSystem.Update(gameTime);
+
             this.otherScreenHasFocus = otherScreenHasFocus;
 
             if (isExiting)
@@ -294,7 +343,10 @@ namespace KeplersLibrary
         /// <summary>
         /// This is called when the screen should draw itself.
         /// </summary>
-        public virtual void Draw(GameTime gameTime) { }
+        public virtual void Draw(GameTime gameTime)
+        {
+            componentSystem.Draw(gameTime);
+        }
 
 
         #endregion

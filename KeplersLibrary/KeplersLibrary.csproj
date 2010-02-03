@@ -82,8 +82,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\BasicDrawableGameComponent.cs" />
+    <Compile Include="Components\BasicGameComponent.cs" />
+    <Compile Include="Components\DependentDrawableGameComponent.cs" />
+    <Compile Include="Components\DependentGameComponent.cs" />
+    <Compile Include="Components\DrawOrderComparer.cs" />
+    <Compile Include="Components\GameComponentSystem.cs" />
+    <Compile Include="Components\OptionalServiceAttribute.cs" />
+    <Compile Include="Components\RequiredServiceAttribute.cs" />
+    <Compile Include="Components\UpdateOrderComparer.cs" />
+    <Compile Include="GameComponentCollectionExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenManager\GameScreen.cs" />
+    <Compile Include="ScreenManager\InputState.cs" />
     <Compile Include="ScreenManager\ScreenManager.cs" />
     <Compile Include="SpriteBatchAnimationExtension.cs" />
   </ItemGroup>
