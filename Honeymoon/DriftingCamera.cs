@@ -66,6 +66,15 @@ namespace Honeymoon
             isMoving = true;
         }
 
+        public void StopShake()
+        {
+            GamePad.SetVibration(PlayerIndex.One, 0, 0);
+            isShaking = false;
+            shakeTimer = 0.0f;
+            Translation.X = backupTranslation.X;
+            Translation.Y = backupTranslation.Y;
+        }
+
         public void Update(float seconds)
         {
             float vibration = 0;
@@ -75,18 +84,14 @@ namespace Honeymoon
                 shakeTimer -= seconds;
                 if (shakeTimer <= 0.0f)
                 {
-                    isShaking = false;
-                    Translation.X = backupTranslation.X;
-                    Translation.Y = backupTranslation.Y;
+                    StopShake();
                 }
                 else
                 {
                     shakeAmplitude *= CameraShakingDampening;
                     if (shakeAmplitude < 0.5f)
                     {
-                        isShaking = false;
-                        Translation.X = backupTranslation.X;
-                        Translation.Y = backupTranslation.Y;
+                        StopShake();
                     }
                     else
                     {
@@ -117,7 +122,11 @@ namespace Honeymoon
                 }
             }
 
-            GamePad.SetVibration(PlayerIndex.One, vibration, vibration);
+            // if it's still shaking
+            if (isShaking)
+            {
+                GamePad.SetVibration(PlayerIndex.One, vibration, vibration);
+            }
         }
     }
 }

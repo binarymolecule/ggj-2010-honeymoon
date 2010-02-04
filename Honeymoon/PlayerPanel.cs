@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using Honeymoon.Screens;
 
 
 namespace Honeymoon
@@ -17,17 +18,17 @@ namespace Honeymoon
     public class PlayerPanel : DrawableGameComponent
     {
         public Monkey Player;
-        public HoneymoonGame GameHM;
+        public VersusScreen GameHM;
         public Vector2 Position;
         public static Vector2 Offset = new Vector2(130.0f, 0.0f);
 
         public PlayerPanel(Monkey player)
-            : base(HoneymoonGame.Instance)
+            : base(VersusScreen.Instance.Game)
         {
-            this.GameHM = HoneymoonGame.Instance;
+            this.GameHM = VersusScreen.Instance;
             this.Player = player;
             this.Position = Vector2.Zero;
-            Game.Components.Add(this);
+            VersusScreen.Instance.Components.Add(this);
         }
 
         public override void Update(GameTime gameTime)

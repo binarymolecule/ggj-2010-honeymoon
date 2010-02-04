@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Honeymoon.Screens;
 
 namespace Honeymoon
 {
     public class CollidableGameComponent : DrawableGameComponent
     {
-        public HoneymoonGame GameHM;
+        public VersusScreen GameHM;
 
         public CollidableGameComponent(PlayerIndex PlayerNumber)
-            : base(HoneymoonGame.Instance)
+            : base(VersusScreen.Instance.Game)
         {
-            this.GameHM = HoneymoonGame.Instance;
+            this.GameHM = VersusScreen.Instance;
             this.PlayerNumber = PlayerNumber;
         }
 

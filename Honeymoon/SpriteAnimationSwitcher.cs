@@ -6,12 +6,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KeplersDataTypes;
 using KeplersLibrary;
+using Honeymoon.Screens;
 
 namespace Honeymoon
 {
     public class SpriteAnimationSwitcher
     {
-        HoneymoonGame game;
+        VersusScreen game;
 
         public Dictionary<object, String> CurrentAnimation = new Dictionary<object, String>();
         public Dictionary<String, SpriteAnimation> Animations = new Dictionary<String, SpriteAnimation>();
@@ -19,7 +20,8 @@ namespace Honeymoon
 
         public SpriteAnimationSwitcher(String theme, String[] animations)
         {
-            game = HoneymoonGame.Instance;
+            game = VersusScreen.Instance;
+
             foreach (String anim in animations)
             {
                 Animations.Add(anim, SpriteAnimation.Load(game.Content, "Textures/" + theme + "/" + anim));

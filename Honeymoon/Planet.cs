@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Honeymoon.Screens;
 
 namespace Honeymoon
 {
@@ -28,7 +29,7 @@ namespace Honeymoon
             this.CollisionEnabled = true;
             CollisionRadius = 64.0f;
             this.DrawOrder = 2;
-            Game.Components.Add(this);
+            VersusScreen.Instance.Components.Add(this);
             GameHM.Themes[0].Planet.JumpTo(this, "planet", (float)random.NextDouble());
             GameHM.Themes[1].Planet.JumpTo(this, "planet", (float)random.NextDouble());
 

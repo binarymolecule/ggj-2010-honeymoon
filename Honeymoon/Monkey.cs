@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Honeymoon.Screens;
 
 namespace Honeymoon
 {
@@ -62,7 +63,7 @@ namespace Honeymoon
             this.CollisionEnabled = true;
             this.CollisionRadius = 30;
             this.CurrentAnimation = "left";
-            Game.Components.Add(this);
+            VersusScreen.Instance.Components.Add(this);
         }
 
         public override void Update(GameTime gameTime)
