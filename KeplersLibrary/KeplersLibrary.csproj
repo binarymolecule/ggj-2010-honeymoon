@@ -93,6 +93,7 @@
     <Compile Include="Components\UpdateOrderComparer.cs" />
     <Compile Include="GameComponentCollectionExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScreenManager\ControlLayout.cs" />
     <Compile Include="ScreenManager\GameScreen.cs" />
     <Compile Include="ScreenManager\InputState.cs" />
     <Compile Include="ScreenManager\ScreenManager.cs" />

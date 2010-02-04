@@ -111,15 +111,37 @@ namespace KeplersLibrary
             }
         }
 
+
         /// <summary>
-        /// Convenience wrapper for IsNewKeyPress when the controlling player
-        /// does not matter. Tests only if any player is pressing the given key.
+        /// Helper for checking if a key was newly pressed during this update. The
+        /// controllingPlayer parameter specifies which player to read input for.
+        /// If this is null, it will accept input from any player. When a keypress
+        /// is detected, the output playerIndex reports which player pressed it.
         /// </summary>
-        public bool IsNewKeyPress(Keys key)
+        public bool IsNewKeyPress(ControlLayout layout, string name,
+                                  PlayerIndex? controllingPlayer,
+                                  out PlayerIndex playerIndex)
         {
-            PlayerIndex dummy;
-            return IsNewKeyPress(key, null, out dummy);
+            if (controllingPlayer.HasValue)
+            {
+                // Read input from the specified player.
+                playerIndex = controllingPlayer.Value;
+                int i = (int)layout.KeyboardIndex(playerIndex);
+                Keys key = layout.GetKey(name, playerIndex);
+
+                return (CurrentKeyboardStates[i].IsKeyDown(key) &&
+                        LastKeyboardStates[i].IsKeyUp(key));
+            }
+            else
+            {
+                // Accept input from any player.
+                return (IsNewKeyPress(layout, name, PlayerIndex.One, out playerIndex) ||
+                        IsNewKeyPress(layout, name, PlayerIndex.Two, out playerIndex) ||
+                        IsNewKeyPress(layout, name, PlayerIndex.Three, out playerIndex) ||
+                        IsNewKeyPress(layout, name, PlayerIndex.Four, out playerIndex));
+            }
         }
+
 
         /// <summary>
         /// Helper for checking if a button was newly pressed during this update.
@@ -150,15 +172,37 @@ namespace KeplersLibrary
             }
         }
 
+
         /// <summary>
-        /// Convenience wrapper for IsNewButtonPress when the controlling player
-        /// does not matter. Tests only if any player is pressing the given button.
+        /// Helper for checking if a button was newly pressed during this update.
+        /// The controllingPlayer parameter specifies which player to read input for.
+        /// If this is null, it will accept input from any player. When a button press
+        /// is detected, the output playerIndex reports which player pressed it.
         /// </summary>
-        public bool IsNewButtonPress(Buttons button)
+        public bool IsNewButtonPress(ControlLayout layout, string name,
+                                     PlayerIndex? controllingPlayer,
+                                     out PlayerIndex playerIndex)
         {
-            PlayerIndex dummy;
-            return IsNewButtonPress(button, null, out dummy);
+            if (controllingPlayer.HasValue)
+            {
+                // Read input from the specified player.
+                playerIndex = controllingPlayer.Value;
+                int i = (int)layout.GamePadIndex(playerIndex);
+                Buttons button = layout.GetButton(name, playerIndex);
+
+                return (CurrentGamePadStates[i].IsButtonDown(button) &&
+                        LastGamePadStates[i].IsButtonUp(button));
+            }
+            else
+            {
+                // Accept input from any player.
+                return (IsNewButtonPress(layout, name, PlayerIndex.One, out playerIndex) ||
+                        IsNewButtonPress(layout, name, PlayerIndex.Two, out playerIndex) ||
+                        IsNewButtonPress(layout, name, PlayerIndex.Three, out playerIndex) ||
+                        IsNewButtonPress(layout, name, PlayerIndex.Four, out playerIndex));
+            }
         }
+
 
         /// <summary>
         /// Checks for a "menu select" input action.
