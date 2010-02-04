@@ -70,22 +70,24 @@ namespace Honeymoon.Screens
 
         public override void HandleInput(InputState input)
         {
-            PlayerIndex dummy;
-            if (input.IsMenuSelect(null, out dummy))
+            PlayerIndex firstPlayer, dummyPlayer;
+            if (input.IsMenuSelect(null, out firstPlayer))
             {
                 SelectionSound.Play();
                 Camera.ShakeCamera(DriftingCamera.CameraShakingTime, DriftingCamera.CameraShakingFrequency, DriftingCamera.CameraShakingAmplitude);
                 maxFadingTime = DriftingCamera.CameraShakingTime * 0.5f;
                 fadingTimer = maxFadingTime;
                 leavingIntro = true;
+
+                // TODO Notify game screen which player is first!
             }
-            else if (input.IsMenuCancel(null, out dummy))
+            else if (input.IsMenuCancel(null, out dummyPlayer))
             {
                 ExitScreen();
             }
 #if(!XBOX360)
             // Toggle fullscreen mode
-            if (input.IsNewKeyPress(Keys.F5))
+            if (input.IsToggleFullScreen(null))
                 ((HoneymoonGame)Game).ToggleFullScreen();
 #endif
         }

@@ -494,7 +494,7 @@ namespace Honeymoon.Screens
         {
 #if(!XBOX360)
             // Toggle fullscreen mode
-            if (input.IsNewKeyPress(Keys.F5))
+            if (input.IsToggleFullScreen(null))
                 ((HoneymoonGame)Game).ToggleFullScreen();
 #endif
         }

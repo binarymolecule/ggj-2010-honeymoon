@@ -26,8 +26,8 @@ namespace KeplersLibrary
 
         public const int MaxInputs = 4;
 
-        public KeyboardState CurrentKeyboardState;
-        public KeyboardState LastKeyboardState;
+        public readonly KeyboardState[] CurrentKeyboardStates;
+        public readonly KeyboardState[] LastKeyboardStates;
 
         public readonly GamePadState[] CurrentGamePadStates;
         public readonly GamePadState[] LastGamePadStates;
@@ -44,6 +44,9 @@ namespace KeplersLibrary
         /// </summary>
         public InputState()
         {
+            CurrentKeyboardStates = new KeyboardState[MaxInputs];
+            LastKeyboardStates = new KeyboardState[MaxInputs];
+
             CurrentGamePadStates = new GamePadState[MaxInputs];
             LastGamePadStates = new GamePadState[MaxInputs];
 
@@ -61,11 +64,11 @@ namespace KeplersLibrary
         /// </summary>
         public void Update()
         {
-            LastKeyboardState = CurrentKeyboardState;
-            CurrentKeyboardState = Keyboard.GetState();
-
             for (int i = 0; i < MaxInputs; i++)
-            {                
+            {
+                LastKeyboardStates[i] = CurrentKeyboardStates[i];
+                CurrentKeyboardStates[i] = Keyboard.GetState((PlayerIndex)i);
+
                 LastGamePadStates[i] = CurrentGamePadStates[i];                
                 CurrentGamePadStates[i] = GamePad.GetState((PlayerIndex)i);
 
@@ -95,8 +98,8 @@ namespace KeplersLibrary
 
                 int i = (int)playerIndex;
 
-                return (CurrentKeyboardState.IsKeyDown(key) &&
-                        LastKeyboardState.IsKeyUp(key));
+                return (CurrentKeyboardStates[i].IsKeyDown(key) &&
+                        LastKeyboardStates[i].IsKeyUp(key));
             }
             else
             {
@@ -232,6 +235,17 @@ namespace KeplersLibrary
                    IsNewButtonPress(Buttons.Start, controllingPlayer, out playerIndex);
         }
 
+
+        /// <summary>
+        /// Checks for a "toggle fullscreen" input action.
+        /// The controllingPlayer parameter specifies which player to read
+        /// input for. If this is null, it will accept input from any player.
+        /// </summary>
+        public bool IsToggleFullScreen(PlayerIndex? controllingPlayer)
+        {
+            PlayerIndex playerIndex;
+            return IsNewKeyPress(Keys.F5, controllingPlayer, out playerIndex);
+        }
 
         #endregion
     }
