@@ -26,10 +26,10 @@ namespace KeplersLibrary
 
         public const int MaxInputs = 4;
 
-        public readonly KeyboardState[] CurrentKeyboardStates;
-        public readonly GamePadState[] CurrentGamePadStates;
+        public KeyboardState CurrentKeyboardState;
+        public KeyboardState LastKeyboardState;
 
-        public readonly KeyboardState[] LastKeyboardStates;
+        public readonly GamePadState[] CurrentGamePadStates;
         public readonly GamePadState[] LastGamePadStates;
 
         public readonly bool[] GamePadWasConnected;
@@ -44,10 +44,7 @@ namespace KeplersLibrary
         /// </summary>
         public InputState()
         {
-            CurrentKeyboardStates = new KeyboardState[MaxInputs];
             CurrentGamePadStates = new GamePadState[MaxInputs];
-
-            LastKeyboardStates = new KeyboardState[MaxInputs];
             LastGamePadStates = new GamePadState[MaxInputs];
 
             GamePadWasConnected = new bool[MaxInputs];
@@ -64,12 +61,12 @@ namespace KeplersLibrary
         /// </summary>
         public void Update()
         {
-            for (int i = 0; i < MaxInputs; i++)
-            {
-                LastKeyboardStates[i] = CurrentKeyboardStates[i];
-                LastGamePadStates[i] = CurrentGamePadStates[i];
+            LastKeyboardState = CurrentKeyboardState;
+            CurrentKeyboardState = Keyboard.GetState();
 
-                CurrentKeyboardStates[i] = Keyboard.GetState((PlayerIndex)i);
+            for (int i = 0; i < MaxInputs; i++)
+            {                
+                LastGamePadStates[i] = CurrentGamePadStates[i];                
                 CurrentGamePadStates[i] = GamePad.GetState((PlayerIndex)i);
 
                 // Keep track of whether a gamepad has ever been
@@ -98,8 +95,8 @@ namespace KeplersLibrary
 
                 int i = (int)playerIndex;
 
-                return (CurrentKeyboardStates[i].IsKeyDown(key) &&
-                        LastKeyboardStates[i].IsKeyUp(key));
+                return (CurrentKeyboardState.IsKeyDown(key) &&
+                        LastKeyboardState.IsKeyUp(key));
             }
             else
             {
@@ -112,13 +109,13 @@ namespace KeplersLibrary
         }
 
         /// <summary>
-        /// Convenience wrapper for IsNewKeyPress. Tests only first keyboard
-        /// and does not report which player pressed the key. 
+        /// Convenience wrapper for IsNewKeyPress when the controlling player
+        /// does not matter. Tests only if any player is pressing the given key.
         /// </summary>
         public bool IsNewKeyPress(Keys key)
         {
             PlayerIndex dummy;
-            return IsNewKeyPress(key, PlayerIndex.One, out dummy);
+            return IsNewKeyPress(key, null, out dummy);
         }
 
         /// <summary>
@@ -150,6 +147,15 @@ namespace KeplersLibrary
             }
         }
 
+        /// <summary>
+        /// Convenience wrapper for IsNewButtonPress when the controlling player
+        /// does not matter. Tests only if any player is pressing the given button.
+        /// </summary>
+        public bool IsNewButtonPress(Buttons button)
+        {
+            PlayerIndex dummy;
+            return IsNewButtonPress(button, null, out dummy);
+        }
 
         /// <summary>
         /// Checks for a "menu select" input action.

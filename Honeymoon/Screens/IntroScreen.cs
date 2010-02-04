@@ -19,9 +19,6 @@ namespace Honeymoon.Screens
         public SoundEffect SelectionSound;
 
         float fadingTimer, maxFadingTime;
-        GamePadState[] currentGamePadState = new GamePadState[2];
-        GamePadState[] oldGamePadState = new GamePadState[2];
-        KeyboardState oldKeyboardState, currentKeyboardState;
         bool leavingIntro = false;
 
         public override void LoadContent()
@@ -54,10 +51,6 @@ namespace Honeymoon.Screens
             Camera.Translation.X = (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds * 0.3) * 50.0);
             Camera.Translation.Y = (float)(Math.Cos(gameTime.TotalGameTime.TotalSeconds * 0.3) * 50.0);
 
-            currentGamePadState[0] = GamePad.GetState(PlayerIndex.One);
-            currentGamePadState[1] = GamePad.GetState(PlayerIndex.Two);
-            currentKeyboardState = Keyboard.GetState();
-
             if (leavingIntro)
             {
                 fadingTimer -= seconds;
@@ -70,30 +63,31 @@ namespace Honeymoon.Screens
                     LoadingScreen.Load(ScreenManager, true, null, versus);
                     versus.OnGameStarted();
                     leavingIntro = false;
-                    // ExitScreen();
+                    //ExitScreen();
                 }
             }
-            else
+        }
+
+        public override void HandleInput(InputState input)
+        {
+            PlayerIndex dummy;
+            if (input.IsMenuSelect(null, out dummy))
             {
-                if (KeyJustPressed(0, Buttons.A) || KeyJustPressed(1, Buttons.A) ||
-                    KeyJustPressed(0, Buttons.X) || KeyJustPressed(1, Buttons.X) ||
-                    KeyJustPressed(0, Buttons.Start) || KeyJustPressed(1, Buttons.Start) ||
-                    KeyJustPressed(Keys.Enter) || KeyJustPressed(Keys.Space))
-                {
-                    SelectionSound.Play();
-                    Camera.ShakeCamera(DriftingCamera.CameraShakingTime, DriftingCamera.CameraShakingFrequency, DriftingCamera.CameraShakingAmplitude);
-                    maxFadingTime = DriftingCamera.CameraShakingTime * 0.5f;
-                    fadingTimer = maxFadingTime;
-                    leavingIntro = true;
-                }
-                else if(KeyJustPressed(0, Buttons.Back) || KeyJustPressed(Keys.Escape))
-                {
-                    ExitScreen();
-                }
+                SelectionSound.Play();
+                Camera.ShakeCamera(DriftingCamera.CameraShakingTime, DriftingCamera.CameraShakingFrequency, DriftingCamera.CameraShakingAmplitude);
+                maxFadingTime = DriftingCamera.CameraShakingTime * 0.5f;
+                fadingTimer = maxFadingTime;
+                leavingIntro = true;
             }
-            oldGamePadState[0] = currentGamePadState[0];
-            oldGamePadState[1] = currentGamePadState[1];
-            oldKeyboardState = currentKeyboardState;
+            else if (input.IsMenuCancel(null, out dummy))
+            {
+                ExitScreen();
+            }
+#if(!XBOX360)
+            // Toggle fullscreen mode
+            if (input.IsNewKeyPress(Keys.F5))
+                ((HoneymoonGame)Game).ToggleFullScreen();
+#endif
         }
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
@@ -119,29 +113,6 @@ namespace Honeymoon.Screens
                 spriteBatch.Draw(t2d, camTranslation * distance, Color.White);
                 distance -= 0.1f;
             }
-        }
-
-        private bool KeyJustPressed(int index, Buttons button)
-        {
-            if (index < 0 || index > 1 ||
-                oldGamePadState[index] == null || currentGamePadState[index] == null)
-            {
-                return false;
-            }
-
-            bool wasDown = oldGamePadState[index].IsButtonDown(button);
-            bool isDown = currentGamePadState[index].IsButtonDown(button);
-
-            return !wasDown && isDown;
-        }
-
-        private bool KeyJustPressed(Keys key)
-        {
-            if (oldGamePadState == null || currentKeyboardState == null)
-                return false;
-            bool wasDown = oldKeyboardState.IsKeyDown(key);
-            bool isDown = currentKeyboardState.IsKeyDown(key);
-            return !wasDown && isDown;
         }
     }
 }
