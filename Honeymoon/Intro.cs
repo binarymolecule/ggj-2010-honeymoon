@@ -37,6 +37,7 @@ namespace Honeymoon
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             currentGamePadState[0] = GamePad.GetState(PlayerIndex.One);
             currentGamePadState[1] = GamePad.GetState(PlayerIndex.Two);
+            KeyboardState keyboardState = Keyboard.GetState();
             if (leavingIntro)
             {
                 fadingTimer -= seconds;
@@ -52,7 +53,8 @@ namespace Honeymoon
             {
                 if (KeyJustPressed(0, Buttons.A) || KeyJustPressed(1, Buttons.A) ||
                     KeyJustPressed(0, Buttons.X) || KeyJustPressed(1, Buttons.X) ||
-                    KeyJustPressed(0, Buttons.Start) || KeyJustPressed(1, Buttons.Start))
+                    KeyJustPressed(0, Buttons.Start) || KeyJustPressed(1, Buttons.Start) ||
+                    keyboardState.IsKeyDown(Keys.Enter) || keyboardState.IsKeyDown(Keys.Space))
                 {
                     GameHM.SelectionSound.Play();
                     GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime, DriftingCamera.CameraShakingFrequency, DriftingCamera.CameraShakingAmplitude);

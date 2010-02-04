@@ -49,6 +49,7 @@ namespace Honeymoon
         int targetTheme = 0;
         public int CurrentThemeID { get { return themeTransition > 0.5f ? 1 : 0; } }
         public Intro IntroController;
+        public KeyboardState keyboardState = new KeyboardState();
 
         //float[] ChangeThemeProbabilities = { 0.05f, 0.1f, 0.12f, 0.15f, 0.15f, 0.2f, 0.2f, 0.225f, 0.25f, 1.0f };
         //float[] ChangeThemeDurations = { 0.01f, 0.01f, 0.05f, 0.1f, 1.0f, 3.0f, 10.0f, 15.0f, 30.0f, 300.0f };
@@ -82,8 +83,9 @@ namespace Honeymoon
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
+#if(!XBOX360)
             graphics.IsFullScreen = false;
-
+#endif
             Content.RootDirectory = "Content";
         }
 
@@ -235,6 +237,14 @@ namespace Honeymoon
             {
                 this.Exit();
             }
+
+#if(!XBOX360)
+            // Toggle fullscreen mode
+            KeyboardState newKeyboardState = Keyboard.GetState();
+            if (keyboardState.IsKeyUp(Keys.F5) && newKeyboardState.IsKeyDown(Keys.F5))
+                graphics.ToggleFullScreen();
+            keyboardState = newKeyboardState;
+#endif
 
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 

@@ -39,6 +39,18 @@ namespace Honeymoon
         public int HitPoints;
         public static int MaxHitPoints = 10;
 
+        String CurrentAnimation;
+
+        GamePadState currentGamePadState, oldGamePadState;
+        KeyboardState currentKeyboardState, oldKeyboardState;
+
+        // Definition of input keys for both players in keyboard mode
+        public static Keys LeftKey(PlayerIndex i) { return (i == PlayerIndex.One) ? Keys.A : Keys.Left; }
+        public static Keys RightKey(PlayerIndex i) { return (i == PlayerIndex.One) ? Keys.D : Keys.Right; }
+        public static Keys JumpKey(PlayerIndex i) { return (i == PlayerIndex.One) ? Keys.W : Keys.Up; }
+        public static Keys StompKey(PlayerIndex i) { return (i == PlayerIndex.One) ? Keys.S : Keys.Down; }
+        public static Keys StealthKey(PlayerIndex i) { return (i == PlayerIndex.One) ? Keys.LeftControl : Keys.RightControl; }
+
         public Monkey(Planet planet)
             : base(planet)
         {
@@ -53,23 +65,19 @@ namespace Honeymoon
             Game.Components.Add(this);
         }
 
-        String CurrentAnimation;
-        GamePadState currentGamePadState;
-        GamePadState oldGamePadState;
-
         public override void Update(GameTime gameTime)
         {
             currentGamePadState = GamePad.GetState(PlayerNumber);
+            currentKeyboardState = Keyboard.GetState();
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             bool isWalking = false;
             bool standingOnTheGround = PositionOnPlanet.Y < MaxHeightForJump;
             if (gameTime.TotalGameTime > CrashJumpPenaltyUntil)
             {
-
 #if(DEBUG)
                 // Some debugging controls...
-                if (currentGamePadState.IsButtonDown(Buttons.Y) && !GameHM.Camera.IsShaking)
+                if ((KeyJustPressed(Buttons.Y) || KeyJustPressed(Keys.F2)) && !GameHM.Camera.IsShaking)
                 {
                     GameHM.Camera.ShakeCamera(DriftingCamera.CameraShakingTime,
                                               DriftingCamera.CameraShakingFrequency,
@@ -88,18 +96,19 @@ namespace Honeymoon
                     else if (currentGamePadState.IsButtonDown(Buttons.DPadDown)) planet.Position.Y += 10.0f;
                 }
 
-
-                if (KeyJustPressed(Buttons.Start)) GameHM.CurrentTheme = GameHM.Themes[(GameHM.CurrentThemeID + 1) % 2];
+                if (KeyJustPressed(Buttons.Start) || KeyJustPressed(Keys.F1))
+                    GameHM.CurrentTheme = GameHM.Themes[(GameHM.CurrentThemeID + 1) % 2];
 #endif
 
-                if (KeyJustPressed(Buttons.A) && standingOnTheGround)
+                if ((KeyJustPressed(Buttons.A) || KeyJustPressed(JumpKey(PlayerNumber))) && standingOnTheGround)
                 {
                     VelocityOnPlanet.Y = JumpStrength;
                     //GameHM.CurrentTheme.SoundJump.Play();
                 }
 
                 bool CouldCrashJump = VelocityOnPlanet.Y < 0 || (VelocityOnPlanet.Y >= 0 && (PositionOnPlanet.Y > MinHeightForCrashJump));
-                if (!DoingCrashJump && !standingOnTheGround && KeyJustPressed(Buttons.RightTrigger) && CouldCrashJump)
+                if (!DoingCrashJump && !standingOnTheGround && CouldCrashJump &&
+                    (KeyJustPressed(Buttons.RightTrigger) || KeyJustPressed(StompKey(PlayerNumber))))
                 {
                     DoingCrashJump = true;
                     GameHM.CurrentTheme.SoundStomp.Play();
@@ -110,17 +119,20 @@ namespace Honeymoon
                         GameHM.Camera.MoveCamera(planet.rot2vec(angle), DriftingCamera.CameraMotionVelocity);
                     }
                 }
-                if (!currentGamePadState.IsButtonDown(Buttons.LeftTrigger) && standingOnTheGround)
+                
+                // Walk left/right
+                float dx = currentGamePadState.ThumbSticks.Left.X;
+                if (currentKeyboardState.IsKeyDown(LeftKey(PlayerNumber)))
+                    dx = -1.0f;
+                else if (currentKeyboardState.IsKeyDown(RightKey(PlayerNumber)))
+                    dx = 1.0f;
+                VelocityOnPlanet.X += dx * RunStrength;
+                isWalking = (dx != 0.0f);
+                if (!(currentGamePadState.IsButtonDown(Buttons.LeftTrigger) ||
+                      currentKeyboardState.IsKeyDown(StealthKey(PlayerNumber))) && standingOnTheGround)
                 {
-                    planet.RotationSpeed -= currentGamePadState.ThumbSticks.Left.X * RunStrengthPlanet;
-                    VelocityOnPlanet.X += currentGamePadState.ThumbSticks.Left.X * RunStrength;
-                    isWalking = (currentGamePadState.ThumbSticks.Left.X != 0.0f);
-                }
-                else
-                {
-                    VelocityOnPlanet.X += currentGamePadState.ThumbSticks.Left.X * RunStrength;
-                    isWalking = (currentGamePadState.ThumbSticks.Left.X != 0.0f);
-                }
+                    planet.RotationSpeed -= dx * RunStrengthPlanet;
+                }        
 
                 if (DoingCrashJump) CurrentAnimation = "crash";
                 else CurrentAnimation = VelocityOnPlanet.X > 0 ? "right" : "left";
@@ -154,7 +166,6 @@ namespace Honeymoon
                     planet.AttackMoveUntil = gameTime.TotalGameTime.Add(CrashJumpPlanetAttack);
                     DoingCrashJump = false;
                     CrashJumpPenaltyUntil = gameTime.TotalGameTime.Add(CrashJumpPenalty);
-
                 }
             }
 
@@ -181,6 +192,7 @@ namespace Honeymoon
             Position = planet.GetPositionOnPlanetGround(PositionOnPlanet.X, MonkeyWalkingHeight + PositionOnPlanet.Y);
 
             oldGamePadState = currentGamePadState;
+            oldKeyboardState = currentKeyboardState;
         }
 
         private bool KeyJustPressed(Buttons button)
@@ -192,6 +204,19 @@ namespace Honeymoon
 
             bool wasDown = oldGamePadState.IsButtonDown(button);
             bool isDown = currentGamePadState.IsButtonDown(button);
+
+            return !wasDown && isDown;
+        }
+
+        private bool KeyJustPressed(Keys key)
+        {
+            if (oldKeyboardState == null || currentKeyboardState == null)
+            {
+                return false;
+            }
+
+            bool wasDown = oldKeyboardState.IsKeyDown(key);
+            bool isDown = currentKeyboardState.IsKeyDown(key);
 
             return !wasDown && isDown;
         }
