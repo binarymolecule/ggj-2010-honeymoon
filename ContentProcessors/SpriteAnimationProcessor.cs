@@ -36,7 +36,7 @@ namespace ContentProcessors
         {
             var res = new TOutput();
             res.Sprites = input.ToArray();
-            res.AnimationFPS = float.Parse(FPS);
+            res.AnimationFPS = float.Parse(FPS, System.Globalization.CultureInfo.InvariantCulture);
             return res;
         }
 
