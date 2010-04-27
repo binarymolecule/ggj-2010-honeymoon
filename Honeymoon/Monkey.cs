@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Honeymoon.Screens;
+using KiloWatt.Runtime.Support;
 
 namespace Honeymoon
 {
@@ -66,8 +67,12 @@ namespace Honeymoon
             VersusScreen.Instance.Components.Add(this);
         }
 
+        static Profile timeUpdate = Profile.Get("Monkey.Update");
+
         public override void Update(GameTime gameTime)
         {
+            timeUpdate.Enter();
+
             currentGamePadState = GamePad.GetState(PlayerNumber);
             currentKeyboardState = Keyboard.GetState();
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -194,6 +199,8 @@ namespace Honeymoon
 
             oldGamePadState = currentGamePadState;
             oldKeyboardState = currentKeyboardState;
+
+            timeUpdate.Exit();
         }
 
         private bool KeyJustPressed(Buttons button)
@@ -222,8 +229,12 @@ namespace Honeymoon
             return !wasDown && isDown;
         }
 
+        static Profile timeDraw = Profile.Get("Monkey.Draw");
+
         public override void Draw(GameTime gameTime)
         {
+            timeDraw.Enter();
+
             SpriteAnimationSwitcher sprite = PlayerNumber != PlayerIndex.One ? GameHM.CurrentTheme.MonkeyM : GameHM.CurrentTheme.MonkeyF;
             if (CurrentAnimation == "left" || CurrentAnimation == "right")
                 sprite.Animations[CurrentAnimation].AnimationFPS = AnimationFpsScale * Math.Abs(VelocityOnPlanet.X);
@@ -235,10 +246,16 @@ namespace Honeymoon
                 float smokePerc = 1.0f - (float)(CrashJumpPenaltyUntil.Subtract(gameTime.TotalGameTime).TotalSeconds / CrashJumpPenalty.TotalSeconds);
                 sprite.DrawPercentage(this, "stomp", smokePerc, pos, planet.GetShadingForPlanetGround(PositionOnPlanet.X), planet.Rotation + PositionOnPlanet.X + (float)Math.PI / 2.0f, 0.5f);
             }
+
+            timeDraw.Exit();
         }
+
+        static Profile timeCollide = Profile.Get("Monkey.OnCollide");
 
         public override void OnCollide(CollidableGameComponent otherObject, Vector2 offsetMeToOther)
         {
+            timeCollide.Enter();
+
             if (otherObject is CoconutOrbit)
             {
                 // Do some animation stuff?
@@ -262,6 +279,8 @@ namespace Honeymoon
                     new CoconutExplosion(Position, PlayerNumber, null, false);
                 }
             }
+
+            timeCollide.Exit();
         }
 
         private void IGotHit(Vector2 offsetMeToOther)

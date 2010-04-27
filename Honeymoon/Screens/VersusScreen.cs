@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using KiloWatt.Runtime.Support;
 
 namespace Honeymoon.Screens
 {
@@ -72,8 +73,12 @@ namespace Honeymoon.Screens
             Instance = this;
         }
 
+        static Profile loading = Profile.Get("LoadContent");
+
         public override void LoadContent()
         {
+            loading.Enter();
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -154,6 +159,8 @@ namespace Honeymoon.Screens
             Camera = new DriftingCamera();
 
             GameState = GameStates.Game;
+
+            loading.Exit();
         }
 
 
@@ -176,6 +183,9 @@ namespace Honeymoon.Screens
                 }
             }
         }
+
+        static Profile updateCollisions = Profile.Get("Update.Collisions");
+        static Profile updateCamera = Profile.Get("Update.Camera");
 
         public override void  Update(Microsoft.Xna.Framework.GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
@@ -312,28 +322,34 @@ namespace Honeymoon.Screens
 
             if (GameState == GameStates.Game)
             {
-                // Check for collisions
-                CollidableGameComponent[] collide = collidableObjects.ToArray();
-                for (int i = 0; i < collide.Length; i++)
+                using (IDisposable timing = updateCollisions.Measure())
                 {
-                    CollidableGameComponent A = collide[i];
-                    for (int j = i + 1; j < collide.Length; j++)
+                    // Check for collisions
+                    CollidableGameComponent[] collide = collidableObjects.ToArray();
+                    for (int i = 0; i < collide.Length; i++)
                     {
-                        CollidableGameComponent B = collide[j];
-                        Vector2 aToB = B.Position - A.Position;
-                        float r = A.CollisionRadius + B.CollisionRadius;
-                        if (r * r < aToB.LengthSquared()) continue;
+                        CollidableGameComponent A = collide[i];
+                        for (int j = i + 1; j < collide.Length; j++)
+                        {
+                            CollidableGameComponent B = collide[j];
+                            Vector2 aToB = B.Position - A.Position;
+                            float r = A.CollisionRadius + B.CollisionRadius;
+                            if (r * r < aToB.LengthSquared()) continue;
 
-                        A.OnCollide(B, aToB);
-                        B.OnCollide(A, -aToB);
+                            A.OnCollide(B, aToB);
+                            B.OnCollide(A, -aToB);
+                        }
                     }
                 }
 
                 CheckHideTutorialConditions(gameTime);
             }
 
-            // Update camera matrix
-            Camera.Update(seconds);
+            using (IDisposable timing = updateCamera.Measure())
+            {
+                // Update camera matrix
+                Camera.Update(seconds);
+            }
 
             if (GameState == GameStates.Game)
             {
@@ -361,8 +377,12 @@ namespace Honeymoon.Screens
             GraphicsDevice.RenderState.DestinationBlend = Blend.SourceColor;
         }
 
+        static Profile drawTiming = Profile.Get("Draw");
+
         public override void Draw(GameTime gameTime)
         {
+            drawTiming.Enter();
+
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatchStart();
@@ -388,6 +408,8 @@ namespace Honeymoon.Screens
                 GameOverSprites.Draw(this, gameTime, m ? "game_over_m" : "game_over_f", new Vector2(1280 / 2, 720 / 2), Color.White, 0, 1);
                 spriteBatch.End();
             }
+
+            drawTiming.Exit();
         }
 
 
@@ -492,6 +514,10 @@ namespace Honeymoon.Screens
 
         public override void HandleInput(InputState input)
         {
+            if (input.IsPauseGame(null))
+            {
+                Profile.Dump();
+            }
 #if(!XBOX360)
             // Toggle fullscreen mode
             if (input.IsToggleFullScreen(null))
