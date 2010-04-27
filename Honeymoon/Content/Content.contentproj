@@ -349,6 +349,7 @@
       <Name>explosion</Name>
       <Importer>SpriteSetImporter</Importer>
       <Processor>SpriteAnimationProcessor</Processor>
+      <ProcessorParameters_FPS>25.0</ProcessorParameters_FPS>
     </Compile>
     <Compile Include="Textures\evil\palme.zip">
       <Name>palme</Name>
@@ -372,6 +373,7 @@
       <Name>game_over_m</Name>
       <Importer>SpriteSetImporter</Importer>
       <Processor>SpriteAnimationProcessor</Processor>
+      <ProcessorParameters_FPS>25.0</ProcessorParameters_FPS>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -379,6 +381,7 @@
       <Name>explosion</Name>
       <Importer>SpriteSetImporter</Importer>
       <Processor>SpriteAnimationProcessor</Processor>
+      <ProcessorParameters_FPS>25.0</ProcessorParameters_FPS>
     </Compile>
   </ItemGroup>
   <ItemGroup>

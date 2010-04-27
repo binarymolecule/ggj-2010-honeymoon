@@ -27,19 +27,23 @@ namespace ContentProcessors
     [ContentProcessor(DisplayName = "SpriteAnimationProcessor")]
     public class SpriteAnimationProcessor : ContentProcessor<TInput, TOutput>
     {
+        public SpriteAnimationProcessor()
+        {
+            FPS = "25.0";
+        }
+
         public override TOutput Process(TInput input, ContentProcessorContext context)
         {
             var res = new TOutput();
             res.Sprites = input.ToArray();
-            res.AnimationFPS = (float) FPS;
+            res.AnimationFPS = float.Parse(FPS);
             return res;
         }
 
-        [DisplayName("FPS")]
         [Description("How many frames per second should this animation show?")]
-        [DefaultValue(25.0)]
-
-        public double FPS { get; set; }
+        [DisplayName("FPS")]
+        [DefaultValue("25.0")]
+        public String FPS { get; set; }
     }
     
     /*

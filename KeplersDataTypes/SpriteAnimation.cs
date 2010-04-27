@@ -12,10 +12,6 @@ namespace KeplersDataTypes
     // http://blogs.msdn.com/shawnhar/archive/2009/03/25/automatic-xnb-serialization-in-xna-game-studio-3-1.aspx
     public class SpriteAnimation
     {
-        private Texture2D[] sprites;
-
-        private float animationFps = 25.0f;
-
         public Texture2D[] Sprites
         {
             get
@@ -35,6 +31,12 @@ namespace KeplersDataTypes
             get { return animationFps; }
             set { animationFps = value; }
         }
+
+
+        private Texture2D[] sprites;
+
+        private float animationFps = 25.0f;
+
 
         [ContentSerializerIgnore]
         public Vector2 SpriteCenter;
