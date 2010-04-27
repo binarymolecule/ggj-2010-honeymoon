@@ -31,15 +31,15 @@ namespace ContentProcessors
         {
             var res = new TOutput();
             res.Sprites = input.ToArray();
-            res.AnimationFPS = FPS;
+            res.AnimationFPS = (float) FPS;
             return res;
         }
 
         [DisplayName("FPS")]
         [Description("How many frames per second should this animation show?")]
-        [DefaultValue(25f)]
+        [DefaultValue(25.0)]
 
-        public float FPS { get; set; }
+        public double FPS { get; set; }
     }
     
     /*

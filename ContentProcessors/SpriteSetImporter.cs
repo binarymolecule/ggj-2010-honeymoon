@@ -37,9 +37,9 @@ namespace ContentProcessors
             fz.ExtractZip(filename, tmpOutName, null);
             List<Texture2DContent> result = new List<Texture2DContent>();
 
-            foreach(FileInfo fi in di.GetFiles())
+            TextureImporter ti = new TextureImporter();
+            foreach (FileInfo fi in di.GetFiles())
             {
-                TextureImporter ti = new TextureImporter();
                 result.Add(ti.Import(fi.FullName, context) as Texture2DContent);
             }
 

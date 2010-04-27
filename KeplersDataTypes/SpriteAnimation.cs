@@ -57,12 +57,13 @@ namespace KeplersDataTypes
         {
             try
             {
-                Texture2D asset = content.Load<Texture2D>(name);
-                return new SpriteAnimation(asset);
+                SpriteAnimation ret = content.Load<SpriteAnimation>(name);
+                return ret;
             }
             catch (ContentLoadException)
             {
-                return content.Load<SpriteAnimation>(name);
+                Texture2D asset = content.Load<Texture2D>(name);
+                return new SpriteAnimation(asset);
             }
         }
     }

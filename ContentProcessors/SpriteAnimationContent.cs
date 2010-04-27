@@ -12,6 +12,6 @@ namespace ContentProcessors
     {
         public Texture2DContent[] Sprites;
 
-        public float AnimationFPS = 25.0f;
+        public float AnimationFPS;
     }
 }
