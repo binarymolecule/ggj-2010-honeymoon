@@ -119,7 +119,7 @@ namespace Honeymoon.Screens
                     SoundCollide = Content.Load<SoundEffect>("Sounds/collide_" + type),
                     //SoundMonkeyHit = Content.Load<SoundEffect>("Sounds/monkey"),
                     SoundMonkeyHit = Content.Load<SoundEffect>("Sounds/monkey_" + type),
-                    Beleuchtung = new SpriteAnimationSwitcher("beleuchtung_" + type, new String[] { "beleuchtung" }),
+                    //Beleuchtung = new SpriteAnimationSwitcher("beleuchtung_" + type, new String[] { "beleuchtung" }),
                 };
 
                 if (i == 1)
@@ -375,7 +375,7 @@ namespace Honeymoon.Screens
             spriteBatch.End();
 
             spriteBatch.Begin();
-            CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
+            //CurrentTheme.Beleuchtung.Draw(this, gameTime, "beleuchtung", ScreenCenter, Color.White, 0, 2);
             CurrentTheme.SunTutorial.Draw(this, gameTime, "sun", ScreenCenter, new Color(CurrentTheme.TutorialColor, sunTutorialAlpha), 0, 1);
             spriteBatch.End();
 
