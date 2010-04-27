@@ -1,16 +1,16 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
-    <ProjectGuid>{D09918EB-7BDA-4035-BAAC-A9E5E75BCF05}</ProjectGuid>
+    <ProjectGuid>{F8ADC648-7CC0-4D4D-B8FF-115D072D7CAF}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <OutputType>WinExe</OutputType>
+    <Platform Condition=" '$(Platform)' == '' ">Xbox 360</Platform>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Honeymoon</RootNamespace>
     <AssemblyName>Honeymoon</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <XnaFrameworkVersion>v3.1</XnaFrameworkVersion>
-    <XnaPlatform>Windows</XnaPlatform>
+    <XnaPlatform>Xbox 360</XnaPlatform>
     <XnaCrossPlatformGroupID>3ed17023-603e-40b9-b577-eade3eba95c7</XnaCrossPlatformGroupID>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
@@ -29,60 +29,34 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Xbox 360' ">
+    <OutputPath>bin\Xbox 360\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\x86\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <PlatformTarget>x86</PlatformTarget>
-    <XnaCompressContent>false</XnaCompressContent>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\x86\Release</OutputPath>
-    <DefineConstants>TRACE;WINDOWS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <PlatformTarget>x86</PlatformTarget>
+    <DefineConstants>DEBUG;TRACE;XBOX;XBOX360</DefineConstants>
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=x86">
-      <Private>False</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Game, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
-      <Private>False</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="mscorlib">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Xbox 360' ">
+    <OutputPath>bin\Xbox 360\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;XBOX;XBOX360</DefineConstants>
+    <XnaCompressContent>true</XnaCompressContent>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="CoconutExplosion.cs" />
     <Compile Include="CoconutMissile.cs" />
@@ -159,13 +133,38 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KeplersDataTypes\KeplersDataTypes.csproj">
-      <Project>{ACE4C6BC-4A3C-4EB4-96B6-C2DF0FC4310A}</Project>
-      <Name>KeplersDataTypes</Name>
+    <Reference Include="Microsoft.Xna.Framework">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="mscorlib">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>False</Private>
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <Private>False</Private>
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KeplersDataTypes\KeplersDataTypes x360.csproj">
+      <Project>{a979b7e6-92ba-4f8a-8faf-8277a579c643}</Project>
+      <Name>KeplersDataTypes x360</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KeplersLibrary\KeplersLibrary.csproj">
-      <Project>{721ED15F-0EB9-49AC-AC3D-70DED0017FE5}</Project>
-      <Name>KeplersLibrary</Name>
+    <ProjectReference Include="..\KeplersLibrary\KeplersLibrary x360.csproj">
+      <Project>{8ef06311-adf0-4aa1-9255-f6d98b271f37}</Project>
+      <Name>KeplersLibrary x360</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
