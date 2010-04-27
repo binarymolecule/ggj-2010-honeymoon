@@ -35,6 +35,7 @@ namespace Honeymoon.Screens
         InterpolatorCollection interpolators = new InterpolatorCollection();
 
         SpriteAnimationSwitcher GameOverSprites;
+        MusicSwitcher music = new MusicSwitcher();
 
         float sunTutorialAlpha = 1f;
 
@@ -186,6 +187,7 @@ namespace Honeymoon.Screens
 
         static Profile updateCollisions = Profile.Get("Update.Collisions");
         static Profile updateCamera = Profile.Get("Update.Camera");
+        static Profile updateMusic = Profile.Get("Update.Music");
 
         public override void  Update(Microsoft.Xna.Framework.GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
@@ -355,13 +357,13 @@ namespace Honeymoon.Screens
             {
                 base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
             }
-            
-            if (MediaPlayer.State != MediaState.Playing)
+
+            using (IDisposable timing = updateMusic.Measure())
             {
                 if (GameState == GameStates.GameOver)
-                    MediaPlayer.Play(GameOverMusic);
+                    music.Update(gameTime, GameOverMusic);
                 else
-                    MediaPlayer.Play(CurrentTheme.BackgroundMusic);
+                    music.Update(gameTime, CurrentTheme.BackgroundMusic);
             }
         }
 
